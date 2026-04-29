@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">이 세계는 끝날 거야</string>
+    <string name="title_activity_main">이 세계는 끝날 거야</string>
+    <string name="package_name">com.chatrpg.app</string>
+    <string name="custom_url_scheme">com.chatrpg.app</string>
+</resources>
