@@ -221,7 +221,7 @@ nodes:
         outcome:
           statDelta:
             hp: -2
-          knowledgeGain: [ethical-weight]
+          knowledgeGain: [ethical-weight, chose-end]
           nextNodeId: dc-resolution
       - id: king-mage
         label: 룬으로 그를 깨운다
@@ -230,12 +230,12 @@ nodes:
         outcome:
           statDelta:
             mana: -2
-          knowledgeGain: [ethical-weight]
+          knowledgeGain: [ethical-weight, chose-wake]
           nextNodeId: dc-resolution
       - id: king-leave
         label: 떠난다 (환영 그대로)
         outcome:
-          knowledgeGain: [ethical-weight]
+          knowledgeGain: [ethical-weight, chose-leave]
           nextNodeId: dc-resolution
 
   - id: dc-resolution
@@ -245,4 +245,21 @@ nodes:
     toneTarget: 결판 정서 — 윤리적 무게의 잔향. 잠든 왕의 마지막 한 마디 (선택에 따라 다름). 수상자의 짧은 한 줄 — 첨탑 암시. 마지막 단락은 개발용 메타 마커.
     previous: [dc-king]
     next: []
+    echoes:
+      - condition:
+          knowledge: chose-end
+        text: |-
+          도시는 무너졌다. 너의 칼끝에서 시작한 무너짐이 광장 너머까지 닿는다. 시민들의 미소는 다시는 같은 각도로 걸리지 않을 것이다.
+      - condition:
+          knowledge: chose-wake
+        text: |-
+          도시는 깨어났다. 비명과 폐허가 함께 일어선다. 시민들은 이제 자신이 무엇을 잃었는지 안다 — 너 때문에.
+      - condition:
+          knowledge: chose-leave
+        text: |-
+          도시는 그대로 잠들어 있다. 시민들은 영원한 평화 안에 있다. 너만 그 평화 바깥에 서 있다.
+      - condition:
+          knowledge: bayren-respect
+        text: |-
+          베일런의 룬이 이 도시에선 다른 무게로 닿았다. 그가 보았으면 무엇이라 했을까. 네가 모를 것이다.
     choices: []

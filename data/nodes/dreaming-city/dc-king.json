@@ -16,7 +16,8 @@
           "hp": -2
         },
         "knowledgeGain": [
-          "ethical-weight"
+          "ethical-weight",
+          "chose-end"
         ],
         "nextNodeId": "dc-resolution"
       }
@@ -33,7 +34,8 @@
           "mana": -2
         },
         "knowledgeGain": [
-          "ethical-weight"
+          "ethical-weight",
+          "chose-wake"
         ],
         "nextNodeId": "dc-resolution"
       }
@@ -44,7 +46,8 @@
       "outcome": {
         "text": "너는 등을 돌린다. 그의 숨이 여전히 천장을 채운다.\n\n옥좌실의 문이 닫힌다. 도시는 그대로 잠들어 있다. 시민들은 평화롭게 꿈꾼다 — 영원히.\n\n환영은 그대로 남는다. 너의 발걸음만 멀어진다.",
         "knowledgeGain": [
-          "ethical-weight"
+          "ethical-weight",
+          "chose-leave"
         ],
         "nextNodeId": "dc-resolution"
       }

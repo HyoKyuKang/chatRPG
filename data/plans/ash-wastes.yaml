@@ -256,4 +256,21 @@ nodes:
     toneTarget: 결판 정서 + 무감각의 무게. 잠식된 자의 마지막 한 마디는 짧음 ("이게 끝이다" 결). 수상자는 꿈꾸는 도시 가리킴 — 사람 전체가 환각에 갇힌 곳. 마지막 단락은 개발용 메타 마커.
     previous: [fa-corrupted]
     next: []
+    echoes:
+      - condition:
+          knowledge: fled-corrupted
+        text: |-
+          광기 부대의 짧은 음절이 등 뒤에서 한 호흡 늦게 따라온다. 멀어졌지만 사라지지 않았다.
+      - condition:
+          knowledge: fled-shadow
+        text: |-
+          이번엔 등을 돌리지 않았다. 그러나 산맥에서의 한 번이 너의 안쪽에 그대로 새겨져 있다.
+      - condition:
+          knowledge: templar-creed
+        text: |-
+          아스트리드의 신앙 문구가 잠시 떠오른다. 잠식된 자의 마지막 한 마디와 같은 결로 너에게 닿는다.
+      - condition:
+          knowledge: corrupted-whisper
+        text: |-
+          들리지 않던 음절들이 이제는 너의 머릿속에서 분명한 자리를 가진다. 무거움.
     choices: []

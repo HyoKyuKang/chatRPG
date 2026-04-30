@@ -226,4 +226,17 @@ nodes:
     toneTarget: 결판 정서. 사령관 마지막 한 줄 ("...고맙다." 결). 황무지 가리킴. 마지막 단락은 개발용 메타 마커.
     previous: [fm-boss]
     next: []
+    echoes:
+      - condition:
+          knowledge: fled-shadow
+        text: |-
+          사령관이 너를 부르지 않은 것이 어깨에 남는다. 마지막 "고맙다"는 너의 것이 아니다.
+      - condition:
+          knowledge: astrid-respect
+        text: |-
+          아스트리드의 검이 잠깐 떠오른다. 그녀는 여기 없다. 그녀의 신앙 한 줄만 너의 안쪽에 머문다.
+      - condition:
+          knowledge: astrid-doubt
+        text: |-
+          아스트리드는 너를 동지로 보지 않았었다. 그녀의 침묵이 사령관의 침묵과 같은 결로 너에게 닿는다.
     choices: []

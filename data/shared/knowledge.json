@@ -143,5 +143,20 @@
     "id": "fled-corrupted",
     "name": "잠식된 자에게서 물러남",
     "description": "광기 부대에게서 등을 돌렸다. 그들의 음절이 등 뒤에서 따라왔다."
+  },
+  {
+    "id": "chose-end",
+    "name": "잠든 왕을 끝냄",
+    "description": "검으로 잠든 왕의 호흡을 끊었다. 도시는 무너졌다."
+  },
+  {
+    "id": "chose-wake",
+    "name": "잠든 왕을 깨움",
+    "description": "룬으로 환각을 풀어 왕을 깨웠다. 시민들은 비명을 지르며 일어섰다."
+  },
+  {
+    "id": "chose-leave",
+    "name": "환영을 그대로 둠",
+    "description": "옥좌실 문을 닫고 떠났다. 도시는 영원히 잠든 채 평화롭다."
   }
 ]

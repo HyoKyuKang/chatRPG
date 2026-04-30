@@ -240,4 +240,17 @@ nodes:
     toneTarget: 결판 정서. 살아 돌아온 자의 안도 (또는 어둠). 거대 나무 운명 모호 — "안개 너머의 일". 마지막 단락은 개발용 메타 마커.
     previous: [fo-boss-tree]
     next: []
+    echoes:
+      - condition:
+          knowledge: fled-tree
+        text: |-
+          등 뒤에서 나무가 부르던 이름이 한 박자 더 멀리서 들린다. 너는 돌아보지 않는다.
+      - condition:
+          knowledge: warrior-awakened
+        text: |-
+          검의 무게가 손에 자리 잡았다. 옆구리의 베인 자리는 더 가벼워진다.
+      - condition:
+          knowledge: mage-awakened
+        text: |-
+          양피지가 사라진 손에 룬 한 줄의 잔향이 남는다. 흙 위에 그려진 글자처럼.
     choices: []
