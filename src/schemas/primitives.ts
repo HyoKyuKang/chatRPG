@@ -6,6 +6,22 @@ export type ClassType = z.infer<typeof ClassType>
 export const StatName = z.enum(['hp', 'mana'])
 export type StatName = z.infer<typeof StatName>
 
+export const Stats = z
+  .object({
+    hp: z.number(),
+    mana: z.number(),
+  })
+  .strict()
+export type Stats = z.infer<typeof Stats>
+
+export const StatDelta = z
+  .object({
+    hp: z.number().optional(),
+    mana: z.number().optional(),
+  })
+  .strict()
+export type StatDelta = z.infer<typeof StatDelta>
+
 export const RegionId = z.enum([
   'forest-outskirts',
   'forgotten-mountains',

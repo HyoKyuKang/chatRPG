@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ClassType, StatName, NodeType, RegionId } from './primitives'
+import { ClassType, StatName, StatDelta, NodeType, RegionId } from './primitives'
 
 export const ChoiceCondition = z
   .object({
@@ -14,7 +14,7 @@ export type ChoiceCondition = z.infer<typeof ChoiceCondition>
 export const ChoiceOutcome = z
   .object({
     text: z.string(),
-    statDelta: z.record(StatName, z.number()).optional(),
+    statDelta: StatDelta.optional(),
     itemAdd: z.array(z.string()).optional(),
     itemRemove: z.array(z.string()).optional(),
     knowledgeGain: z.array(z.string()).optional(),

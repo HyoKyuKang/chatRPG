@@ -1,0 +1,22 @@
+[
+  {
+    "id": "glimpse-of-mist",
+    "name": "안개의 결",
+    "description": "안개가 그저 안개가 아니라는 것을 잠깐 느꼈다."
+  },
+  {
+    "id": "trusted-stranger",
+    "name": "수상자에게 응답함",
+    "description": "정체 모를 자의 말을 일단 따르기로 했다."
+  },
+  {
+    "id": "rejected-stranger",
+    "name": "수상자를 거절함",
+    "description": "그의 말을 듣지 않기로 했다. 그는 사라졌지만 또 올 것이다."
+  },
+  {
+    "id": "mist-meaning",
+    "name": "안개의 의미",
+    "description": "낡은 양피지에서 안개가 무엇을 가리는지 읽었다."
+  }
+]

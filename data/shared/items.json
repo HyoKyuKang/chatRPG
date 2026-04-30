@@ -1,0 +1,15 @@
+[
+  {
+    "id": "rusted-sword",
+    "name": "녹슨 검",
+    "description": "오랫동안 누군가가 두고 간 검. 손에 익는다.",
+    "classRestriction": ["warrior"]
+  },
+  {
+    "id": "old-scroll",
+    "name": "낡은 양피지",
+    "description": "흐릿한 룬이 적혀 있다. 한 번은 외울 수 있을 것 같다.",
+    "classRestriction": ["mage"],
+    "consumable": true
+  }
+]

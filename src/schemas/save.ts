@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { ClassType, EndingId, StatName } from './primitives'
+import { ClassType, EndingId, Stats } from './primitives'
 
 export const GameState = z
   .object({
     currentNodeId: z.string(),
     classChosen: ClassType.nullable(),
-    stats: z.record(StatName, z.number()),
+    stats: Stats,
     inventory: z.array(z.string()),
     knowledgeFlags: z.array(z.string()),
     heroesEncountered: z.array(z.string()),

@@ -1,0 +1,28 @@
+{
+  "id": "prologue-03",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "발걸음이 한 그루의 죽은 나무 앞에서 멈춘다. 뿌리에 두 가지가 놓여 있다 — 녹슨 검 하나, 낡은 양피지 하나.",
+  "choices": [
+    {
+      "id": "p03-sword",
+      "text": "녹슨 검을 잡는다",
+      "outcome": {
+        "text": "손에 무게가 익는다. 한 번 휘둘러본다.",
+        "itemAdd": ["rusted-sword"],
+        "nextNodeId": "prologue-04"
+      }
+    },
+    {
+      "id": "p03-scroll",
+      "text": "낡은 양피지를 펼친다",
+      "condition": { "knowledge": "glimpse-of-mist" },
+      "outcome": {
+        "text": "흐릿한 룬이 안개의 모양과 똑같다. 너는 그 결을 처음으로 읽는다.",
+        "itemAdd": ["old-scroll"],
+        "knowledgeGain": ["mist-meaning"],
+        "nextNodeId": "prologue-04"
+      }
+    }
+  ]
+}

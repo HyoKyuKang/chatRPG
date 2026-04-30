@@ -1,0 +1,25 @@
+{
+  "id": "prologue-01",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "안개 속에서 깨어났다. 몸은 너의 것이 맞지만, 이 땅은 너의 것이 아니다.",
+  "choices": [
+    {
+      "id": "p01-look",
+      "text": "주위를 둘러본다",
+      "outcome": {
+        "text": "안개 사이로 무언가 결 같은 것이 잠깐 비친다. 형체는 잡히지 않는다.",
+        "knowledgeGain": ["glimpse-of-mist"],
+        "nextNodeId": "prologue-02"
+      }
+    },
+    {
+      "id": "p01-stand",
+      "text": "그냥 일어선다",
+      "outcome": {
+        "text": "발이 차다. 앞으로 가야 할 것 같다는 생각만 든다.",
+        "nextNodeId": "prologue-02"
+      }
+    }
+  ]
+}

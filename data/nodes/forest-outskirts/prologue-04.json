@@ -1,0 +1,37 @@
+{
+  "id": "prologue-04",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "한 발 더 나아가자, 안개 너머에서 거대한 그림자가 너를 노리고 멈춘다. 인간이 아니다.",
+  "choices": [
+    {
+      "id": "p04-fight-sword",
+      "text": "검으로 맞선다",
+      "condition": { "item": "rusted-sword" },
+      "outcome": {
+        "text": "검이 가볍게 무언가를 베어낸다. 그림자가 잠시 물러선다. 너의 어깨에서 피가 한 줄.",
+        "statDelta": { "hp": -1 },
+        "nextNodeId": "prologue-05"
+      }
+    },
+    {
+      "id": "p04-cast-spell",
+      "text": "양피지의 룬을 외운다",
+      "condition": { "item": "old-scroll" },
+      "outcome": {
+        "text": "룬이 손끝에서 떨어져나간다. 그림자가 안개와 함께 갈라진다. 너의 머리가 잠시 멍해진다.",
+        "statDelta": { "mana": -1 },
+        "itemRemove": ["old-scroll"],
+        "nextNodeId": "prologue-05"
+      }
+    },
+    {
+      "id": "p04-flee",
+      "text": "도망친다",
+      "outcome": {
+        "text": "발이 먼저 움직인다. 등 뒤에서 그림자가 잠깐 웃는 것 같다.",
+        "nextNodeId": "prologue-05"
+      }
+    }
+  ]
+}

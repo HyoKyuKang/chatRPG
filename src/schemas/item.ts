@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ClassType, StatName } from './primitives'
+import { ClassType, StatDelta } from './primitives'
 
 export const Item = z
   .object({
@@ -7,7 +7,7 @@ export const Item = z
     name: z.string(),
     description: z.string().optional(),
     classRestriction: z.array(ClassType).optional(),
-    statBonus: z.record(StatName, z.number()).optional(),
+    statBonus: StatDelta.optional(),
     consumable: z.boolean().optional(),
   })
   .strict()
