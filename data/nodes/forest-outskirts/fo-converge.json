@@ -16,7 +16,7 @@
       "id": "conv-watch",
       "text": "주변을 살피며 간다",
       "outcome": {
-        "text": "뿌리 사이로 검은 액체가 흐른다. 마왕의 그을음도, 외신의 푸른 점액도 아니다. 둘이 섞인 채, 그 너머의 무엇이 함께 흐른다. 너는 그것을 본 채로 더 깊이 들어간다.",
+        "text": "뿌리 사이로 검은 액체가 흐른다. 마왕의 그을음 — 그것이 흙 깊숙이까지 닿아 있다. 너는 그것을 본 채로 더 깊이 들어간다.",
         "knowledgeGain": ["corruption-witnessed"],
         "nextNodeId": "fo-boss-tree"
       }

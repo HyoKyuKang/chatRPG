@@ -1,9 +1,9 @@
 {
   "id": "ash-wastes",
   "name": "재의 황무지",
-  "description": "마왕 영토의 끝, 모래 아래 외신 조각이 잠들어 있는 잿빛 황무지. 이형의 결이 처음으로 본격 드러난다.",
+  "description": "마왕 영토의 깊은 곳. 잿빛 모래 아래 마왕 침식이 흙 깊숙이 닿아 있다. 이름을 잊은 자들의 거점.",
   "entryNodeId": "fa-arrive",
-  "bossNodeId": "fa-fragment",
+  "bossNodeId": "fa-corrupted",
   "nodeIds": [
     "fa-arrive",
     "fa-watcher",
@@ -15,7 +15,7 @@
     "fa-whisper",
     "fa-mirror",
     "fa-converge",
-    "fa-fragment",
+    "fa-corrupted",
     "fa-resolution"
   ]
 }

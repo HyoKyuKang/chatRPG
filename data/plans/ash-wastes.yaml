@@ -1,10 +1,10 @@
 region: ash-wastes
 name: 재의 황무지
 description: |-
-  마왕 영토의 끝. 잿빛 모래 아래 외신 조각이 잠들어 있다. 이형의 결이
-  본격적으로 드러나는 첫 지역.
+  마왕 영토의 깊은 곳. 잿빛 모래 아래 마왕 침식의 결이 흙 깊숙이 닿아 있다.
+  이름을 잊은 자들 — 광기 부대 — 이 거점으로 삼은 폐허.
 entry: fa-arrive
-boss: fa-fragment
+boss: fa-corrupted
 
 nodes:
   - id: fa-arrive
@@ -27,16 +27,16 @@ nodes:
 
   - id: fa-watcher
     type: event
-    beat: 수상자가 다시 등장 — 외신 조각 단서 흘림. "이 모래 아래엔 오래된 게 있다." 정체는 안 흘림.
+    beat: 수상자가 다시 등장 — 마왕 영토 깊이의 단서. "여긴 마왕이 사람의 마음에 닿는 곳이다." 정체는 안 흘림.
     personas: [narrator, sujangja]
-    toneTarget: 수상자의 단서가 무거움. 외신이라는 단어는 안 쓰지만 그 결만 흘림.
+    toneTarget: 수상자의 단서가 무거움. 마왕이 단순 적이 아니라 사람의 마음에 닿는 자라는 결.
     previous: [fa-arrive]
     next: [fa-fork]
     choices:
       - id: watcher-listen
         label: 수상자의 말을 듣는다
         outcome:
-          knowledgeGain: [outsider-shard]
+          knowledgeGain: [mawang-deep]
           nextNodeId: fa-fork
       - id: watcher-ignore
         label: 지나친다
@@ -120,7 +120,7 @@ nodes:
     type: encounter
     beat: 동굴 진입. 어둠 + 차가움. 이방인 혼자. 위에서 모래 흘러내리는 소리.
     personas: [narrator]
-    toneTarget: 어둠 + 좁음. 외신 결이 점점 가까워짐. 1지역 지하 통로보다 이질적.
+    toneTarget: 어둠 + 좁음. 인공적이 아닌, 자라난 결. 마왕의 영토 깊은 곳으로 들어감.
     previous: [fa-fork]
     next: [fa-whisper]
     choices:
@@ -135,9 +135,9 @@ nodes:
 
   - id: fa-whisper
     type: event
-    beat: 외신 속삭임 발현. 들리지 않는 소리가 너를 들음. narrator가 외부에서 묘사 (인간 voice X). 이방인 혼자.
-    personas: [narrator, outsider-fragment]
-    toneTarget: 인지 호러. 무서움보다 어긋남. 너의 감각이 정확히 잡지 못함. 머릿속 침범.
+    beat: 광기 부대 흔적 발견 — 자아 잃은 자들의 짧은 음절이 너의 머릿속에 닿음. 마왕의 정신 조작이 사람의 마음에 닿았다는 첫 증거. 이방인 혼자.
+    personas: [narrator, corrupted-one]
+    toneTarget: 인간의 비극. 광기 부대는 화내지 않음, 그저 자아가 없음. 마왕의 정신 조작 능력이 처음으로 명확히 드러남. 4지역 환각 마법 build-up.
     previous: [fa-cavern]
     next: [fa-mirror]
     choices:
@@ -152,14 +152,14 @@ nodes:
         outcome:
           statDelta:
             mana: -2
-          knowledgeGain: [outsider-whisper]
+          knowledgeGain: [corrupted-whisper]
           nextNodeId: fa-mirror
 
   - id: fa-mirror
     type: event
-    beat: 거울 면 발견 — 모래 위에 떨어진 한 조각의 흑요석 또는 외신의 결 자체. 거울 자아 본체 (4지역 보스 단서). 이방인 혼자.
-    personas: [narrator, outsider-fragment]
-    toneTarget: 거울 자아의 결. 비친 너는 너보다 한 걸음 짧다. V1.1 디자인 4지역 단서 미리 흘림.
+    beat: 거울 면 발견 — 흑요석 또는 광이 잘 닦인 돌. 거울에 비친 너는 한 걸음 짧음 — 너도 잠식될 수 있다는 가능성. 4지역(꿈꾸는 도시) 환각 build-up. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 자기 잠식의 가능성을 직면. 무서움보다 두려움. V1.1 4지역 보스 단서 미리 흘림 (마왕의 환각 능력).
     previous: [fa-whisper]
     next: [fa-converge]
     choices:
@@ -175,56 +175,56 @@ nodes:
 
   - id: fa-converge
     type: encounter
-    beat: 두 길이 만남. 외신 결이 가까워짐. 공기가 휘어짐. 이방인 혼자.
+    beat: 두 길이 만남. 광기 부대의 거점이 가까워짐. 잠식 결이 점점 짙어짐. 이방인 혼자.
     personas: [narrator]
-    toneTarget: 외신 본체 직전. 공간이 어긋남. 거리감이 느슨해짐. 다음 비트 (보스) 무게.
+    toneTarget: 보스 직전의 무게. 자아 잃은 자들의 무리가 가까이 있음. 짧은 음절들이 멀리서 들림.
     previous: [fa-shrine, fa-mirror]
-    next: [fa-fragment]
+    next: [fa-corrupted]
     choices:
       - id: conv-press
         label: 직선으로 간다
         outcome:
-          nextNodeId: fa-fragment
+          nextNodeId: fa-corrupted
       - id: conv-careful
         label: 조심스럽게 다가간다
         outcome:
-          knowledgeGain: [outsider-shard]
-          nextNodeId: fa-fragment
+          knowledgeGain: [mawang-deep]
+          nextNodeId: fa-corrupted
 
-  - id: fa-fragment
+  - id: fa-corrupted
     type: boss
-    beat: 외신 조각 본체. 인간 형태 X, 인간 voice X. narrator가 외부에서 묘사. 클래스별 분기.
-    personas: [narrator, outsider-fragment]
-    toneTarget: 보스전 정점. 인지 호러. 검은 잘 안 듦, 룬은 효과적이지만 정신 소진 큼. 도주는 기억에 한 줄을 남김.
+    beat: 잠식된 자 보스 — 옛 영웅, 자기 이름 잊음. 광기 부대 우두머리. 적개심 X, 슬픔 X — 무감한 비틀림. 클래스별 다른 결 한 줄.
+    personas: [narrator, corrupted-one]
+    toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X).
     previous: [fa-converge]
     next: [fa-resolution]
     choices:
-      - id: frag-warrior
-        label: 검으로 베어낸다
+      - id: corrupted-warrior
+        label: 검으로 맞선다
         condition:
           class: warrior
         outcome:
           statDelta:
             hp: -2
           nextNodeId: fa-resolution
-      - id: frag-mage
-        label: 룬으로 봉인한다
+      - id: corrupted-mage
+        label: 룬으로 그의 잠식을 끊는다
         condition:
           class: mage
         outcome:
           statDelta:
-            mana: -3
+            mana: -2
           nextNodeId: fa-resolution
-      - id: frag-flee
+      - id: corrupted-flee
         label: 도망친다
         outcome:
           nextNodeId: fa-resolution
 
   - id: fa-resolution
     type: ending
-    beat: 3지역 끝. 외신 조각의 발현 끝, but 진짜 외신 본체는 아니었다는 결. 수상자 짧은 한 줄 — 다음 지역(꿈꾸는 도시) 암시.
-    personas: [narrator, sujangja]
-    toneTarget: 결판 정서. 외신 조각을 멈췄어도 본체는 멀리 있다는 무게. 4지역 (꿈꾸는 도시) 가리킴. 마지막 단락은 개발용 메타 마커.
-    previous: [fa-fragment]
+    beat: 3지역 끝. 잠식된 자 처치/도주 후 그의 마지막 한 줄. 수상자 등장 — 4지역(꿈꾸는 도시) 암시 ("거기선 마왕의 환각이 사람 전체를 가둔다"). 이방인은 마왕의 정신 조작 능력의 깊이를 처음으로 가늠함.
+    personas: [narrator, corrupted-one, sujangja]
+    toneTarget: 결판 정서 + 무감각의 무게. 잠식된 자의 마지막 한 마디는 짧음 ("이게 끝이다" 결). 수상자는 꿈꾸는 도시 가리킴 — 사람 전체가 환각에 갇힌 곳. 마지막 단락은 개발용 메타 마커.
+    previous: [fa-corrupted]
     next: []
     choices: []

@@ -2,15 +2,15 @@
   "id": "fa-watcher",
   "region": "ash-wastes",
   "type": "event",
-  "description": "재가 발끝에서 부서진다. 바람이 길게 한 번 분다.\n\n그가 거기 서 있다. 너보다 먼저 와 있었다. 모래에 그림자가 짧다.\n\n수상자: \"이 모래 아래엔 오래된 게 있다. 마왕보다 오래된 결.\"\n\n그는 옆으로 비킨다. 길은 너의 것이다.",
+  "description": "재가 발목을 덮는다. 바람이 한 번 분다. 하늘은 색을 잊었다.\n\n돌무더기 위, 수상자가 서 있다. 망토는 재로 무겁다. 너를 보지 않는다.\n\n수상자: \"여긴 마왕이 사람의 마음에 닿는 곳이다. 네 안의 문이 먼저 열린다. 조심해라.\"",
   "choices": [
     {
       "id": "watcher-listen",
       "text": "수상자의 말을 듣는다",
       "outcome": {
-        "text": "그의 말이 가슴 한구석에 가라앉는다. 무엇인가가 더 깊은 곳에서 깨어 있다.",
+        "text": "너는 그 말을 삼킨다. 재의 무게가 한 겹 늘어난다.",
         "knowledgeGain": [
-          "outsider-shard"
+          "mawang-deep"
         ],
         "nextNodeId": "fa-fork"
       }
@@ -19,7 +19,7 @@
       "id": "watcher-ignore",
       "text": "지나친다",
       "outcome": {
-        "text": "너는 그를 스쳐 지나간다. 그의 시선은 너의 등에 닿지 않는다.",
+        "text": "너는 발을 옮긴다. 수상자의 그림자는 등 뒤에 남는다.",
         "nextNodeId": "fa-fork"
       }
     }
