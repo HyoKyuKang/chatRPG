@@ -1,16 +1,20 @@
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { loadGameData } from './lib/loader'
-import type { ClassType, Stats } from './schemas'
+import type { ClassType, MetaState, Stats } from './schemas'
 
 export const data = loadGameData()
 
 const STARTING_REGION = 'forest-outskirts' as const
 const STARTING_STATS: Stats = { hp: 5, mana: 3 }
+const SHARDS_PER_DEATH = 1
+const STORAGE_KEY = 'chat-rpg/save-v1'
 
 export type HistoryEntry =
   | { kind: 'node'; text: string }
   | { kind: 'choice'; text: string }
   | { kind: 'outcome'; text: string }
+  | { kind: 'death'; text: string }
 
 export interface RunState {
   currentNodeId: string
@@ -19,14 +23,23 @@ export interface RunState {
   inventory: string[]
   knowledge: string[]
   history: HistoryEntry[]
+  dead: boolean
+  endingReached: boolean
 }
 
-interface RunActions {
+export interface PersistedState {
+  schemaVersion: 1
+  meta: MetaState
+  run: RunState
+}
+
+interface Actions {
   choose: (choiceId: string) => void
   reset: () => void
+  resetAll: () => void
 }
 
-function initialState(): RunState {
+function freshRun(): RunState {
   const region = data.regions.get(STARTING_REGION)
   if (!region)
     throw new Error(`Starting region "${STARTING_REGION}" not loaded`)
@@ -40,67 +53,155 @@ function initialState(): RunState {
     inventory: [],
     knowledge: [],
     history: [{ kind: 'node', text: entry.description }],
+    dead: false,
+    endingReached: false,
   }
 }
 
-export const useRun = create<RunState & RunActions>((set, get) => ({
-  ...initialState(),
-  choose: (choiceId) => {
-    const state = get()
-    const node = data.nodes.get(state.currentNodeId)
-    if (!node) return
-    const choice = node.choices.find((c) => c.id === choiceId)
-    if (!choice) return
+function freshMeta(): MetaState {
+  return {
+    memoryShards: 0,
+    unlockedClasses: [],
+    discoveredKnowledge: [],
+    completedRuns: 0,
+    endingsReached: [],
+    totalDeaths: 0,
+  }
+}
 
-    const delta = choice.outcome.statDelta
-    const stats: Stats = delta
-      ? {
-          hp: state.stats.hp + (delta.hp ?? 0),
-          mana: state.stats.mana + (delta.mana ?? 0),
+function uniq<T>(...arrays: T[][]): T[] {
+  return Array.from(new Set(arrays.flat()))
+}
+
+export const useGame = create<PersistedState & Actions>()(
+  persist(
+    (set, get) => ({
+      schemaVersion: 1,
+      meta: freshMeta(),
+      run: freshRun(),
+
+      choose: (choiceId) => {
+        const state = get()
+        const run = state.run
+        if (run.dead || run.endingReached) return
+        const node = data.nodes.get(run.currentNodeId)
+        if (!node) return
+        const choice = node.choices.find((c) => c.id === choiceId)
+        if (!choice) return
+
+        const delta = choice.outcome.statDelta
+        const stats: Stats = delta
+          ? {
+              hp: run.stats.hp + (delta.hp ?? 0),
+              mana: run.stats.mana + (delta.mana ?? 0),
+            }
+          : run.stats
+
+        let inventory = run.inventory
+        if (choice.outcome.itemAdd?.length)
+          inventory = [...inventory, ...choice.outcome.itemAdd]
+        if (choice.outcome.itemRemove?.length) {
+          const remove = new Set(choice.outcome.itemRemove)
+          inventory = inventory.filter((i) => !remove.has(i))
         }
-      : state.stats
 
-    let inventory = state.inventory
-    if (choice.outcome.itemAdd?.length)
-      inventory = [...inventory, ...choice.outcome.itemAdd]
-    if (choice.outcome.itemRemove?.length) {
-      const remove = new Set(choice.outcome.itemRemove)
-      inventory = inventory.filter((i) => !remove.has(i))
-    }
+        const knowledge = choice.outcome.knowledgeGain?.length
+          ? uniq(run.knowledge, choice.outcome.knowledgeGain)
+          : run.knowledge
 
-    const knowledge = choice.outcome.knowledgeGain?.length
-      ? Array.from(new Set([...state.knowledge, ...choice.outcome.knowledgeGain]))
-      : state.knowledge
+        const baseHistory: HistoryEntry[] = [
+          ...run.history,
+          { kind: 'choice', text: choice.text },
+          { kind: 'outcome', text: choice.outcome.text },
+        ]
 
-    const newHistory: HistoryEntry[] = [
-      ...state.history,
-      { kind: 'choice', text: choice.text },
-      { kind: 'outcome', text: choice.outcome.text },
-    ]
+        // Death (priority over node transition)
+        if (stats.hp <= 0) {
+          set({
+            run: {
+              ...run,
+              stats: { ...stats, hp: 0 },
+              inventory,
+              knowledge,
+              history: [
+                ...baseHistory,
+                {
+                  kind: 'death',
+                  text: `당신은 여기서 쓰러진다. (기억의 조각 +${SHARDS_PER_DEATH})`,
+                },
+              ],
+              dead: true,
+            },
+            meta: {
+              ...state.meta,
+              memoryShards: state.meta.memoryShards + SHARDS_PER_DEATH,
+              totalDeaths: state.meta.totalDeaths + 1,
+              discoveredKnowledge: uniq(
+                state.meta.discoveredKnowledge,
+                knowledge,
+              ),
+            },
+          })
+          return
+        }
 
-    const next = choice.outcome.nextNodeId
-    if (next === null) {
-      set({ stats, inventory, knowledge, history: newHistory })
-      return
-    }
+        const next = choice.outcome.nextNodeId
+        if (next === null) {
+          set({
+            run: { ...run, stats, inventory, knowledge, history: baseHistory },
+          })
+          return
+        }
 
-    const nextNode = data.nodes.get(next)
-    if (!nextNode) {
-      console.error(`next node "${next}" not loaded`)
-      set({ stats, inventory, knowledge, history: newHistory })
-      return
-    }
+        const nextNode = data.nodes.get(next)
+        if (!nextNode) {
+          console.error(`next node "${next}" not loaded`)
+          set({
+            run: { ...run, stats, inventory, knowledge, history: baseHistory },
+          })
+          return
+        }
 
-    set({
-      stats,
-      inventory,
-      knowledge,
-      currentNodeId: next,
-      history: [
-        ...newHistory,
-        { kind: 'node', text: nextNode.description },
-      ],
-    })
-  },
-  reset: () => set(initialState()),
-}))
+        const reachedEnding = nextNode.type === 'ending'
+        set({
+          run: {
+            ...run,
+            stats,
+            inventory,
+            knowledge,
+            currentNodeId: next,
+            history: [
+              ...baseHistory,
+              { kind: 'node', text: nextNode.description },
+            ],
+            endingReached: reachedEnding,
+          },
+          meta: reachedEnding
+            ? {
+                ...state.meta,
+                completedRuns: state.meta.completedRuns + 1,
+                discoveredKnowledge: uniq(
+                  state.meta.discoveredKnowledge,
+                  knowledge,
+                ),
+              }
+            : state.meta,
+        })
+      },
+
+      reset: () => set({ run: freshRun() }),
+
+      resetAll: () => set({ run: freshRun(), meta: freshMeta() }),
+    }),
+    {
+      name: STORAGE_KEY,
+      version: 1,
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        schemaVersion: state.schemaVersion,
+        meta: state.meta,
+        run: state.run,
+      }),
+    },
+  ),
+)

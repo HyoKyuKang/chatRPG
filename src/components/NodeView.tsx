@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { data, useRun } from '../store'
+import { data, useGame } from '../store'
 import type { Choice } from '../schemas'
 
 function isChoiceVisible(
@@ -24,17 +24,13 @@ function isChoiceVisible(
 }
 
 export function NodeView() {
-  const currentNodeId = useRun((s) => s.currentNodeId)
-  const history = useRun((s) => s.history)
-  const classChosen = useRun((s) => s.classChosen)
-  const knowledge = useRun((s) => s.knowledge)
-  const inventory = useRun((s) => s.inventory)
-  const stats = useRun((s) => s.stats)
-  const choose = useRun((s) => s.choose)
-  const reset = useRun((s) => s.reset)
+  const run = useGame((s) => s.run)
+  const choose = useGame((s) => s.choose)
+  const reset = useGame((s) => s.reset)
 
-  const node = data.nodes.get(currentNodeId)
-  const isEnding = node?.type === 'ending'
+  const node = data.nodes.get(run.currentNodeId)
+  const isEnding = run.endingReached || node?.type === 'ending'
+  const isDead = run.dead
 
   const scrollRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -42,12 +38,19 @@ export function NodeView() {
       top: scrollRef.current.scrollHeight,
       behavior: 'smooth',
     })
-  }, [history.length])
+  }, [run.history.length])
 
   const visibleChoices =
-    node?.choices.filter((c) =>
-      isChoiceVisible(c, { classChosen, knowledge, inventory, stats }),
-    ) ?? []
+    !isDead && !isEnding && node
+      ? node.choices.filter((c) =>
+          isChoiceVisible(c, {
+            classChosen: run.classChosen,
+            knowledge: run.knowledge,
+            inventory: run.inventory,
+            stats: run.stats,
+          }),
+        )
+      : []
 
   return (
     <div className="flex flex-col h-full">
@@ -55,7 +58,7 @@ export function NodeView() {
         ref={scrollRef}
         className="flex-1 overflow-y-auto px-5 py-6 space-y-3"
       >
-        {history.map((h, i) => {
+        {run.history.map((h, i) => {
           if (h.kind === 'node')
             return (
               <p
@@ -67,11 +70,17 @@ export function NodeView() {
             )
           if (h.kind === 'choice')
             return (
+              <p key={i} className="text-purple-300/80 text-sm pl-4">
+                → {h.text}
+              </p>
+            )
+          if (h.kind === 'death')
+            return (
               <p
                 key={i}
-                className="text-purple-300/80 text-sm pl-4"
+                className="text-rose-300/90 text-sm whitespace-pre-line"
               >
-                → {h.text}
+                {h.text}
               </p>
             )
           return (
@@ -86,7 +95,15 @@ export function NodeView() {
       </div>
 
       <div className="border-t border-white/10 p-4 space-y-2 bg-zinc-950/30">
-        {isEnding ? (
+        {isDead ? (
+          <button
+            type="button"
+            onClick={reset}
+            className="w-full px-4 py-3 rounded-md border border-rose-400/40 bg-rose-400/10 text-rose-100 hover:bg-rose-400/20 active:scale-[0.99] transition"
+          >
+            다시 출정
+          </button>
+        ) : isEnding ? (
           <button
             type="button"
             onClick={reset}

@@ -1,8 +1,10 @@
-import { data, useRun } from '../store'
+import { data, useGame } from '../store'
 
 export function StatBar() {
-  const stats = useRun((s) => s.stats)
-  const inventory = useRun((s) => s.inventory)
+  const stats = useGame((s) => s.run.stats)
+  const inventory = useGame((s) => s.run.inventory)
+  const memoryShards = useGame((s) => s.meta.memoryShards)
+  const completedRuns = useGame((s) => s.meta.completedRuns)
 
   return (
     <div className="flex items-center gap-3 px-4 py-2 border-b border-white/10 text-xs text-zinc-400 flex-wrap">
@@ -24,6 +26,14 @@ export function StatBar() {
             </span>
           )
         })
+      )}
+      {(memoryShards > 0 || completedRuns > 0) && (
+        <span className="ml-auto text-[10px] text-violet-300/70">
+          {memoryShards > 0 && (
+            <span className="mr-2">기억 {memoryShards}</span>
+          )}
+          {completedRuns > 0 && <span>출정 {completedRuns}</span>}
+        </span>
       )}
     </div>
   )
