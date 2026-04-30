@@ -113,5 +113,35 @@
     "id": "ethical-weight",
     "name": "윤리적 무게",
     "description": "왕을 깨우면 도시는 무너진다. 깨우지 않으면 환영은 영원하다. 어느 쪽이 옳은가."
+  },
+  {
+    "id": "astrid-respect",
+    "name": "아스트리드의 신뢰",
+    "description": "너가 그녀와 함께 검을 들었다는 것을 그녀가 안다."
+  },
+  {
+    "id": "astrid-doubt",
+    "name": "아스트리드의 의구심",
+    "description": "너가 그녀 뒤에 섰다는 것을 그녀가 안다. 그녀는 더는 너를 동지로 보지 않는다."
+  },
+  {
+    "id": "bayren-respect",
+    "name": "베일런의 인정",
+    "description": "너가 흔들림 없이 룬을 외웠다는 것을 그가 안다."
+  },
+  {
+    "id": "fled-tree",
+    "name": "1지역 보스에서 등을 돌림",
+    "description": "거대한 나무에서 등을 돌렸다. 도주는 한 번 새겨지면 다음에도 무게가 된다."
+  },
+  {
+    "id": "fled-shadow",
+    "name": "그림자 사령관에서 물러남",
+    "description": "사령관 앞에서 등을 돌렸다. 그가 너를 부르지 않은 것이 무겁게 남는다."
+  },
+  {
+    "id": "fled-corrupted",
+    "name": "잠식된 자에게서 물러남",
+    "description": "광기 부대에게서 등을 돌렸다. 그들의 음절이 등 뒤에서 따라왔다."
   }
 ]

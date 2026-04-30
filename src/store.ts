@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { loadGameData } from './lib/loader'
-import type { ClassType, MetaState, Stats } from './schemas'
+import type { ChoiceCondition, ClassType, MetaState, Node, Stats } from './schemas'
 
 export const data = loadGameData()
 
@@ -48,16 +48,20 @@ function freshRun(): RunState {
   const entry = data.nodes.get(region.entryNodeId)
   if (!entry)
     throw new Error(`Entry node "${region.entryNodeId}" not loaded`)
-  return {
+  const run: RunState = {
     currentNodeId: entry.id,
     classChosen: null,
     stats: { ...STARTING_STATS },
     inventory: [],
     knowledge: [],
     heroesEncountered: [],
-    history: [{ kind: 'node', text: entry.description }],
+    history: [],
     dead: false,
     endingReached: false,
+  }
+  return {
+    ...run,
+    history: [{ kind: 'node', text: renderNodeText(entry, run) }],
   }
 }
 
@@ -74,6 +78,31 @@ function freshMeta(): MetaState {
 
 function uniq<T>(...arrays: T[][]): T[] {
   return Array.from(new Set(arrays.flat()))
+}
+
+function matchesCondition(
+  condition: ChoiceCondition | undefined,
+  run: Pick<RunState, 'classChosen' | 'knowledge' | 'inventory' | 'stats'>,
+): boolean {
+  if (!condition) return true
+  if (condition.class && condition.class !== run.classChosen) return false
+  if (condition.knowledge && !run.knowledge.includes(condition.knowledge))
+    return false
+  if (condition.item && !run.inventory.includes(condition.item)) return false
+  if (condition.statGte) {
+    const value = run.stats[condition.statGte.name]
+    if (value < condition.statGte.value) return false
+  }
+  return true
+}
+
+function renderNodeText(node: Node, run: RunState): string {
+  const echoes =
+    node.echoes
+      ?.filter((echo) => matchesCondition(echo.condition, run))
+      .map((echo) => echo.text) ?? []
+  if (echoes.length === 0) return node.description
+  return [node.description, ...echoes].join('\n\n')
 }
 
 export const useGame = create<PersistedState & Actions>()(
@@ -190,20 +219,24 @@ export const useGame = create<PersistedState & Actions>()(
         }
 
         const reachedEnding = nextNode.type === 'ending'
+        const nextRun: RunState = {
+          ...run,
+          stats,
+          inventory,
+          knowledge,
+          classChosen,
+          heroesEncountered,
+          currentNodeId: next,
+          history: baseHistory,
+          endingReached: reachedEnding,
+        }
         set({
           run: {
-            ...run,
-            stats,
-            inventory,
-            knowledge,
-            classChosen,
-            heroesEncountered,
-            currentNodeId: next,
+            ...nextRun,
             history: [
               ...baseHistory,
-              { kind: 'node', text: nextNode.description },
+              { kind: 'node', text: renderNodeText(nextNode, nextRun) },
             ],
-            endingReached: reachedEnding,
           },
           meta: reachedEnding
             ? {
@@ -234,15 +267,18 @@ export const useGame = create<PersistedState & Actions>()(
         const entryNode = data.nodes.get(nextRegion.entryNodeId)
         if (!entryNode) return
 
+        const nextRun: RunState = {
+          ...run,
+          currentNodeId: entryNode.id,
+          endingReached: false,
+        }
         set({
           run: {
-            ...run,
-            currentNodeId: entryNode.id,
+            ...nextRun,
             history: [
               ...run.history,
-              { kind: 'node', text: entryNode.description },
+              { kind: 'node', text: renderNodeText(entryNode, nextRun) },
             ],
-            endingReached: false,
           },
         })
       },

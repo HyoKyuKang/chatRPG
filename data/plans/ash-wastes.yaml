@@ -32,6 +32,21 @@ nodes:
     toneTarget: 수상자의 단서가 무거움. 마왕이 단순 적이 아니라 사람의 마음에 닿는 자라는 결.
     previous: [fa-arrive]
     next: [fa-fork]
+    echoes:
+      - condition:
+          knowledge: trusted-stranger
+        text: |-
+          수상자가 잠깐 멈춘다.
+
+          수상자: "...너의 문은 일찍 열렸지. 잠그는 법도 너에게 있다."
+      - condition:
+          knowledge: rejected-stranger
+        text: |-
+          수상자: "믿지 않아도 된다. 다만 닫아 두기는 하라."
+      - condition:
+          knowledge: fled-shadow
+        text: |-
+          수상자: "산맥에서 한 번 등을 돌린 자도, 여기선 등을 돌릴 곳이 없다."
     choices:
       - id: watcher-listen
         label: 수상자의 말을 듣는다
@@ -198,6 +213,19 @@ nodes:
     toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X).
     previous: [fa-converge]
     next: [fa-resolution]
+    echoes:
+      - condition:
+          knowledge: fled-tree
+        text: |-
+          잠식된 자: "...물러나는 법을 아는군. 그러면 잊는 일도 빠를 것이다."
+      - condition:
+          knowledge: fled-shadow
+        text: |-
+          잠식된 자: "...한 번 등을 돌린 자가 또 한 번 등을 돌렸다. 세 번째는 너 자신을 등진다."
+      - condition:
+          knowledge: templar-creed
+        text: |-
+          잠식된 자: "...옛 신앙의 결이 너에게 머물러 있구나. 그것이 너의 가벼운 무게다."
     choices:
       - id: corrupted-warrior
         label: 검으로 맞선다
@@ -218,6 +246,7 @@ nodes:
       - id: corrupted-flee
         label: 도망친다
         outcome:
+          knowledgeGain: [fled-corrupted]
           nextNodeId: fa-resolution
 
   - id: fa-resolution

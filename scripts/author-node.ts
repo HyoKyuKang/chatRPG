@@ -45,6 +45,13 @@ const ChoicePlanSchema = z
   })
   .strict()
 
+const NodeEchoPlanSchema = z
+  .object({
+    condition: ConditionSchema.optional(),
+    text: z.string(),
+  })
+  .strict()
+
 const NodeTypeSchema = z.enum([
   'encounter',
   'event',
@@ -64,6 +71,7 @@ const NodePlanSchema = z
     toneTarget: z.string(),
     previous: z.array(z.string()).default([]),
     next: z.array(z.string()).default([]),
+    echoes: z.array(NodeEchoPlanSchema).optional(),
     choices: z.array(ChoicePlanSchema),
   })
   .strict()
@@ -246,12 +254,16 @@ async function integrate(
   }
 
   // Build node JSON matching src/schemas/node.ts shape
-  const nodeJson = {
+  const nodeJson: Record<string, unknown> = {
     id: node.id,
     region: plan.region,
     type: node.type,
     description: prose.description,
-    choices: node.choices.map((planChoice) => {
+  }
+  if (node.echoes && node.echoes.length > 0) {
+    nodeJson.echoes = node.echoes
+  }
+  nodeJson.choices = node.choices.map((planChoice) => {
       const proseChoice = prose.choices.find((c) => c.id === planChoice.id)!
       const outcomeOut: Record<string, unknown> = {
         text: proseChoice.outcome_text,
@@ -277,8 +289,7 @@ async function integrate(
       if (planChoice.condition) choiceOut.condition = planChoice.condition
       choiceOut.outcome = outcomeOut
       return choiceOut
-    }),
-  }
+    })
 
   const outPath = join('data/nodes', plan.region, `${nodeId}.json`)
   await writeFile(outPath, JSON.stringify(nodeJson, null, 2) + '\n', 'utf8')

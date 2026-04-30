@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { z } from 'zod'
 import { Node, Region, Hero, Item, Knowledge } from '../src/schemas'
+import type { ChoiceCondition } from '../src/schemas'
 
 const DATA = 'data'
 
@@ -48,6 +49,20 @@ function parseWith<T extends z.ZodType>(
   return null
 }
 
+function validateConditionRefs(
+  condition: ChoiceCondition | undefined,
+  file: string,
+  context: string,
+  knowledge: Map<string, Knowledge>,
+  items: Map<string, Item>,
+) {
+  if (!condition) return
+  if (condition.knowledge && !knowledge.has(condition.knowledge))
+    err(file, `${context} → condition.knowledge "${condition.knowledge}" not found`)
+  if (condition.item && !items.has(condition.item))
+    err(file, `${context} → condition.item "${condition.item}" not found`)
+}
+
 async function main() {
   // Phase 1: parse
   const regions = new Map<string, Region>()
@@ -85,20 +100,20 @@ async function main() {
   // Phase 3: cross-ref
   for (const [id, node] of nodes) {
     const f = nodeFiles.get(id)!
+    for (const [index, echo] of (node.echoes ?? []).entries()) {
+      validateConditionRefs(
+        echo.condition,
+        f,
+        `echo ${index + 1}`,
+        knowledge,
+        items,
+      )
+    }
     for (const c of node.choices) {
       const next = c.outcome.nextNodeId
       if (next !== null && !nodes.has(next))
         err(f, `choice ${c.id} → nextNodeId "${next}" not found`)
-      if (c.condition?.knowledge && !knowledge.has(c.condition.knowledge))
-        err(
-          f,
-          `choice ${c.id} → condition.knowledge "${c.condition.knowledge}" not found`,
-        )
-      if (c.condition?.item && !items.has(c.condition.item))
-        err(
-          f,
-          `choice ${c.id} → condition.item "${c.condition.item}" not found`,
-        )
+      validateConditionRefs(c.condition, f, `choice ${c.id}`, knowledge, items)
       for (const itemId of c.outcome.itemAdd ?? [])
         if (!items.has(itemId))
           err(f, `choice ${c.id} → outcome.itemAdd "${itemId}" not found`)

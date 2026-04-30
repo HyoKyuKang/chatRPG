@@ -30,6 +30,7 @@
       "text": "도망친다",
       "outcome": {
         "text": "발이 먼저 움직인다. 머리는 뒤늦게 따라온다.\n\n등 뒤에서 나무가 너의 이름을 부른다. 너의 이름이 아닌 이름을.",
+        "knowledgeGain": ["fled-tree"],
         "nextNodeId": "fo-resolution"
       }
     }

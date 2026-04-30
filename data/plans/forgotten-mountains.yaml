@@ -32,6 +32,21 @@ nodes:
     toneTarget: 수상자의 짧은 단서. 도시 역사의 무게. 정체는 여전히 안 흘림.
     previous: [fm-arrive]
     next: [fm-street]
+    echoes:
+      - condition:
+          knowledge: trusted-stranger
+        text: |-
+          수상자: "...너의 발걸음이 가벼워졌군. 알고 있었다."
+      - condition:
+          knowledge: rejected-stranger
+        text: |-
+          수상자: "그래도 너는 다시 왔다."
+
+          그의 어조에 흔들림이 없다.
+      - condition:
+          knowledge: fled-tree
+        text: |-
+          수상자: "한 번 등을 돌린 자도, 또 다른 등을 마주한다."
     choices:
       - id: watcher-ask
         label: 이 도시는 무엇이었는가
@@ -201,6 +216,7 @@ nodes:
       - id: boss-flee
         label: 도망친다
         outcome:
+          knowledgeGain: [fled-shadow]
           nextNodeId: fm-resolution
 
   - id: fm-resolution

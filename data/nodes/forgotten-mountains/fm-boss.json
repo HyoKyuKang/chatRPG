@@ -37,6 +37,7 @@
       "text": "도망친다",
       "outcome": {
         "text": "너는 광장의 가장자리로 물러난다. 발소리가 잿더미 위에서 가볍다.\n\n그림자 사령관은 너를 부르지 않는다. 쫓지도 않는다.\n\n그저 칼끝을 땅에 내리고, 고개를 숙인다.",
+        "knowledgeGain": ["fled-shadow"],
         "nextNodeId": "fm-resolution"
       }
     }

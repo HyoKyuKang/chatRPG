@@ -103,11 +103,12 @@ nodes:
         outcome:
           statDelta:
             hp: -1
-          knowledgeGain: [templar-creed]
+          knowledgeGain: [templar-creed, astrid-respect]
           nextNodeId: fo-warrior-awaken
       - id: fight-cover
         label: 그녀 뒤에 선다
         outcome:
+          knowledgeGain: [astrid-doubt]
           nextNodeId: fo-warrior-awaken
 
   - id: fo-warrior-awaken
@@ -157,7 +158,7 @@ nodes:
         outcome:
           statDelta:
             mana: -1
-          knowledgeGain: [rune-fundamentals]
+          knowledgeGain: [rune-fundamentals, bayren-respect]
           nextNodeId: fo-mage-awaken
       - id: rune-falter
         label: 주저하다 외운다
@@ -229,6 +230,7 @@ nodes:
       - id: boss-flee
         label: 도망친다
         outcome:
+          knowledgeGain: [fled-tree]
           nextNodeId: fo-resolution
 
   - id: fo-resolution

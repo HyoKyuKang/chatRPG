@@ -10,7 +10,7 @@
       "outcome": {
         "text": "숨을 길게 들이쉰다. 단어가 입에서 나온다. 너의 것이 아닌 결로 나온다.\n\n품 안의 양피지가 같은 결로 떨린다. 흙 위의 룬과 너의 목소리와 양피지가 한 줄에 서 있다.\n\n노인이 한 쪽 눈썹을 올린다.\n\n베일런: \"그래.\"",
         "statDelta": { "mana": -1 },
-        "knowledgeGain": ["rune-fundamentals"],
+        "knowledgeGain": ["rune-fundamentals", "bayren-respect"],
         "nextNodeId": "fo-mage-awaken"
       }
     },

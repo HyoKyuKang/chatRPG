@@ -3,6 +3,20 @@
   "region": "forgotten-mountains",
   "type": "event",
   "description": "망루는 반쯤 무너져 있다. 부러진 들보 사이로 바람이 길게 운다. 발 아래 도시는 잿빛 뼈처럼 펼쳐져 있다.\n\n돌계단 위, 그가 서 있다. 너를 등지고, 폐허를 본다.\n\n수상자: \"이 도시는 한때, 마왕에 맞서 싸우던 사람들의 거점이었다.\"",
+  "echoes": [
+    {
+      "condition": { "knowledge": "trusted-stranger" },
+      "text": "수상자: \"...너의 발걸음이 가벼워졌군. 알고 있었다.\""
+    },
+    {
+      "condition": { "knowledge": "rejected-stranger" },
+      "text": "수상자: \"그래도 너는 다시 왔다.\"\n\n그의 어조에 흔들림이 없다."
+    },
+    {
+      "condition": { "knowledge": "fled-tree" },
+      "text": "수상자: \"한 번 등을 돌린 자도, 또 다른 등을 마주한다.\""
+    }
+  ],
   "choices": [
     {
       "id": "watcher-ask",
