@@ -1,0 +1,27 @@
+{
+  "id": "ds-ascend",
+  "region": "dawn-spire",
+  "type": "encounter",
+  "description": "첨탑의 계단은 좁고 가파르다. 발을 딛을 때마다 돌이 낮게 운다.\n\n계단마다 이름이 새겨져 있다. 글씨는 다 다르다. 깊게 파인 것, 손톱으로 긁은 것, 이미 닳아 윤곽만 남은 것.\n\n너 하나가 아니었다. 위는 아직 보이지 않는다.",
+  "choices": [
+    {
+      "id": "ascend-read",
+      "text": "계단의 이름들을 읽는다",
+      "outcome": {
+        "text": "무릎을 굽혀 한 글자씩 따라 읽는다. 입 안에서 낯선 음절들이 굴러간다. 어떤 이름은 두 번 새겨져 있다 — 다른 손으로.",
+        "knowledgeGain": [
+          "previous-strangers"
+        ],
+        "nextNodeId": "ds-floor-illusion"
+      }
+    },
+    {
+      "id": "ascend-press",
+      "text": "곧장 오른다",
+      "outcome": {
+        "text": "이름들을 밟고 지나간다. 발바닥 아래에서 글씨가 식어 있다. 위를 본다. 계단은 끝이 보이지 않는 곳으로 휘어 사라진다.",
+        "nextNodeId": "ds-floor-illusion"
+      }
+    }
+  ]
+}

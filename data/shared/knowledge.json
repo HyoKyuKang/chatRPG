@@ -158,5 +158,50 @@
     "id": "chose-leave",
     "name": "환영을 그대로 둠",
     "description": "옥좌실 문을 닫고 떠났다. 도시는 영원히 잠든 채 평화롭다."
+  },
+  {
+    "id": "dawn-spire-glimpse",
+    "name": "새벽의 첨탑 첫 인상",
+    "description": "차가운 새벽 빛 속에 솟은 첨탑. 옛 마법사들의 자리, 지금은 마왕의 옥좌."
+  },
+  {
+    "id": "old-ages",
+    "name": "옛 시대의 환영",
+    "description": "첨탑 안에서 마왕이 펼친 환영을 보았다 — 자기 시대의 마법사들이 첨탑에서 살던 모습."
+  },
+  {
+    "id": "previous-strangers",
+    "name": "이전 이방인들의 흔적",
+    "description": "이방인은 너 하나가 아니었다. 같은 자리에 앞서 선 자들의 흔적이 첨탑 안에 새겨져 있다."
+  },
+  {
+    "id": "bayren-tower-secret",
+    "name": "베일런이 떠난 이유",
+    "description": "베일런 노사의 옛 동료들 — 그들이 무엇이 됐는지 첨탑이 보여준다."
+  },
+  {
+    "id": "mawang-glimpse",
+    "name": "마왕과 마주침",
+    "description": "옥좌의 그가 너를 본다. 적이 아닌 인식의 결 — '또 왔구나'."
+  },
+  {
+    "id": "watcher-revealed",
+    "name": "수상자의 정체",
+    "description": "수상자는 너 이전의 이방인이었다. 자기 희생 엔딩으로 봉인의 일부가 된 자."
+  },
+  {
+    "id": "chose-defeat",
+    "name": "마왕을 처치함",
+    "description": "마왕을 끝냈다. 영웅적 승리 — 그러나 다음 이방인이 또 올 것이다."
+  },
+  {
+    "id": "chose-betrayal",
+    "name": "마왕에 합류함",
+    "description": "마왕의 자리를 받아들였다. 너는 다음 마왕이 된다."
+  },
+  {
+    "id": "chose-sacrifice",
+    "name": "스스로를 봉인함",
+    "description": "수상자처럼, 너 자신을 끝의 봉인으로 썼다. 다음 이방인을 기다리게 된다."
   }
 ]

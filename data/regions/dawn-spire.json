@@ -1,0 +1,21 @@
+{
+  "id": "dawn-spire",
+  "name": "새벽의 첨탑",
+  "description": "옛 마법사들의 자리, 지금은 마왕의 옥좌. 이방인의 마지막 길 — 수상자 정체 reveal과 3 엔딩 분기점.",
+  "entryNodeId": "ds-arrive",
+  "bossNodeId": "ds-mawang",
+  "nodeIds": [
+    "ds-arrive",
+    "ds-watcher",
+    "ds-ascend",
+    "ds-floor-illusion",
+    "ds-floor-strangers",
+    "ds-floor-mages",
+    "ds-throne",
+    "ds-mawang",
+    "ds-choice",
+    "ds-ending-defeat",
+    "ds-ending-betrayal",
+    "ds-ending-sacrifice"
+  ]
+}

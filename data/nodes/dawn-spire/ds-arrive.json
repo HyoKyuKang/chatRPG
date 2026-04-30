@@ -1,0 +1,27 @@
+{
+  "id": "ds-arrive",
+  "region": "dawn-spire",
+  "type": "encounter",
+  "description": "첨탑이 새벽 빛 속에 서 있다. 차가운 흰빛이 돌의 결을 따라 흘러내린다. 도시는 너의 등 뒤에 남았고, 여기는 더 이상 도시가 아니다.\n\n옛 마법사들이 떠난 자리. 지금은 마왕의 자리. 바람이 첨탑의 허리를 천천히 감는다.\n\n너는 입구 앞에 선다. 무겁다. 그러나 거의 평온하다.",
+  "choices": [
+    {
+      "id": "arrive-look",
+      "text": "첨탑을 올려다본다",
+      "outcome": {
+        "text": "고개가 천천히 젖혀진다. 첨탑의 끝은 새벽 빛에 잠겨 보이지 않는다. 너는 그 부재를 본다.",
+        "knowledgeGain": [
+          "dawn-spire-glimpse"
+        ],
+        "nextNodeId": "ds-watcher"
+      }
+    },
+    {
+      "id": "arrive-walk",
+      "text": "그냥 들어간다",
+      "outcome": {
+        "text": "너는 시선을 들지 않는다. 발이 문턱을 넘는다. 안의 공기는 바깥보다 더 차다.",
+        "nextNodeId": "ds-watcher"
+      }
+    }
+  ]
+}

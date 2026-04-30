@@ -1,0 +1,35 @@
+{
+  "id": "ds-floor-strangers",
+  "region": "dawn-spire",
+  "type": "event",
+  "description": "2층은 둥근 방이다. 벽을 따라 얕은 홈이 파여 있고, 그 안에 이름들이 새겨져 있다. 몸은 없다.\n\n홈마다 자국만 남아 있다. 누군가 오래 누웠다 일어선 자리처럼, 돌이 미세하게 패여 있다. 이름 위로 빛이 흐릿하게 머문다.\n\n너는 안다. 이방인은 너 하나가 아니었다. 그리고 이들은 떠나지 않았다 — 다른 방식으로 남았다.",
+  "echoes": [
+    {
+      "condition": {
+        "knowledge": "previous-strangers"
+      },
+      "text": "계단의 이름들이 여기서 다시 너에게 닿는다. 그들 중 하나가 너의 어깨에 손을 얹은 듯한 결."
+    }
+  ],
+  "choices": [
+    {
+      "id": "strangers-look",
+      "text": "흔적을 자세히 본다",
+      "outcome": {
+        "text": "너는 몸을 숙여 이름을 따라 읽는다. 라이엔. 무하. 카이. 세 글자, 두 글자, 한 음절. 발음하는 동안 홈 속의 빛이 잠깐 짙어진다. 그들의 결이 너의 입술에 잠시 머문다.",
+        "knowledgeGain": [
+          "previous-strangers"
+        ],
+        "nextNodeId": "ds-floor-mages"
+      }
+    },
+    {
+      "id": "strangers-press",
+      "text": "곧장 다음 층으로",
+      "outcome": {
+        "text": "너는 이름을 읽지 않는다. 무덤들 사이를 지나, 다음 계단으로 향한다. 등 뒤에서 빛이 천천히 가라앉는다.",
+        "nextNodeId": "ds-floor-mages"
+      }
+    }
+  ]
+}
