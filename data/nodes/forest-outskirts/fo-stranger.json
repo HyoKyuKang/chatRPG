@@ -1,33 +1,33 @@
 {
-  "id": "prologue-02",
+  "id": "fo-stranger",
   "region": "forest-outskirts",
   "type": "event",
   "description": "안개가 스스로 갈라지듯, 누군가 너 앞에 선다. 얼굴은 보이지 않는다.\n\n수상자: \"드디어 왔구나.\"",
   "choices": [
     {
-      "id": "p02-who",
+      "id": "str-who",
       "text": "당신은 누구인가",
       "outcome": {
         "text": "수상자: \"그건 중요하지 않다. 지금은.\"",
-        "nextNodeId": "prologue-03"
+        "nextNodeId": "fo-fork"
       }
     },
     {
-      "id": "p02-trust",
+      "id": "str-trust",
       "text": "당신을 믿겠다",
       "outcome": {
         "text": "수상자가 잠깐 멈춘다. 무언가 적어두는 것 같다.",
         "knowledgeGain": ["trusted-stranger"],
-        "nextNodeId": "prologue-03"
+        "nextNodeId": "fo-fork"
       }
     },
     {
-      "id": "p02-reject",
+      "id": "str-reject",
       "text": "관심 없다",
       "outcome": {
         "text": "수상자: \"그래. 그래도 너는 가게 된다.\" — 그가 사라진다.",
         "knowledgeGain": ["rejected-stranger"],
-        "nextNodeId": "prologue-03"
+        "nextNodeId": "fo-fork"
       }
     }
   ]

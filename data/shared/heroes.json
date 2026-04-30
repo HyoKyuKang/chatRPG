@@ -1,0 +1,18 @@
+[
+  {
+    "id": "astrid",
+    "name": "아스트리드",
+    "bio": "정의 신앙을 막 받든 신참 템플러. 너무 곧고 너무 어리다.",
+    "classAffinity": "warrior",
+    "encounter": "companion",
+    "knowledgeGives": ["templar-creed"]
+  },
+  {
+    "id": "bayren-rosa",
+    "name": "베일런 노사",
+    "bio": "한때 첨탑에 있었다는 늙은 마법사. 까칠하고 별로 도와줄 마음이 없다.",
+    "classAffinity": "mage",
+    "encounter": "neutral",
+    "knowledgeGives": ["rune-fundamentals"]
+  }
+]

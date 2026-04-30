@@ -1,0 +1,37 @@
+{
+  "id": "fo-boss-tree",
+  "region": "forest-outskirts",
+  "type": "boss",
+  "description": "거대한 나무가 너 앞에 솟아 있다. 본래는 한 그루의 나무였겠지만, 이제는 여러 마리가 한 곳에서 뻗은 것 같다. 뿌리에서 검은 액체가 흐른다.\n\n나무가 움직인다. 너의 이름이 아닌 무언가를 부른다.",
+  "choices": [
+    {
+      "id": "boss-sword",
+      "text": "검으로 뿌리를 베어낸다",
+      "condition": { "class": "warrior", "item": "rusted-sword" },
+      "outcome": {
+        "text": "검이 무겁다. 베어낸 자리에서 검은 액체가 분출한다. 거대 나무가 휘청인다.\n\n너의 어깨가 한 번 찢어진다. 그래도 너는 한 발 더 들어간다.",
+        "statDelta": { "hp": -2 },
+        "nextNodeId": "fo-resolution"
+      }
+    },
+    {
+      "id": "boss-rune",
+      "text": "룬을 던진다",
+      "condition": { "class": "mage", "item": "old-scroll" },
+      "outcome": {
+        "text": "양피지가 손에서 풀어지며 룬이 공중에 떠오른다. 룬이 뿌리에 박히자, 검은 액체가 침묵한다. 거대 나무가 굳어간다.\n\n양피지가 너의 손에서 사라진다.",
+        "statDelta": { "mana": -2 },
+        "itemRemove": ["old-scroll"],
+        "nextNodeId": "fo-resolution"
+      }
+    },
+    {
+      "id": "boss-flee",
+      "text": "도망친다",
+      "outcome": {
+        "text": "발이 먼저 움직인다. 등 뒤에서 나무가 너의 이름을 부른다 — 너의 이름이 아닌 이름을.",
+        "nextNodeId": "fo-resolution"
+      }
+    }
+  ]
+}

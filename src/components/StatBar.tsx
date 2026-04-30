@@ -1,8 +1,14 @@
 import { data, useGame } from '../store'
 
+const CLASS_LABEL: Record<'warrior' | 'mage', string> = {
+  warrior: '전사',
+  mage: '마법사',
+}
+
 export function StatBar() {
   const stats = useGame((s) => s.run.stats)
   const inventory = useGame((s) => s.run.inventory)
+  const classChosen = useGame((s) => s.run.classChosen)
   const memoryShards = useGame((s) => s.meta.memoryShards)
   const completedRuns = useGame((s) => s.meta.completedRuns)
 
@@ -14,6 +20,11 @@ export function StatBar() {
       <span className="text-sky-300">
         MP <span className="tabular-nums">{stats.mana}</span>
       </span>
+      {classChosen && (
+        <span className="text-emerald-300">
+          {CLASS_LABEL[classChosen]}
+        </span>
+      )}
       <span className="text-zinc-700">|</span>
       {inventory.length === 0 ? (
         <span className="text-zinc-600">소지품 없음</span>

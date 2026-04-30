@@ -1,0 +1,18 @@
+{
+  "id": "fo-warrior-awaken",
+  "region": "forest-outskirts",
+  "type": "event",
+  "description": "전투 후, 아스트리드가 너의 검을 본다. 손이 떨리지 않는다.\n\n아스트리드: \"...너 처음 검 잡는 거 같지 않은데.\"\n\n너도 너의 손을 본다. 어딘가, 너의 몸이 검을 알고 있는 것 같다.",
+  "choices": [
+    {
+      "id": "awaken-warrior",
+      "text": "검을 든 자로 살겠다",
+      "outcome": {
+        "text": "검의 무게가 손에 자리 잡는다. 너는 너 자신을 — 한 가지 형태로 — 부른다.",
+        "classSet": "warrior",
+        "knowledgeGain": ["warrior-awakened"],
+        "nextNodeId": "fo-converge"
+      }
+    }
+  ]
+}

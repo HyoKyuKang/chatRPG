@@ -1,14 +1,21 @@
 {
   "id": "forest-outskirts",
   "name": "숲의 외곽",
-  "description": "이방인이 처음 발 디딘 곳. 안개와 오래된 나무들. (Week 1 데모 — 정식 콘텐츠는 Week 2~ 이후)",
-  "entryNodeId": "prologue-01",
-  "bossNodeId": "prologue-05",
+  "description": "이방인이 처음 발 디딘 곳. 안개와 오래된 나무들. 깊은 곳에서 무언가가 썩고 있다.",
+  "entryNodeId": "fo-arrive",
+  "bossNodeId": "fo-boss-tree",
   "nodeIds": [
-    "prologue-01",
-    "prologue-02",
-    "prologue-03",
-    "prologue-04",
-    "prologue-05"
+    "fo-arrive",
+    "fo-stranger",
+    "fo-fork",
+    "fo-astrid-meet",
+    "fo-astrid-fight",
+    "fo-warrior-awaken",
+    "fo-bayren-meet",
+    "fo-bayren-rune",
+    "fo-mage-awaken",
+    "fo-converge",
+    "fo-boss-tree",
+    "fo-resolution"
   ]
 }

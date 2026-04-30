@@ -1,0 +1,25 @@
+{
+  "id": "fo-converge",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "숲 깊은 쪽으로 더 들어가자, 풀이 차츰 검게 변한다. 새소리가 사라진다.\n\n공기에서 단 냄새가 난다 — 썩은 단 냄새. 너는 어딘가, 너의 몸이 이 냄새를 알고 있는 것 같다.",
+  "choices": [
+    {
+      "id": "conv-march",
+      "text": "곧장 전진한다",
+      "outcome": {
+        "text": "발걸음이 멈추지 않는다.",
+        "nextNodeId": "fo-boss-tree"
+      }
+    },
+    {
+      "id": "conv-watch",
+      "text": "주변을 살피며 간다",
+      "outcome": {
+        "text": "뿌리 사이로 검은 액체가 흐르는 것을 본다. 마왕의 흔적도, 외신의 흔적도 아닌 것이 섞여 있다.",
+        "knowledgeGain": ["corruption-witnessed"],
+        "nextNodeId": "fo-boss-tree"
+      }
+    }
+  ]
+}

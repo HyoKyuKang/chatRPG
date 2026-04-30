@@ -1,0 +1,18 @@
+{
+  "id": "fo-mage-awaken",
+  "region": "forest-outskirts",
+  "type": "event",
+  "description": "노인이 너를 한 번 더 본다. 그의 시선이 너의 목 뒤를 지나간다.\n\n노인: \"...뭐, 이방인 중에 가끔 있어. 자, 너는 이제 룬을 부를 수 있는 자다. 한 가지 부탁이 있다.\"\n\n그가 손가락으로 숲 깊은 쪽을 가리킨다. \"저기 안쪽에 뭔가 썩고 있어. 가서 보고 와.\"",
+  "choices": [
+    {
+      "id": "awaken-mage",
+      "text": "룬을 부르는 자로 살겠다",
+      "outcome": {
+        "text": "양피지가 너의 손에서 한 번 더 따뜻해진다. 너는 너 자신을 — 한 가지 형태로 — 부른다.",
+        "classSet": "mage",
+        "knowledgeGain": ["mage-awakened"],
+        "nextNodeId": "fo-converge"
+      }
+    }
+  ]
+}

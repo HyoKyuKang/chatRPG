@@ -18,5 +18,30 @@
     "id": "mist-meaning",
     "name": "안개의 의미",
     "description": "낡은 양피지에서 안개가 무엇을 가리는지 읽었다."
+  },
+  {
+    "id": "templar-creed",
+    "name": "템플러 신조 한 줄",
+    "description": "아스트리드가 검을 휘두를 때 외운 짧은 신앙 문구. 단순하지만 마음에 남는다."
+  },
+  {
+    "id": "rune-fundamentals",
+    "name": "룬의 기초",
+    "description": "베일런 노사가 흙바닥에 그려준 세 줄짜리 룬. 한 번은 외울 수 있다."
+  },
+  {
+    "id": "warrior-awakened",
+    "name": "검을 든 자",
+    "description": "너의 손이 검을 알아본다. 너는 전사다."
+  },
+  {
+    "id": "mage-awakened",
+    "name": "룬을 읽는 자",
+    "description": "너의 머리가 룬을 알아본다. 너는 마법사다."
+  },
+  {
+    "id": "corruption-witnessed",
+    "name": "부패의 결",
+    "description": "숲의 깊은 곳에서 검은 액체가 뿌리를 타고 흐르는 것을 보았다. 마왕의 흔적도, 외신의 흔적도 아닌 것이 섞여 있다."
   }
 ]

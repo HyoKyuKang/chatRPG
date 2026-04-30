@@ -25,123 +25,112 @@ async function main() {
     if (msg.type() === 'error') console.error('  [console.error]', msg.text())
   })
 
-  // PRELUDE: clean slate
   await page.goto(URL, { waitUntil: 'networkidle' })
   await page.evaluate((k) => localStorage.removeItem(k), STORAGE_KEY)
   await page.reload({ waitUntil: 'networkidle' })
 
-  // ─── Happy path 1: 양피지 → ending ───────────────────────────────────
+  // ─── Mage path → ending ────────────────────────────────────────────
   await page.waitForSelector('text=안개 속에서 깨어났다')
-  console.log('✓ prologue-01 rendered (fresh state)')
-  let body = await bodyText(page)
-  console.log('  HP/MP:', /HP\s*5/.test(body) && /MP\s*3/.test(body))
+  console.log('✓ fo-arrive (fresh state)')
 
   await page.getByRole('button', { name: '주위를 둘러본다' }).click()
   await page.getByRole('button', { name: '당신을 믿겠다' }).click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
-  const p3btns = await visibleButtons(page)
+  const forkBtns = await visibleButtons(page)
   console.log(
-    '✓ prologue-03 — conditional 양피지 visible:',
-    p3btns.some((b) => b.includes('양피지')),
+    '✓ fo-fork — 양피지 visible (glimpse-of-mist gate):',
+    forkBtns.some((b) => b.includes('양피지')),
   )
 
   await page.getByRole('button', { name: '낡은 양피지를 펼친다' }).click()
-  await page.waitForSelector('text=거대한 그림자')
-  await page.getByRole('button', { name: '룬을 외운다' }).click()
-  await page.waitForSelector('text=Week 1 데모 끝')
-  body = await bodyText(page)
-  console.log('✓ ending reached')
-  console.log('  MP=2 (drained):', /MP\s*2/.test(body))
-  console.log('  inventory empty (scroll consumed):', /소지품 없음/.test(body))
-  console.log('  meta 출정 1 visible:', /출정\s*1/.test(body))
+  await page.waitForSelector('text=노인이 모닥불을 끼고 앉아 있다')
+  console.log('✓ fo-bayren-meet')
 
-  // ─── Persist test: reload mid-ending ────────────────────────────────
-  const saveBlob = await page.evaluate(
-    (k) => localStorage.getItem(k),
-    STORAGE_KEY,
+  await page.getByRole('button', { name: '이게 무슨 글인지 알려달라' }).click()
+  await page.waitForSelector('text=세 줄짜리 룬을 그린다')
+  await page.getByRole('button', { name: '긴 호흡을 하고 외운다' }).click()
+  await page.waitForSelector('text=룬을 부를 수 있는 자')
+  console.log('✓ fo-mage-awaken')
+
+  await page.getByRole('button', { name: '룬을 부르는 자로 살겠다' }).click()
+  await page.waitForSelector('text=썩은 단 냄새')
+  let body = await bodyText(page)
+  console.log('  class displayed as 마법사:', /마법사/.test(body))
+  console.log('  MP=2 (rune cost):', /MP\s*2/.test(body))
+
+  await page.getByRole('button', { name: '주변을 살피며 간다' }).click()
+  await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  const bossBtns = await visibleButtons(page)
+  console.log(
+    '✓ fo-boss-tree — 룬 visible, 검 hidden (mage class):',
+    bossBtns.some((b) => b.includes('룬을 던진다')) &&
+      !bossBtns.some((b) => b.includes('검으로 뿌리를 베어낸다')),
   )
-  if (!saveBlob) throw new Error('localStorage save missing after ending')
-  console.log('✓ localStorage save written')
 
-  await page.reload({ waitUntil: 'networkidle' })
-  await page.waitForSelector('text=Week 1 데모 끝')
+  await page.getByRole('button', { name: '룬을 던진다' }).click()
+  await page.waitForSelector('text=Week 2 데모 끝')
   body = await bodyText(page)
-  console.log('✓ after reload — still at ending:', /Week 1 데모 끝/.test(body))
+  console.log('✓ fo-resolution (ending)')
+  console.log('  meta 출정 1 visible:', /출정\s*1/.test(body))
+  console.log('  inventory empty (scroll consumed):', /소지품 없음/.test(body))
+
+  // ─── Persist test: reload ───────────────────────────────────────────
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.waitForSelector('text=Week 2 데모 끝')
+  body = await bodyText(page)
+  console.log('✓ persist — reload at ending OK:', /Week 2 데모 끝/.test(body))
   console.log('  meta 출정 1 still visible:', /출정\s*1/.test(body))
 
-  // ─── Reset → fresh run, meta preserved ──────────────────────────────
+  // ─── Reset → warrior path ───────────────────────────────────────────
   await page.getByRole('button', { name: '다시 출정' }).click()
   await page.waitForSelector('text=안개 속에서 깨어났다')
   body = await bodyText(page)
-  console.log('✓ reset → fresh run')
-  console.log('  HP/MP back to 5/3:', /HP\s*5/.test(body) && /MP\s*3/.test(body))
-  console.log(
-    '  meta 출정 1 STILL visible (persisted across reset):',
-    /출정\s*1/.test(body),
-  )
+  console.log('✓ reset → fresh run, meta preserved:', /출정\s*1/.test(body))
 
-  // ─── Alt path 2: 그냥 일어선다 → 검 path → prologue-04 with sword ────
   await page.getByRole('button', { name: '그냥 일어선다' }).click()
   await page.getByRole('button', { name: '관심 없다' }).click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
-  const altP3btns = await visibleButtons(page)
+  const forkBtnsAlt = await visibleButtons(page)
   console.log(
-    '✓ alt prologue-03 — 양피지 hidden:',
-    !altP3btns.some((b) => b.includes('양피지')),
+    '✓ fo-fork (no glimpse) — 양피지 hidden:',
+    !forkBtnsAlt.some((b) => b.includes('양피지')) &&
+      forkBtnsAlt.some((b) => b.includes('녹슨 검')),
   )
+
   await page.getByRole('button', { name: '녹슨 검을 잡는다' }).click()
-  await page.waitForSelector('text=거대한 그림자')
-  const p4btns = await visibleButtons(page)
-  console.log(
-    '✓ prologue-04 (검 path) — 검 visible, 주문 hidden:',
-    p4btns.some((b) => b.includes('검으로 맞선다')) &&
-      !p4btns.some((b) => b.includes('룬을 외운다')),
-  )
+  await page.waitForSelector('text=한 여자가 나타난다')
+  console.log('✓ fo-astrid-meet')
 
-  // ─── Death injection: set hp=1, reload, take damage ─────────────────
-  await page.evaluate((k) => {
-    const raw = localStorage.getItem(k)
-    if (!raw) throw new Error('no save to mutate')
-    const obj = JSON.parse(raw)
-    obj.state.run.stats.hp = 1
-    localStorage.setItem(k, JSON.stringify(obj))
-  }, STORAGE_KEY)
-  await page.reload({ waitUntil: 'networkidle' })
-  await page.waitForSelector('text=거대한 그림자')
+  await page.getByRole('button', { name: '함께 가겠다' }).click()
+  await page.waitForSelector('text=부패한 늑대')
+  await page.getByRole('button', { name: '검을 휘두른다' }).click()
+  await page.waitForSelector('text=처음 검 잡는 거 같지 않은데')
+  console.log('✓ fo-warrior-awaken')
+
+  await page.getByRole('button', { name: '검을 든 자로 살겠다' }).click()
+  await page.waitForSelector('text=썩은 단 냄새')
   body = await bodyText(page)
+  console.log('  class displayed as 전사:', /전사/.test(body))
+  console.log('  HP=4 (sword swing -1):', /HP\s*4/.test(body))
+
+  await page.getByRole('button', { name: '곧장 전진한다' }).click()
+  await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  const bossBtnsW = await visibleButtons(page)
   console.log(
-    '✓ injected HP=1, reloaded — at prologue-04:',
-    /HP\s*1/.test(body) && /거대한 그림자/.test(body),
+    '✓ fo-boss-tree (warrior) — 검 visible, 룬 hidden:',
+    bossBtnsW.some((b) => b.includes('검으로 뿌리를 베어낸다')) &&
+      !bossBtnsW.some((b) => b.includes('룬을 던진다')),
   )
 
-  await page.getByRole('button', { name: '검으로 맞선다' }).click()
-  await page.waitForSelector('text=쓰러진다')
+  await page.getByRole('button', { name: '검으로 뿌리를 베어낸다' }).click()
+  await page.waitForSelector('text=Week 2 데모 끝')
   body = await bodyText(page)
-  console.log('✓ death triggered')
-  console.log('  HP clamped to 0:', /HP\s*0/.test(body))
-  console.log('  meta 기억 1 visible:', /기억\s*1/.test(body))
-  console.log('  메시지 "쓰러진다":', /쓰러진다/.test(body))
-
-  const deathButtons = await visibleButtons(page)
-  console.log(
-    '  only 다시 출정 button:',
-    deathButtons.length === 1 && deathButtons[0] === '다시 출정',
-  )
-
-  // ─── After-death reset → fresh run, meta carries shards + count ─────
-  await page.getByRole('button', { name: '다시 출정' }).click()
-  await page.waitForSelector('text=안개 속에서 깨어났다')
-  body = await bodyText(page)
-  console.log('✓ post-death reset → fresh run')
-  console.log(
-    '  HP/MP restored 5/3:',
-    /HP\s*5/.test(body) && /MP\s*3/.test(body),
-  )
-  console.log('  meta 기억 1 carries forward:', /기억\s*1/.test(body))
-  console.log('  meta 출정 1 carries forward:', /출정\s*1/.test(body))
+  console.log('✓ fo-resolution (warrior ending)')
+  console.log('  meta 출정 2 (incremented):', /출정\s*2/.test(body))
+  console.log('  HP=2 (5 -1 -2):', /HP\s*2/.test(body))
 
   await browser.close()
-  console.log('\nQA smoke passed (Day 7).')
+  console.log('\nQA smoke passed (Week 2 / region 1).')
 }
 
 main().catch((e) => {

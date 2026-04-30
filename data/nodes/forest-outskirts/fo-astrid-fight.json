@@ -1,0 +1,27 @@
+{
+  "id": "fo-astrid-fight",
+  "region": "forest-outskirts",
+  "type": "combat",
+  "description": "두 사람이 키 큰 풀을 헤치자, 부패한 늑대 한 마리가 으르렁거린다. 가죽 아래로 검은 액체가 비친다.\n\n아스트리드: \"내가 막을게. 너는 옆에서 쳐.\"",
+  "choices": [
+    {
+      "id": "fight-swing",
+      "text": "검을 휘두른다",
+      "condition": { "item": "rusted-sword" },
+      "outcome": {
+        "text": "아스트리드가 늑대를 막는 동안, 너의 검이 옆구리에 박힌다. 늑대가 비틀거린다. 너의 팔에서 피 한 줄.\n\n아스트리드의 입에서 짧은 신앙 문구가 새어나온다. 너는 그 결을 듣는다.",
+        "statDelta": { "hp": -1 },
+        "knowledgeGain": ["templar-creed"],
+        "nextNodeId": "fo-warrior-awaken"
+      }
+    },
+    {
+      "id": "fight-cover",
+      "text": "그녀 뒤에 선다",
+      "outcome": {
+        "text": "아스트리드가 한 번에 베어낸다. 너의 손은 비어 있다. 검이 무겁다.",
+        "nextNodeId": "fo-warrior-awaken"
+      }
+    }
+  ]
+}

@@ -22,6 +22,7 @@ export interface RunState {
   stats: Stats
   inventory: string[]
   knowledge: string[]
+  heroesEncountered: string[]
   history: HistoryEntry[]
   dead: boolean
   endingReached: boolean
@@ -52,6 +53,7 @@ function freshRun(): RunState {
     stats: { ...STARTING_STATS },
     inventory: [],
     knowledge: [],
+    heroesEncountered: [],
     history: [{ kind: 'node', text: entry.description }],
     dead: false,
     endingReached: false,
@@ -109,6 +111,12 @@ export const useGame = create<PersistedState & Actions>()(
           ? uniq(run.knowledge, choice.outcome.knowledgeGain)
           : run.knowledge
 
+        const classChosen = choice.outcome.classSet ?? run.classChosen
+
+        const heroesEncountered = choice.outcome.heroEncounter
+          ? uniq(run.heroesEncountered, [choice.outcome.heroEncounter])
+          : run.heroesEncountered
+
         const baseHistory: HistoryEntry[] = [
           ...run.history,
           { kind: 'choice', text: choice.text },
@@ -123,6 +131,8 @@ export const useGame = create<PersistedState & Actions>()(
               stats: { ...stats, hp: 0 },
               inventory,
               knowledge,
+              classChosen,
+              heroesEncountered,
               history: [
                 ...baseHistory,
                 {
@@ -148,7 +158,15 @@ export const useGame = create<PersistedState & Actions>()(
         const next = choice.outcome.nextNodeId
         if (next === null) {
           set({
-            run: { ...run, stats, inventory, knowledge, history: baseHistory },
+            run: {
+              ...run,
+              stats,
+              inventory,
+              knowledge,
+              classChosen,
+              heroesEncountered,
+              history: baseHistory,
+            },
           })
           return
         }
@@ -157,7 +175,15 @@ export const useGame = create<PersistedState & Actions>()(
         if (!nextNode) {
           console.error(`next node "${next}" not loaded`)
           set({
-            run: { ...run, stats, inventory, knowledge, history: baseHistory },
+            run: {
+              ...run,
+              stats,
+              inventory,
+              knowledge,
+              classChosen,
+              heroesEncountered,
+              history: baseHistory,
+            },
           })
           return
         }
@@ -169,6 +195,8 @@ export const useGame = create<PersistedState & Actions>()(
             stats,
             inventory,
             knowledge,
+            classChosen,
+            heroesEncountered,
             currentNodeId: next,
             history: [
               ...baseHistory,

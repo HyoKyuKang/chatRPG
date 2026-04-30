@@ -18,6 +18,8 @@ export const ChoiceOutcome = z
     itemAdd: z.array(z.string()).optional(),
     itemRemove: z.array(z.string()).optional(),
     knowledgeGain: z.array(z.string()).optional(),
+    classSet: ClassType.optional(),
+    heroEncounter: z.string().optional(),
     nextNodeId: z.string().nullable(),
   })
   .strict()

@@ -108,6 +108,11 @@ async function main() {
       for (const k of c.outcome.knowledgeGain ?? [])
         if (!knowledge.has(k))
           err(f, `choice ${c.id} → outcome.knowledgeGain "${k}" not found`)
+      if (c.outcome.heroEncounter && !heroes.has(c.outcome.heroEncounter))
+        err(
+          f,
+          `choice ${c.id} → outcome.heroEncounter "${c.outcome.heroEncounter}" not found`,
+        )
     }
   }
 

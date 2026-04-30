@@ -1,0 +1,26 @@
+{
+  "id": "fo-bayren-meet",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "양피지를 들고 한참 걷자, 부서진 마차 옆에서 한 노인이 모닥불을 끼고 앉아 있다. 머리는 흰색, 옷은 보라색.\n\n노인: \"길 잃었나? 또 이방인이군.\"\n\n그가 너의 양피지를 본다. 잠깐 눈썹이 움직인다.",
+  "choices": [
+    {
+      "id": "bayren-ask",
+      "text": "이게 무슨 글인지 알려달라",
+      "outcome": {
+        "text": "노인: \"...뭐, 시간은 있다.\" 그가 모닥불 옆 자리를 손짓한다.",
+        "heroEncounter": "bayren-rosa",
+        "nextNodeId": "fo-bayren-rune"
+      }
+    },
+    {
+      "id": "bayren-greet",
+      "text": "그저 인사만 한다",
+      "outcome": {
+        "text": "노인: \"...앉아. 양피지를 그렇게 들고 다니면 안 좋다.\" 그가 한 번 한숨을 쉰다.",
+        "heroEncounter": "bayren-rosa",
+        "nextNodeId": "fo-bayren-rune"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "fo-astrid-meet",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "검을 들고 두 걸음 걷자, 죽은 나무 너머에서 갑옷 부딪히는 소리. 한 여자가 나타난다. 어리고, 검을 곧게 든다. 그녀는 너를 보더니 멈춘다.\n\n\"...너도 여기 떨어진 사람이야?\"\n\n그녀는 자신을 아스트리드라고 한다. 정의 신앙의 신참 템플러라고. 둘 다 같은 방향으로 가야 할 것 같다고.",
+  "choices": [
+    {
+      "id": "astrid-join",
+      "text": "함께 가겠다",
+      "outcome": {
+        "text": "그녀가 안도한다. 어깨에서 힘이 빠진 것 같다.",
+        "heroEncounter": "astrid",
+        "nextNodeId": "fo-astrid-fight"
+      }
+    },
+    {
+      "id": "astrid-follow",
+      "text": "잠시 보고 따라간다",
+      "outcome": {
+        "text": "그녀는 더 말하지 않는다. 너의 두 걸음 앞에서 걷는다.",
+        "heroEncounter": "astrid",
+        "nextNodeId": "fo-astrid-fight"
+      }
+    }
+  ]
+}
