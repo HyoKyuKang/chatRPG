@@ -9,6 +9,7 @@ export const Region = z
     entryNodeId: z.string(),
     bossNodeId: z.string(),
     nodeIds: z.array(z.string()),
+    nextRegion: RegionId.optional(),
   })
   .strict()
 export type Region = z.infer<typeof Region>

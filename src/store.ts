@@ -38,6 +38,7 @@ interface Actions {
   choose: (choiceId: string) => void
   reset: () => void
   resetAll: () => void
+  transitionToNextRegion: () => void
 }
 
 function freshRun(): RunState {
@@ -220,6 +221,31 @@ export const useGame = create<PersistedState & Actions>()(
       reset: () => set({ run: freshRun() }),
 
       resetAll: () => set({ run: freshRun(), meta: freshMeta() }),
+
+      transitionToNextRegion: () => {
+        const state = get()
+        const run = state.run
+        const currentNode = data.nodes.get(run.currentNodeId)
+        if (!currentNode) return
+        const currentRegion = data.regions.get(currentNode.region)
+        if (!currentRegion?.nextRegion) return
+        const nextRegion = data.regions.get(currentRegion.nextRegion)
+        if (!nextRegion) return
+        const entryNode = data.nodes.get(nextRegion.entryNodeId)
+        if (!entryNode) return
+
+        set({
+          run: {
+            ...run,
+            currentNodeId: entryNode.id,
+            history: [
+              ...run.history,
+              { kind: 'node', text: entryNode.description },
+            ],
+            endingReached: false,
+          },
+        })
+      },
     }),
     {
       name: STORAGE_KEY,

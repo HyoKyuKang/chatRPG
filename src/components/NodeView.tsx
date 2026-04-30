@@ -27,10 +27,17 @@ export function NodeView() {
   const run = useGame((s) => s.run)
   const choose = useGame((s) => s.choose)
   const reset = useGame((s) => s.reset)
+  const transitionToNextRegion = useGame((s) => s.transitionToNextRegion)
 
   const node = data.nodes.get(run.currentNodeId)
   const isEnding = run.endingReached || node?.type === 'ending'
   const isDead = run.dead
+
+  const currentRegion = node ? data.regions.get(node.region) : undefined
+  const nextRegion =
+    isEnding && !isDead && currentRegion?.nextRegion
+      ? data.regions.get(currentRegion.nextRegion)
+      : undefined
 
   const scrollRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -102,6 +109,14 @@ export function NodeView() {
             className="w-full px-4 py-3 rounded-md border border-rose-400/40 bg-rose-400/10 text-rose-100 hover:bg-rose-400/20 active:scale-[0.99] transition"
           >
             다시 출정
+          </button>
+        ) : isEnding && nextRegion ? (
+          <button
+            type="button"
+            onClick={transitionToNextRegion}
+            className="w-full px-4 py-3 rounded-md border border-emerald-400/40 bg-emerald-400/10 text-emerald-100 hover:bg-emerald-400/20 active:scale-[0.99] transition"
+          >
+            {nextRegion.name}으로 간다
           </button>
         ) : isEnding ? (
           <button

@@ -68,24 +68,40 @@ async function main() {
   )
 
   await page.getByRole('button', { name: '룬을 던진다' }).click()
-  await page.waitForSelector('text=Week 2 데모 끝')
+  await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
-  console.log('✓ fo-resolution (ending)')
+  console.log('✓ fo-resolution (ending) reached')
   console.log('  meta 출정 1 visible:', /출정\s*1/.test(body))
   console.log('  inventory empty (scroll consumed):', /소지품 없음/.test(body))
 
-  // ─── Persist test: reload ───────────────────────────────────────────
-  await page.reload({ waitUntil: 'networkidle' })
-  await page.waitForSelector('text=Week 2 데모 끝')
+  // ─── Region transition: 1지역 → 2지역 ───────────────────────────────
+  const endingBtns = await visibleButtons(page)
+  console.log(
+    '✓ transition button visible (not 다시 출정):',
+    endingBtns.some((b) => b.includes('잊혀진 산맥으로 간다')) &&
+      !endingBtns.some((b) => b === '다시 출정'),
+  )
+
+  await page.getByRole('button', { name: '잊혀진 산맥으로 간다' }).click()
+  await page.waitForSelector('text=산맥의 입구')
   body = await bodyText(page)
-  console.log('✓ persist — reload at ending OK:', /Week 2 데모 끝/.test(body))
+  console.log('✓ transitioned to fm-arrive (잊혀진 산맥)')
+  console.log('  class still 마법사 (carry-over):', /마법사/.test(body))
+  console.log('  MP=0 carried (rune-fundamentals -1, boss -2):', /MP\s*0/.test(body))
+
+  // ─── Persist test: reload at fm-arrive ──────────────────────────────
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.waitForSelector('text=산맥의 입구')
+  body = await bodyText(page)
+  console.log('✓ persist — reload at fm-arrive OK:', /산맥의 입구/.test(body))
   console.log('  meta 출정 1 still visible:', /출정\s*1/.test(body))
 
-  // ─── Reset → warrior path ───────────────────────────────────────────
-  await page.getByRole('button', { name: '다시 출정' }).click()
+  // ─── Wipe localStorage → fresh start for warrior path ───────────────
+  await page.evaluate((k) => localStorage.removeItem(k), STORAGE_KEY)
+  await page.reload({ waitUntil: 'networkidle' })
   await page.waitForSelector('text=안개 속에서 깨어났다')
   body = await bodyText(page)
-  console.log('✓ reset → fresh run, meta preserved:', /출정\s*1/.test(body))
+  console.log('✓ wipe + reload → fresh run, meta cleared:', !/출정/.test(body))
 
   await page.getByRole('button', { name: '그냥 일어선다' }).click()
   await page.getByRole('button', { name: '관심 없다' }).click()
@@ -123,14 +139,21 @@ async function main() {
   )
 
   await page.getByRole('button', { name: '검으로 뿌리를 베어낸다' }).click()
-  await page.waitForSelector('text=Week 2 데모 끝')
+  await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
   console.log('✓ fo-resolution (warrior ending)')
-  console.log('  meta 출정 2 (incremented):', /출정\s*2/.test(body))
+  console.log('  meta 출정 1 (post-wipe):', /출정\s*1/.test(body))
   console.log('  HP=2 (5 -1 -2):', /HP\s*2/.test(body))
 
+  // ─── Warrior also gets transition button ────────────────────────────
+  const warriorEndingBtns = await visibleButtons(page)
+  console.log(
+    '✓ warrior path also gets transition button:',
+    warriorEndingBtns.some((b) => b.includes('잊혀진 산맥으로 간다')),
+  )
+
   await browser.close()
-  console.log('\nQA smoke passed (Week 2 / region 1).')
+  console.log('\nQA smoke passed (Week 4 / region transition).')
 }
 
 main().catch((e) => {

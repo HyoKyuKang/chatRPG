@@ -4,6 +4,7 @@
   "description": "이방인이 처음 발 디딘 곳. 안개와 오래된 나무들. 깊은 곳에서 무언가가 썩고 있다.",
   "entryNodeId": "fo-arrive",
   "bossNodeId": "fo-boss-tree",
+  "nextRegion": "forgotten-mountains",
   "nodeIds": [
     "fo-arrive",
     "fo-stranger",

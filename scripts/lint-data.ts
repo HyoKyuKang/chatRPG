@@ -133,6 +133,8 @@ async function main() {
           `node.region "${n.region}" does not match owning region "${region.id}"`,
         )
     }
+    if (region.nextRegion && !regions.has(region.nextRegion))
+      err(f, `nextRegion "${region.nextRegion}" not found`)
   }
 
   // Phase 5: reachability + dead-ends
