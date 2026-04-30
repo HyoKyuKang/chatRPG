@@ -1,0 +1,27 @@
+{
+  "id": "dc-arrive",
+  "region": "dreaming-city",
+  "type": "encounter",
+  "description": "성문이 열린다. 빛이 쏟아진다.\n\n거리는 깨끗하다. 시민들이 너를 향해 미소 짓는다, 한 명도 빠짐없이. 발걸음은 깃털처럼 가볍고, 옷자락의 색은 과일을 갓 쪼갠 단면 같다.\n\n바람조차 따뜻하다. 너의 발끝에 묻은 재만이 이 거리에서 유일하게 잘못된 것처럼 보인다.",
+  "choices": [
+    {
+      "id": "arrive-look",
+      "text": "시민들을 살펴본다",
+      "outcome": {
+        "text": "너는 멈춘다. 미소들이 모두 같은 각도로 걸려 있다.",
+        "knowledgeGain": [
+          "dreaming-city-glimpse"
+        ],
+        "nextNodeId": "dc-watcher"
+      }
+    },
+    {
+      "id": "arrive-walk",
+      "text": "그냥 걸어 들어간다",
+      "outcome": {
+        "text": "너는 걷는다. 시민들이 길을 비킨다, 너무 매끄럽게.",
+        "nextNodeId": "dc-watcher"
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "dc-converge",
+  "region": "dreaming-city",
+  "type": "encounter",
+  "description": "두 갈래의 길이 한 점에서 만난다. 왕궁 입구. 흰 돌계단이 안개 속으로 뻗어 오른다.\n\n공기가 잠긴 결로 가라앉는다. 환영이 살갗에 닿을 만큼 짙다. 기둥의 무늬가 천천히 흐른다. 왕의 꿈이 이 안에 있다.\n\n너는 혼자다. 문턱 앞의 정적이 무겁다.",
+  "choices": [
+    {
+      "id": "conv-press",
+      "text": "곧장 들어간다",
+      "outcome": {
+        "text": "너는 멈추지 않는다. 계단을 오른다. 환영이 너를 받아들인다.",
+        "nextNodeId": "dc-throne"
+      }
+    },
+    {
+      "id": "conv-pause",
+      "text": "잠시 숨을 고른다",
+      "outcome": {
+        "text": "너는 한 번 숨을 고른다. 잠긴 공기가 폐 안에서 차게 풀린다. 그리고 발을 뗀다.",
+        "nextNodeId": "dc-throne"
+      }
+    }
+  ]
+}

@@ -35,12 +35,21 @@ export const Choice = z
   .strict()
 export type Choice = z.infer<typeof Choice>
 
+export const NodeEcho = z
+  .object({
+    condition: ChoiceCondition.optional(),
+    text: z.string(),
+  })
+  .strict()
+export type NodeEcho = z.infer<typeof NodeEcho>
+
 export const Node = z
   .object({
     id: z.string(),
     region: RegionId,
     type: NodeType,
     description: z.string(),
+    echoes: z.array(NodeEcho).optional(),
     choices: z.array(Choice),
   })
   .strict()

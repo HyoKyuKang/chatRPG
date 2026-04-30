@@ -93,6 +93,19 @@ const ProseOutputSchema = z.object({
   ),
 })
 
+const ReviewOutputSchema = z
+  .object({
+    voiceMatch: z.number().int().min(0).max(5),
+    toneMatch: z.number().int().min(0).max(5),
+    structureOk: z.boolean(),
+    issues: z.array(z.string()),
+  })
+  .strict()
+
+type Review = z.infer<typeof ReviewOutputSchema>
+
+const REVIEW_PASS_THRESHOLD = 8 // voice + tone 합산
+
 async function loadPlan(planPath: string): Promise<RegionPlan> {
   const text = await readFile(planPath, 'utf8')
   const raw = parseYaml(text)
@@ -272,6 +285,148 @@ async function integrate(
   return outPath
 }
 
+interface ExistingProse {
+  description: string
+  choices: { id: string; text: string; outcome: { text: string } }[]
+}
+
+async function loadExistingProse(
+  region: string,
+  nodeId: string,
+): Promise<ExistingProse> {
+  const nodePath = join('data/nodes', region, `${nodeId}.json`)
+  const raw = await readFile(nodePath, 'utf8')
+  return JSON.parse(raw) as ExistingProse
+}
+
+async function buildReviewBrief(
+  planPath: string,
+  nodeId: string,
+): Promise<string> {
+  const plan = await loadPlan(planPath)
+  const node = findNode(plan, nodeId)
+
+  const personaContents = await Promise.all(
+    node.personas.map(async (id) => {
+      const text = await loadPersona(id)
+      return `# 페르소나: ${id}\n\n${text.trim()}`
+    }),
+  )
+
+  const prose = await loadExistingProse(plan.region, nodeId)
+
+  const outcomesSection =
+    prose.choices.length === 0
+      ? '(선택지 없음 — ending 노드)'
+      : prose.choices
+          .map(
+            (c) =>
+              `- choice "${c.text}":\n  ${c.outcome.text.replace(/\n/g, '\n  ')}`,
+          )
+          .join('\n\n')
+
+  return `한국어 텍스트 RPG "이 세계는 끝날 거야" 노드 1개의 prose를 평가. 첨부된 페르소나 voice와 톤 타겟에 얼마나 일치하는지 채점.
+
+${personaContents.join('\n\n')}
+
+# 평가 대상 노드: ${node.id}
+
+## 메타
+- region: ${plan.region} (${plan.name})
+- type: ${node.type}
+- 비트: ${node.beat}
+- 톤 타겟: ${node.toneTarget}
+
+## 등장 페르소나
+${node.personas.map((p) => `- ${p}`).join('\n')}
+
+## 작성된 prose
+
+### description
+${prose.description}
+
+### outcome_text 들
+${outcomesSection}
+
+## 평가 기준
+
+1. **voiceMatch (0~5)** — 페르소나 voice와의 일치도
+   - narrator: 2인칭 "너", 현재형, 단문, 비유 절제. "당신" / "...였다" / "느꼈다" 금지.
+   - 캐릭터: 해당 페르소나 MD의 화법.
+   - 5 = 완전 일치, 4 = 작은 흠집, 3 = 명백한 깨짐 1~2 곳, 2↓ = 다른 voice.
+
+2. **toneMatch (0~5)** — 톤 타겟의 정서/긴장과 일치도
+   - 5 = 톤 타겟 그대로, 3 = 결은 비슷한데 과/약, 2↓ = 다른 정서.
+
+3. **structureOk (boolean)** — 단락 규칙 + 형식
+   - 한 단락 = 한 비트 (단락 사이 빈 줄)
+   - 캐릭터 대사는 별도 단락의 \`화자명: "..."\` 형식 (대괄호/꺾쇠 X)
+   - description 길이가 type 디폴트 범위 안 (encounter 80~150자, event 100~200자, combat 80~140자, boss 150~250자, ending 180~300자) — 약간 벗어나는 건 OK
+   - 위반 1개라도 있으면 false
+
+4. **issues** — 깨진 곳 한 줄씩 (없으면 빈 배열). 보수적으로 채점.
+
+## 출력 (JSON 한 객체만 — 코드펜스 / 설명 / 추가텍스트 금지)
+
+{
+  "voiceMatch": 0~5의 정수,
+  "toneMatch": 0~5의 정수,
+  "structureOk": true | false,
+  "issues": ["...", ...]
+}`
+}
+
+function formatReview(nodeId: string, review: Review): { pass: boolean; output: string } {
+  const total = review.voiceMatch + review.toneMatch
+  const pass = total >= REVIEW_PASS_THRESHOLD && review.structureOk
+  const mark = pass ? '✓' : '⚠'
+  const lines = [
+    `${mark} ${nodeId}  voice ${review.voiceMatch}/5  tone ${review.toneMatch}/5  structure ${review.structureOk ? 'ok' : 'NG'}`,
+  ]
+  for (const issue of review.issues) {
+    lines.push(`   - ${issue}`)
+  }
+  return { pass, output: lines.join('\n') }
+}
+
+async function reviewIntegrate(
+  planPath: string,
+  nodeId: string,
+  reviewPath: string,
+): Promise<{ pass: boolean; output: string }> {
+  await loadPlan(planPath) // 검증용
+  const reviewRaw = await readFile(reviewPath, 'utf8')
+  const reviewJson = JSON.parse(reviewRaw)
+  const review = ReviewOutputSchema.parse(reviewJson)
+  return formatReview(nodeId, review)
+}
+
+async function autoReview(
+  planPath: string,
+  nodeId: string,
+): Promise<{ pass: boolean; output: string }> {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error(
+      'ANTHROPIC_API_KEY not set. Use review-brief + review-integrate manually.',
+    )
+  }
+  const { default: Anthropic } = await import('@anthropic-ai/sdk')
+  const client = new Anthropic()
+  const brief = await buildReviewBrief(planPath, nodeId)
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: brief }],
+  })
+  const text = response.content
+    .filter((b) => b.type === 'text')
+    .map((b) => (b as { text: string }).text)
+    .join('\n')
+  const json = text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim()
+  const review = ReviewOutputSchema.parse(JSON.parse(json))
+  return formatReview(nodeId, review)
+}
+
 async function autoNode(planPath: string, nodeId: string): Promise<string> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new Error(
@@ -300,7 +455,10 @@ const HELP = `Usage:
   tsx scripts/author-node.ts validate-plan <plan-path>
   tsx scripts/author-node.ts build-brief <plan-path> <node-id>
   tsx scripts/author-node.ts integrate <plan-path> <node-id> <prose-json-path>
-  tsx scripts/author-node.ts auto <plan-path> <node-id>   (requires ANTHROPIC_API_KEY)
+  tsx scripts/author-node.ts auto <plan-path> <node-id>            (requires ANTHROPIC_API_KEY)
+  tsx scripts/author-node.ts review-brief <plan-path> <node-id>
+  tsx scripts/author-node.ts review-integrate <plan-path> <node-id> <review-json-path>
+  tsx scripts/author-node.ts review <plan-path> <node-id>          (requires ANTHROPIC_API_KEY)
 `
 
 async function main() {
@@ -334,6 +492,29 @@ async function main() {
       if (!planPath || !nodeId) throw new Error(HELP)
       const out = await autoNode(planPath, nodeId)
       console.log(`✓ wrote ${out} (auto)`)
+      break
+    }
+    case 'review-brief': {
+      const [planPath, nodeId] = args
+      if (!planPath || !nodeId) throw new Error(HELP)
+      const brief = await buildReviewBrief(planPath, nodeId)
+      console.log(brief)
+      break
+    }
+    case 'review-integrate': {
+      const [planPath, nodeId, reviewPath] = args
+      if (!planPath || !nodeId || !reviewPath) throw new Error(HELP)
+      const result = await reviewIntegrate(planPath, nodeId, reviewPath)
+      console.log(result.output)
+      if (!result.pass) process.exitCode = 2
+      break
+    }
+    case 'review': {
+      const [planPath, nodeId] = args
+      if (!planPath || !nodeId) throw new Error(HELP)
+      const result = await autoReview(planPath, nodeId)
+      console.log(result.output)
+      if (!result.pass) process.exitCode = 2
       break
     }
     default:

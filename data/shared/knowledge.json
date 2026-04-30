@@ -88,5 +88,30 @@
     "id": "forgotten-shrine",
     "name": "잊혀진 사당",
     "description": "황무지 한가운데, 누군가 옛 신앙을 마지막으로 외운 자리. 이름은 새겨지지 않았다."
+  },
+  {
+    "id": "dreaming-city-glimpse",
+    "name": "꿈꾸는 도시 첫 인상",
+    "description": "기괴할 정도로 평화로운 도시. 시민들의 미소가 너무 많고, 발걸음이 너무 가볍다."
+  },
+  {
+    "id": "city-illusion",
+    "name": "환영의 결",
+    "description": "도시 전체가 마왕의 환각 마법 안에 있다. 시민들은 환영 속 평화에 갇혔다."
+  },
+  {
+    "id": "broken-illusion",
+    "name": "환영의 균열",
+    "description": "옛 거리에서 환영이 잠깐 흔들렸다. 그 너머의 폐허가 한 박자 비쳤다."
+  },
+  {
+    "id": "sleeping-king-glimpse",
+    "name": "잠든 왕과 마주침",
+    "description": "도시의 옛 왕. 마왕의 환각에 갇혀 잠들었다. 자기가 잠든 줄 모른다."
+  },
+  {
+    "id": "ethical-weight",
+    "name": "윤리적 무게",
+    "description": "왕을 깨우면 도시는 무너진다. 깨우지 않으면 환영은 영원하다. 어느 쪽이 옳은가."
   }
 ]

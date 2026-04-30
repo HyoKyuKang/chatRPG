@@ -1,0 +1,33 @@
+{
+  "id": "dc-throne",
+  "region": "dreaming-city",
+  "type": "event",
+  "description": "옥좌실은 길다. 천장은 보이지 않고, 벽을 따라 늘어선 깃발은 색을 잃었다. 바닥의 먼지는 발자국 하나 없이 평평하다.\n\n옥좌 위에 한 사람이 앉아 있다. 눈은 감겨 있고, 손은 팔걸이에 가지런하다. 그의 숨에서 도시의 꿈이 안개처럼 흘러나온다.\n\n너는 그 앞에 선다. 공기가 시간을 잊은 강물처럼 무겁다.\n\n잠든 왕: \"...누가 왔는가.\"",
+  "choices": [
+    {
+      "id": "throne-approach",
+      "text": "옥좌에 다가간다",
+      "outcome": {
+        "text": "발소리가 먼지 위에 새겨진다. 그의 감긴 눈꺼풀이 미세하게 떨린다.\n\n잠든 왕: \"...너로구나. 내 백성. 변함이 없지.\"",
+        "knowledgeGain": [
+          "sleeping-king-glimpse"
+        ],
+        "heroEncounter": "sleeping-king",
+        "nextNodeId": "dc-king"
+      }
+    },
+    {
+      "id": "throne-listen",
+      "text": "그의 말을 들어본다",
+      "outcome": {
+        "text": "너는 숨을 죽인다. 그의 입술이 천천히 움직인다.\n\n잠든 왕: \"내 도시를 보았느냐... 변함이 없지. ...너무 길었다.\"\n\n마지막 한 마디가 다른 결로 떨어진다.",
+        "knowledgeGain": [
+          "sleeping-king-glimpse",
+          "ethical-weight"
+        ],
+        "heroEncounter": "sleeping-king",
+        "nextNodeId": "dc-king"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "dc-market",
+  "region": "dreaming-city",
+  "type": "encounter",
+  "description": "광장은 색으로 넘친다. 붉은 천, 노란 등불, 푸른 깃발. 사람들의 미소는 같은 각도로 걸려 있다.\n\n악사가 줄을 튕긴다. 옆 골목의 북도 같은 박자로 떨어진다. 누구도 어긋나지 않는다.\n\n너는 멈춘다. 평화가 너무 고르게 깔려 있다 — 잘 다림질된 천처럼.",
+  "choices": [
+    {
+      "id": "market-blend",
+      "text": "군중에 섞인다",
+      "outcome": {
+        "text": "환영의 결에 너의 정신이 한 겹 닳는다.",
+        "statDelta": {
+          "mana": -1
+        },
+        "nextNodeId": "dc-vendor"
+      }
+    },
+    {
+      "id": "market-press",
+      "text": "곧장 가로지른다",
+      "outcome": {
+        "text": "어깨와 어깨 사이를 헤치며, 너는 빠르게 나아간다.",
+        "nextNodeId": "dc-vendor"
+      }
+    }
+  ]
+}

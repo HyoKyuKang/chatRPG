@@ -1,0 +1,27 @@
+{
+  "id": "dc-old",
+  "region": "dreaming-city",
+  "type": "encounter",
+  "description": "옛 거리는 비어 있다. 환영의 빛이 여기까지 닿지 않는다.\n\n건물 벽에 가느다란 균열이 흐른다. 그 틈 너머로 무너진 돌과 잿빛 하늘이 한 박자 비친다. 다시 깜빡이면 멀쩡한 벽.\n\n바람도 소리도 없다. 너의 발소리만 남는다.",
+  "choices": [
+    {
+      "id": "old-look",
+      "text": "균열을 자세히 본다",
+      "outcome": {
+        "text": "너는 벽 가까이 다가선다. 균열의 결이 손끝에서 떨린다. 환영의 살갗이 얇다.",
+        "knowledgeGain": [
+          "broken-illusion"
+        ],
+        "nextNodeId": "dc-crack"
+      }
+    },
+    {
+      "id": "old-walk",
+      "text": "그냥 지나친다",
+      "outcome": {
+        "text": "너는 시선을 거두고 걷는다. 균열은 등 뒤에서 계속 흐른다.",
+        "nextNodeId": "dc-crack"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "dc-citizen",
+  "region": "dreaming-city",
+  "type": "encounter",
+  "description": "거리 모퉁이에서 한 시민이 너를 향해 걸어온다. 그의 미소는 따뜻하지만, 입꼬리가 풀리지 않는다.\n\n시민: \"좋은 하루야. 정말 좋은 하루야. 정말 좋은 하루야.\"\n\n같은 문장이 세 번, 같은 결로. 미소는 그대로, 시선은 너의 너머에 머문다.",
+  "choices": [
+    {
+      "id": "citizen-respond",
+      "text": "인사를 받아준다",
+      "outcome": {
+        "text": "너는 가볍게 고개를 끄덕인다. 그의 미소가 한 박자 더 길어진다. 그는 같은 자리에서 같은 인사를 다시 시작한다. 너는 거리 안쪽으로 발을 옮긴다.",
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
+      "id": "citizen-ask",
+      "text": "그에게 진실을 묻는다",
+      "outcome": {
+        "text": "너는 묻는다. 이 도시는 진짜냐고. 그의 미소가 한순간 풀린다 — 얼굴 안쪽이 텅 비어 있다. 곧 미소가 다시 같은 모양으로 돌아온다.\n\n시민: \"좋은 하루야.\"\n\n너는 알아챈다 — 사람 형태, 의식 없음.",
+        "knowledgeGain": [
+          "city-illusion"
+        ],
+        "nextNodeId": "dc-fork"
+      }
+    }
+  ]
+}

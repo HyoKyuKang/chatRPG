@@ -4,6 +4,7 @@
   "description": "마왕 영토의 깊은 곳. 잿빛 모래 아래 마왕 침식이 흙 깊숙이 닿아 있다. 이름을 잊은 자들의 거점.",
   "entryNodeId": "fa-arrive",
   "bossNodeId": "fa-corrupted",
+  "nextRegion": "dreaming-city",
   "nodeIds": [
     "fa-arrive",
     "fa-watcher",

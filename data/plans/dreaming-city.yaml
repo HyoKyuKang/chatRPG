@@ -1,0 +1,233 @@
+region: dreaming-city
+name: 꿈꾸는 도시
+description: |-
+  마왕의 환각 마법이 도시 전체를 환영 속 평화에 가둔 곳. 잠든 왕의
+  꿈이 도시의 환영을 유지하고 있다. 마왕 정신 조작 능력의 정점.
+entry: dc-arrive
+boss: dc-king
+
+nodes:
+  - id: dc-arrive
+    type: encounter
+    beat: 도시 입구. 기괴할 정도로 평화로운 첫 인상. 시민들의 미소가 너무 많고, 발걸음이 너무 가볍다. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 환영의 첫 인상 — "이상하게 평화롭다"는 결. 차가운 의심이 깔려 있음. 시민들은 사람 형태이지만 결이 어긋남.
+    previous: []
+    next: [dc-watcher]
+    choices:
+      - id: arrive-look
+        label: 시민들을 살펴본다
+        outcome:
+          knowledgeGain: [dreaming-city-glimpse]
+          nextNodeId: dc-watcher
+      - id: arrive-walk
+        label: 그냥 걸어 들어간다
+        outcome:
+          nextNodeId: dc-watcher
+
+  - id: dc-watcher
+    type: event
+    beat: 수상자 등장. 환영 안에서도 그는 변함없음. "이 도시 전체가 한 사람의 꿈이다." 잠든 왕 단서 흘림.
+    personas: [narrator, sujangja]
+    toneTarget: 수상자의 단서가 무거움. 도시가 환영이라는 것을 처음 명시. 잠든 왕 존재 단서.
+    previous: [dc-arrive]
+    next: [dc-citizen]
+    choices:
+      - id: watcher-listen
+        label: 수상자의 말을 듣는다
+        outcome:
+          knowledgeGain: [city-illusion]
+          nextNodeId: dc-citizen
+      - id: watcher-silent
+        label: 묻지 않는다
+        outcome:
+          nextNodeId: dc-citizen
+
+  - id: dc-citizen
+    type: encounter
+    beat: 시민과 첫 조우. 친절한 인사 — but 결이 어긋남. 같은 인사를 반복함, 같은 미소. 환영 안의 사람.
+    personas: [narrator]
+    toneTarget: 친절함의 결이 잘못된 결. 시민은 따뜻하지만 너의 안쪽에 닿지 않음. 환영의 첫 명확한 증거.
+    previous: [dc-watcher]
+    next: [dc-fork]
+    choices:
+      - id: citizen-respond
+        label: 인사를 받아준다
+        outcome:
+          nextNodeId: dc-fork
+      - id: citizen-ask
+        label: 그에게 진실을 묻는다
+        outcome:
+          knowledgeGain: [city-illusion]
+          nextNodeId: dc-fork
+
+  - id: dc-fork
+    type: encounter
+    beat: 갈림길. 시장(번화한 환영의 중심) vs 옛 거리(균열 있는 곳, 진실 가까이). 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 두 길의 무게 — 환영의 화려함 vs 진실의 균열. 둘 다 왕궁으로 이어짐.
+    previous: [dc-citizen]
+    next: [dc-market, dc-old]
+    choices:
+      - id: fork-market
+        label: 시장 쪽으로 간다
+        outcome:
+          nextNodeId: dc-market
+      - id: fork-old
+        label: 옛 거리 쪽으로 간다
+        outcome:
+          nextNodeId: dc-old
+
+  - id: dc-market
+    type: encounter
+    beat: 환영의 중심. 시장은 너무 화려함. 모두가 같은 방향으로 미소. 색이 너무 많음.
+    personas: [narrator]
+    toneTarget: 환영의 정점 — 화려함이 무거움. 색의 과잉, 미소의 과잉. 정상 같지 않은 평화.
+    previous: [dc-fork]
+    next: [dc-vendor]
+    choices:
+      - id: market-blend
+        label: 군중에 섞인다
+        outcome:
+          statDelta:
+            mana: -1
+          nextNodeId: dc-vendor
+      - id: market-press
+        label: 곧장 가로지른다
+        outcome:
+          nextNodeId: dc-vendor
+
+  - id: dc-vendor
+    type: event
+    beat: 시장 상인 한 명 — 너에게 무언가를 팔려 함. 환영의 일부지만 의식 파편이 잠깐 올라옴 ("...너는 새로운 자다").
+    personas: [narrator]
+    toneTarget: 환영 안의 의식 파편. 시민이 잠시 깨려는 결. 그러나 다시 환영으로 돌아감.
+    previous: [dc-market]
+    next: [dc-converge]
+    choices:
+      - id: vendor-listen
+        label: 상인의 말을 듣는다
+        outcome:
+          knowledgeGain: [broken-illusion]
+          nextNodeId: dc-converge
+      - id: vendor-leave
+        label: 그냥 떠난다
+        outcome:
+          nextNodeId: dc-converge
+
+  - id: dc-old
+    type: encounter
+    beat: 옛 거리. 환영이 잘 닿지 않는 곳. 건물에 균열이 보임 — 그 너머로 폐허가 한 박자 비침. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 환영의 가장자리. 균열을 통해 진실이 새어 나옴. 차가움 + 무게.
+    previous: [dc-fork]
+    next: [dc-crack]
+    choices:
+      - id: old-look
+        label: 균열을 자세히 본다
+        outcome:
+          knowledgeGain: [broken-illusion]
+          nextNodeId: dc-crack
+      - id: old-walk
+        label: 그냥 지나친다
+        outcome:
+          nextNodeId: dc-crack
+
+  - id: dc-crack
+    type: event
+    beat: 옛 거리 끝, 환영이 거의 사라진 곳. 폐허가 명확히 보임. 시민들이 환영 안에서 잠들어 있는 진짜 모습 한 번 비침.
+    personas: [narrator]
+    toneTarget: 진실의 잠깐의 발현 — 폐허 + 잠든 시민들. 이방인은 잠시 도시의 진실을 봄. 무거움.
+    previous: [dc-old]
+    next: [dc-converge]
+    choices:
+      - id: crack-witness
+        label: 잠시 멈춰 진실을 본다
+        outcome:
+          statDelta:
+            mana: -1
+          knowledgeGain: [city-illusion]
+          nextNodeId: dc-converge
+      - id: crack-rush
+        label: 곧장 전진한다
+        outcome:
+          nextNodeId: dc-converge
+
+  - id: dc-converge
+    type: encounter
+    beat: 두 길이 만남. 왕궁 입구. 환영이 가장 짙음 (왕의 꿈에 가까움). 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 보스 직전. 왕궁 자체가 환영의 중심. 공기가 잠긴 결.
+    previous: [dc-vendor, dc-crack]
+    next: [dc-throne]
+    choices:
+      - id: conv-press
+        label: 곧장 들어간다
+        outcome:
+          nextNodeId: dc-throne
+      - id: conv-pause
+        label: 잠시 숨을 고른다
+        outcome:
+          nextNodeId: dc-throne
+
+  - id: dc-throne
+    type: event
+    beat: 왕궁 옥좌실. 잠든 왕 처음 발현 — 옥좌에 앉아 있음, 눈은 감겨 있음. 도시의 꿈이 그에게서 흘러 나옴.
+    personas: [narrator, sleeping-king]
+    toneTarget: 옥좌실의 정적. 잠든 왕의 첫 등장 — 자기가 잠든 줄 모름. 의식 파편이 가끔 올라와 한 마디.
+    previous: [dc-converge]
+    next: [dc-king]
+    choices:
+      - id: throne-approach
+        label: 옥좌에 다가간다
+        outcome:
+          heroEncounter: sleeping-king
+          knowledgeGain: [sleeping-king-glimpse]
+          nextNodeId: dc-king
+      - id: throne-listen
+        label: 그의 말을 들어본다
+        outcome:
+          heroEncounter: sleeping-king
+          knowledgeGain: [sleeping-king-glimpse, ethical-weight]
+          nextNodeId: dc-king
+
+  - id: dc-king
+    type: boss
+    beat: 잠든 왕 본체. 깨울지, 끝낼지, 떠날지 윤리적 분기. 클래스별 다른 결.
+    personas: [narrator, sleeping-king]
+    toneTarget: 보스전 정점이지만 전투 X — **윤리적 무게**. 깨우면 도시 무너짐, 안 깨우면 환영 영구. 어느 쪽이 옳은가. 잠든 왕은 적이 아님.
+    previous: [dc-throne]
+    next: [dc-resolution]
+    choices:
+      - id: king-warrior
+        label: 검으로 끝낸다
+        condition:
+          class: warrior
+        outcome:
+          statDelta:
+            hp: -2
+          knowledgeGain: [ethical-weight]
+          nextNodeId: dc-resolution
+      - id: king-mage
+        label: 룬으로 그를 깨운다
+        condition:
+          class: mage
+        outcome:
+          statDelta:
+            mana: -2
+          knowledgeGain: [ethical-weight]
+          nextNodeId: dc-resolution
+      - id: king-leave
+        label: 떠난다 (환영 그대로)
+        outcome:
+          knowledgeGain: [ethical-weight]
+          nextNodeId: dc-resolution
+
+  - id: dc-resolution
+    type: ending
+    beat: 4지역 끝. 잠든 왕의 운명 결정 후 도시의 결판. 수상자 등장 — 5지역 (새벽의 첨탑) 암시. 마왕 본체와 마주칠 곳.
+    personas: [narrator, sleeping-king, sujangja]
+    toneTarget: 결판 정서 — 윤리적 무게의 잔향. 잠든 왕의 마지막 한 마디 (선택에 따라 다름). 수상자의 짧은 한 줄 — 첨탑 암시. 마지막 단락은 개발용 메타 마커.
+    previous: [dc-king]
+    next: []
+    choices: []
