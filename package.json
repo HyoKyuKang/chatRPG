@@ -9,6 +9,7 @@
     "prebuild": "npm run lint:data",
     "lint": "eslint .",
     "lint:data": "tsx scripts/lint-data.ts",
+    "qa:smoke": "tsx scripts/qa-smoke.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "playwright": "^1.59.1",
     "tailwindcss": "^4.2.4",
     "tsx": "^4.21.0",
     "typescript": "~6.0.2",
