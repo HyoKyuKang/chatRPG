@@ -1,0 +1,20 @@
+{
+  "id": "forgotten-mountains",
+  "name": "잊혀진 산맥",
+  "description": "본래 마왕에 맞서 싸우던 사람들의 거점이었던 폐허 도시. 마왕 4 장수 중 하나가 점령하고 있다.",
+  "entryNodeId": "fm-arrive",
+  "bossNodeId": "fm-boss",
+  "nodeIds": [
+    "fm-arrive",
+    "fm-watcher",
+    "fm-street",
+    "fm-fork",
+    "fm-tunnel",
+    "fm-tunnel-exit",
+    "fm-front-fight",
+    "fm-front-tower",
+    "fm-square",
+    "fm-boss",
+    "fm-resolution"
+  ]
+}

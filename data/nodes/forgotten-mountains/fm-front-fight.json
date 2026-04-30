@@ -1,0 +1,30 @@
+{
+  "id": "fm-front-fight",
+  "region": "forgotten-mountains",
+  "type": "combat",
+  "description": "거리에서 발소리. 군세 순찰병 둘이 길을 막는다.\n\n칼날 끝이 횃불 빛을 받아 짧게 번득인다. 그들의 시선이 너의 손, 너의 허리, 너의 목으로 미끄러진다.\n\n늑대의 눈과 다르다. 사람의 눈은 망설이고, 그래서 더 차갑다.",
+  "choices": [
+    {
+      "id": "fight-engage",
+      "text": "맞선다",
+      "outcome": {
+        "text": "쇠가 쇠에 부딪히고, 살이 갈라진다. 어깨에 뜨거운 줄 하나가 그어진다. 첫 사람의 피는 너의 것이다.",
+        "statDelta": {
+          "hp": -2
+        },
+        "nextNodeId": "fm-front-tower"
+      }
+    },
+    {
+      "id": "fight-evade",
+      "text": "회피해서 지나친다",
+      "outcome": {
+        "text": "너는 돌 틈 좁은 길로 몸을 던진다. 칼끝이 등 뒤를 스치고 빠진다. 숨이 가쁘고, 머릿속 한 칸이 비워진다.",
+        "statDelta": {
+          "mana": -1
+        },
+        "nextNodeId": "fm-front-tower"
+      }
+    }
+  ]
+}

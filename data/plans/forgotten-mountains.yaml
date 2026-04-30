@@ -1,0 +1,213 @@
+region: forgotten-mountains
+name: 잊혀진 산맥
+description: |-
+  본래 마왕에 맞서 싸우던 사람들의 거점이었던 폐허 도시. 마왕 4 장수 중 하나가
+  점령하고 있다. 차가운 바람과 무너진 첨탑들.
+entry: fm-arrive
+boss: fm-boss
+
+nodes:
+  - id: fm-arrive
+    type: encounter
+    beat: 산맥 입구 도착. 차가운 바람. 능선 너머로 무너진 첨탑들이 보임. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 입문보다 무게. 차가움 + 폐허. 1지역 안개와 다른 결.
+    previous: []
+    next: [fm-watcher]
+    choices:
+      - id: arrive-look
+        label: 능선 너머를 본다
+        outcome:
+          knowledgeGain: [ruined-city-glimpse]
+          nextNodeId: fm-watcher
+      - id: arrive-walk
+        label: 그냥 걸어 들어간다
+        outcome:
+          nextNodeId: fm-watcher
+
+  - id: fm-watcher
+    type: event
+    beat: 망가진 망루. 수상자가 짧게 다시 등장 — 폐허 도시의 역사 단서를 흘린다.
+    personas: [narrator, sujangja]
+    toneTarget: 수상자의 짧은 단서. 도시 역사의 무게. 정체는 여전히 안 흘림.
+    previous: [fm-arrive]
+    next: [fm-street]
+    choices:
+      - id: watcher-ask
+        label: 이 도시는 무엇이었는가
+        outcome:
+          knowledgeGain: [city-history]
+          nextNodeId: fm-street
+      - id: watcher-silent
+        label: 묻지 않는다
+        outcome:
+          nextNodeId: fm-street
+
+  - id: fm-street
+    type: encounter
+    beat: 폐허 거리 진입. 길에 마왕 군세 깃발 — 검은 천에 붉은 표식. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 처음 보는 마왕 군세의 흔적. 위협이 사람 형태로 옴. 침묵의 거리.
+    previous: [fm-watcher]
+    next: [fm-fork]
+    choices:
+      - id: street-observe
+        label: 깃발을 살핀다
+        outcome:
+          knowledgeGain: [mawang-banner]
+          nextNodeId: fm-fork
+      - id: street-rush
+        label: 곧장 안쪽으로
+        outcome:
+          nextNodeId: fm-fork
+
+  - id: fm-fork
+    type: encounter
+    beat: 갈림길. 무너진 거리 정면 vs 지하 통로 입구. 둘 다 광장으로 이어짐.
+    personas: [narrator]
+    toneTarget: 잠입 vs 정면. 둘 다 무게 있음. 선택이 곧 결판으로 가는 길의 결을 정함.
+    previous: [fm-street]
+    next: [fm-tunnel, fm-front-fight]
+    choices:
+      - id: fork-tunnel
+        label: 지하 통로로 들어간다
+        outcome:
+          nextNodeId: fm-tunnel
+      - id: fork-front
+        label: 거리로 정면 돌파
+        outcome:
+          nextNodeId: fm-front-fight
+
+  - id: fm-tunnel
+    type: encounter
+    beat: 지하 통로 — 어둡고 좁음. 위쪽에서 군세 발자국 소리. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 어둠 + 발자국 소리. 긴장. 빠르게 vs 조용히의 대비.
+    previous: [fm-fork]
+    next: [fm-tunnel-exit]
+    choices:
+      - id: tunnel-quiet
+        label: 조용히 지나간다
+        outcome:
+          nextNodeId: fm-tunnel-exit
+      - id: tunnel-fast
+        label: 빠르게 통과
+        outcome:
+          statDelta:
+            hp: -1
+          nextNodeId: fm-tunnel-exit
+
+  - id: fm-tunnel-exit
+    type: encounter
+    beat: 통로 출구. 광장 진입 직전. 빛이 한 줄.
+    personas: [narrator]
+    toneTarget: 다음 비트로 가는 호흡. 잠깐의 정적.
+    previous: [fm-tunnel]
+    next: [fm-square]
+    choices:
+      - id: tunnel-listen
+        label: 잠시 멈춰 듣는다
+        outcome:
+          nextNodeId: fm-square
+      - id: tunnel-emerge
+        label: 곧장 나간다
+        outcome:
+          nextNodeId: fm-square
+
+  - id: fm-front-fight
+    type: combat
+    beat: 거리 순찰병 조우 + 첫 전투. 늑대가 아닌 사람 형태의 적.
+    personas: [narrator]
+    toneTarget: 인간 적과의 전투. 1지역 늑대보다 무거움. 회피도 비용 있음.
+    previous: [fm-fork]
+    next: [fm-front-tower]
+    choices:
+      - id: fight-engage
+        label: 맞선다
+        outcome:
+          statDelta:
+            hp: -2
+          nextNodeId: fm-front-tower
+      - id: fight-evade
+        label: 회피해서 지나친다
+        outcome:
+          statDelta:
+            mana: -1
+          nextNodeId: fm-front-tower
+
+  - id: fm-front-tower
+    type: rest
+    beat: 망루 점령. 잠깐 호흡. 광장과 도시 전체를 내려다봄. 적의 규모를 처음 가늠함.
+    personas: [narrator]
+    toneTarget: 잠깐의 안식 + 위협의 규모. 도시 전체 조망. 잔잔하지만 무거움.
+    previous: [fm-front-fight]
+    next: [fm-square]
+    choices:
+      - id: tower-survey
+        label: 주변을 둘러본다
+        outcome:
+          knowledgeGain: [mawang-banner]
+          nextNodeId: fm-square
+      - id: tower-press
+        label: 곧장 다음으로
+        outcome:
+          nextNodeId: fm-square
+
+  - id: fm-square
+    type: event
+    beat: 도시 중심 광장. 그림자 사령관 등장. 분노가 아니라 슬픔. 정중한 톤.
+    personas: [narrator, shadow-commander]
+    toneTarget: 사령관 첫 등장. 적이지만 적개심 X. 그의 슬픔이 무거움. 정중한 어조.
+    previous: [fm-tunnel-exit, fm-front-tower]
+    next: [fm-boss]
+    choices:
+      - id: square-confront
+        label: 사령관에게 다가간다
+        outcome:
+          heroEncounter: shadow-commander
+          knowledgeGain: [shadow-commander-glimpse]
+          nextNodeId: fm-boss
+      - id: square-pause
+        label: 잠시 거리 둔다
+        outcome:
+          heroEncounter: shadow-commander
+          knowledgeGain: [shadow-commander-glimpse]
+          nextNodeId: fm-boss
+
+  - id: fm-boss
+    type: boss
+    beat: 그림자 사령관 보스전. 그가 칼을 든다. 분노가 아니라 의무로. 이방인 혼자, 사령관 단독.
+    personas: [narrator, shadow-commander]
+    toneTarget: 보스전 정점. 사령관 슬픔으로 칼 듦. 클래스별 출력 차별 — 전사에게 templar 단서 한 줄, 마법사에게 짧은 정중한 거절.
+    previous: [fm-square]
+    next: [fm-resolution]
+    choices:
+      - id: boss-warrior
+        label: 검으로 맞선다
+        condition:
+          class: warrior
+        outcome:
+          statDelta:
+            hp: -2
+          nextNodeId: fm-resolution
+      - id: boss-mage
+        label: 룬으로 침식을 끊는다
+        condition:
+          class: mage
+        outcome:
+          statDelta:
+            mana: -2
+          nextNodeId: fm-resolution
+      - id: boss-flee
+        label: 도망친다
+        outcome:
+          nextNodeId: fm-resolution
+
+  - id: fm-resolution
+    type: ending
+    beat: 결판. 사령관 처치 또는 도주. 그의 마지막 한 줄. 다음 지역 (재의 황무지) 암시.
+    personas: [narrator, shadow-commander, sujangja]
+    toneTarget: 결판 정서. 사령관 마지막 한 줄 ("...고맙다." 결). 황무지 가리킴. 마지막 단락은 개발용 메타 마커.
+    previous: [fm-boss]
+    next: []
+    choices: []

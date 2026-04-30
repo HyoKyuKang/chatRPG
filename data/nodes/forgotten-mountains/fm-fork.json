@@ -1,0 +1,24 @@
+{
+  "id": "fm-fork",
+  "region": "forgotten-mountains",
+  "type": "encounter",
+  "description": "거리가 두 갈래로 갈라진다. 정면은 무너진 건물 사이로 곧게 뻗어 있다. 햇빛이 깃발의 그림자를 길게 끌고 있다.\n\n옆에는 지하로 내려가는 입구가 있다. 계단은 절반쯤 무너졌고, 그 아래는 검다.\n\n바람이 두 길에서 동시에 분다. 하나는 마른 흙 냄새, 하나는 젖은 돌 냄새.",
+  "choices": [
+    {
+      "id": "fork-tunnel",
+      "text": "지하 통로로 들어간다",
+      "outcome": {
+        "text": "어둠 속으로 발을 디딘다. 발자국 소리가 멀리까지 간다.",
+        "nextNodeId": "fm-tunnel"
+      }
+    },
+    {
+      "id": "fork-front",
+      "text": "거리로 정면 돌파",
+      "outcome": {
+        "text": "햇빛 쪽으로 걸음을 옮긴다. 발걸음이 점점 짧아진다.",
+        "nextNodeId": "fm-front-fight"
+      }
+    }
+  ]
+}

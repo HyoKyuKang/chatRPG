@@ -1,0 +1,24 @@
+{
+  "id": "fm-tunnel-exit",
+  "region": "forgotten-mountains",
+  "type": "encounter",
+  "description": "통로 끝에 빛이 한 줄로 떨어진다. 너의 발걸음이 멎고, 먼지만 천천히 떠오른다.\n\n바깥의 공기가 손등에 닿는다. 너는 아직 그늘 안이다.",
+  "choices": [
+    {
+      "id": "tunnel-listen",
+      "text": "잠시 멈춰 듣는다",
+      "outcome": {
+        "text": "너는 숨을 죽인다. 광장 쪽에서 마른 바람 한 줄이 흘러들어온다.",
+        "nextNodeId": "fm-square"
+      }
+    },
+    {
+      "id": "tunnel-emerge",
+      "text": "곧장 나간다",
+      "outcome": {
+        "text": "너는 빛 속으로 발을 디딘다. 그늘이 등 뒤에서 닫힌다.",
+        "nextNodeId": "fm-square"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "fm-arrive",
+  "region": "forgotten-mountains",
+  "type": "encounter",
+  "description": "산맥의 입구. 바람이 칼처럼 얇다.\n\n능선 너머, 무너진 첨탑들이 잿빛 하늘을 찌른 채 멈춰 있다. 도시였던 것의 뼈.\n\n발 밑의 돌은 차고, 너의 그림자는 짧다.",
+  "choices": [
+    {
+      "id": "arrive-look",
+      "text": "능선 너머를 본다",
+      "outcome": {
+        "text": "첨탑들의 윤곽이 또렷해진다. 무너진 자리마다 검은 균열이 길게 흐른다. 도시는 죽은 채로 너를 마주 본다.",
+        "knowledgeGain": [
+          "ruined-city-glimpse"
+        ],
+        "nextNodeId": "fm-watcher"
+      }
+    },
+    {
+      "id": "arrive-walk",
+      "text": "그냥 걸어 들어간다",
+      "outcome": {
+        "text": "바람만 남는다. 발걸음은 차고, 뒤돌아볼 것은 없다.",
+        "nextNodeId": "fm-watcher"
+      }
+    }
+  ]
+}

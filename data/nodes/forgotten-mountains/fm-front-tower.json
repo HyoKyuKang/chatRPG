@@ -1,0 +1,27 @@
+{
+  "id": "fm-front-tower",
+  "region": "forgotten-mountains",
+  "type": "rest",
+  "description": "망루 위. 바람이 갈비뼈 사이로 지나간다. 너는 난간을 짚고 숨을 고른다.\n\n도시가 발 아래 펼쳐진다. 부서진 지붕, 검은 깃발 넷, 광장 한가운데서 흔들리지 않는 그림자. 적의 규모가 처음으로 너의 눈 안에 들어온다.\n\n너는 혼자다. 등 뒤로 계단이 내려간다.",
+  "choices": [
+    {
+      "id": "tower-survey",
+      "text": "주변을 둘러본다",
+      "outcome": {
+        "text": "네 깃발이 더 또렷해진다. 검고, 같은 문장. 광장 중앙의 그림자는 사람의 형태로 굳어 있다. 너는 그것의 어깨선을 기억한다.",
+        "knowledgeGain": [
+          "mawang-banner"
+        ],
+        "nextNodeId": "fm-square"
+      }
+    },
+    {
+      "id": "tower-press",
+      "text": "곧장 다음으로",
+      "outcome": {
+        "text": "너는 계단을 밟는다. 호흡이 짧다. 망루의 바람이 등 뒤에서 끊긴다.",
+        "nextNodeId": "fm-square"
+      }
+    }
+  ]
+}

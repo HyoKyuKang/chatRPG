@@ -43,5 +43,25 @@
     "id": "corruption-witnessed",
     "name": "부패의 결",
     "description": "숲의 깊은 곳에서 검은 액체가 뿌리를 타고 흐르는 것을 보았다. 마왕의 흔적도, 외신의 흔적도 아닌 것이 섞여 있다."
+  },
+  {
+    "id": "ruined-city-glimpse",
+    "name": "폐허 도시 첫 인상",
+    "description": "산맥 능선 너머로 무너진 첨탑들이 보인다. 한때 사람의 도시였다."
+  },
+  {
+    "id": "mawang-banner",
+    "name": "마왕의 깃발",
+    "description": "검은 천에 붉은 표식 — 4 장수 중 하나의 깃발. 산맥 군세의 거점 표시."
+  },
+  {
+    "id": "city-history",
+    "name": "잊혀진 도시의 역사",
+    "description": "이 도시는 본래 마왕에 맞서 싸우던 사람들의 거점이었다. 떨어졌다."
+  },
+  {
+    "id": "shadow-commander-glimpse",
+    "name": "그림자 사령관과 마주침",
+    "description": "마왕 4 장수 중 하나. 분노보다 슬픔이 깊은 자."
   }
 ]

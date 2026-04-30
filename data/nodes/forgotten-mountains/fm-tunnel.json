@@ -1,0 +1,27 @@
+{
+  "id": "fm-tunnel",
+  "region": "forgotten-mountains",
+  "type": "encounter",
+  "description": "통로는 좁다. 어깨가 양쪽 벽을 스친다.\n\n빛이 없다. 손끝으로 돌의 결을 읽으며 나아간다.\n\n위쪽 어딘가에서 발자국 소리. 멀고, 무겁고, 여럿이다.",
+  "choices": [
+    {
+      "id": "tunnel-quiet",
+      "text": "조용히 지나간다",
+      "outcome": {
+        "text": "숨을 가늘게 늘인다. 한 걸음마다 시간이 길어진다. 발자국은 머리 위를 지나 — 멀어진다.",
+        "nextNodeId": "fm-tunnel-exit"
+      }
+    },
+    {
+      "id": "tunnel-fast",
+      "text": "빠르게 통과",
+      "outcome": {
+        "text": "어둠을 향해 달린다. 무릎이 무언가에 부딪힌다. 통증이 뼈까지 박힌다. 발자국은 듣지 못한 채 멀어진다.",
+        "statDelta": {
+          "hp": -1
+        },
+        "nextNodeId": "fm-tunnel-exit"
+      }
+    }
+  ]
+}

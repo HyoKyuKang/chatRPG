@@ -1,0 +1,27 @@
+{
+  "id": "fm-watcher",
+  "region": "forgotten-mountains",
+  "type": "event",
+  "description": "망루는 반쯤 무너져 있다. 부러진 들보 사이로 바람이 길게 운다. 발 아래 도시는 잿빛 뼈처럼 펼쳐져 있다.\n\n돌계단 위, 그가 서 있다. 너를 등지고, 폐허를 본다.\n\n수상자: \"이 도시는 한때, 마왕에 맞서 싸우던 사람들의 거점이었다.\"",
+  "choices": [
+    {
+      "id": "watcher-ask",
+      "text": "이 도시는 무엇이었는가",
+      "outcome": {
+        "text": "그가 천천히 돌아본다.\n\n수상자: \"마지막 보루. 그리고 마지막 무덤.\"\n\n바람이 그의 말꼬리를 가져간다. 너는 계단을 내려간다.",
+        "knowledgeGain": [
+          "city-history"
+        ],
+        "nextNodeId": "fm-street"
+      }
+    },
+    {
+      "id": "watcher-silent",
+      "text": "묻지 않는다",
+      "outcome": {
+        "text": "그는 한 박자 멈춘다. 너의 침묵을 재는 듯.\n\n수상자: \"……좋다.\"\n\n돌아보았을 때, 그는 이미 거기 없다. 너는 계단을 내려간다.",
+        "nextNodeId": "fm-street"
+      }
+    }
+  ]
+}

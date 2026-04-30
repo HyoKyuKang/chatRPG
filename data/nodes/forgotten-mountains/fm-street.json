@@ -1,0 +1,27 @@
+{
+  "id": "fm-street",
+  "region": "forgotten-mountains",
+  "type": "encounter",
+  "description": "거리에 발을 디딘다. 무너진 벽들 사이로 길이 곧게 뻗어 있다.\n\n한가운데에 깃발이 서 있다. 검은 천, 붉은 표식. 바람도 없는데 천 끝이 천천히 흔들린다.\n\n사람의 흔적이다. 부패가 아닌, 의지의 흔적. 거리는 숨을 멈춘 듯 비어 있다.",
+  "choices": [
+    {
+      "id": "street-observe",
+      "text": "깃발을 살핀다",
+      "outcome": {
+        "text": "검은 천 가까이 다가선다. 붉은 표식이 눈에 박힌다 — 네 장수 중 하나의 문장. 이름 없는 무게가 어깨에 내려앉는다.",
+        "knowledgeGain": [
+          "mawang-banner"
+        ],
+        "nextNodeId": "fm-fork"
+      }
+    },
+    {
+      "id": "street-rush",
+      "text": "곧장 안쪽으로",
+      "outcome": {
+        "text": "깃발을 지나친다. 시선은 앞으로, 발걸음은 빨라진다. 등 뒤에서 천이 한 번 더 흔들린다.",
+        "nextNodeId": "fm-fork"
+      }
+    }
+  ]
+}
