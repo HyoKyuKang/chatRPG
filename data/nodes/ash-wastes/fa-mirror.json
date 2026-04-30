@@ -1,0 +1,27 @@
+{
+  "id": "fa-mirror",
+  "region": "ash-wastes",
+  "type": "event",
+  "description": "동굴 벽 한쪽이 매끄럽다. 흑요석도, 얼음도 아닌 무엇. 너의 형상이 거기 떠 있다.\n\n비친 너는 너보다 한 걸음 짧다. 너의 손이 올라갈 때, 거울 속 손은 아직 허리에 있다.\n\n공기가 휘어진다. 그것은 너를 따라오지 않는다.",
+  "choices": [
+    {
+      "id": "mirror-look",
+      "text": "거울을 본다",
+      "outcome": {
+        "text": "너는 그것을 마주본다. 거울 속 너는 눈을 맞추지 않는다. 다른 곳을 본다 — 너의 등 뒤. 어긋남의 결이 너의 안에 새겨진다.",
+        "knowledgeGain": [
+          "mirror-self"
+        ],
+        "nextNodeId": "fa-converge"
+      }
+    },
+    {
+      "id": "mirror-avoid",
+      "text": "지나친다",
+      "outcome": {
+        "text": "너는 시선을 거둔다. 거울 속 너는 멈춘다. 너가 멀어져도 그것은 그 자리에 남는다. 너를 따라오지 않는다.",
+        "nextNodeId": "fa-converge"
+      }
+    }
+  ]
+}

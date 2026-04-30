@@ -1,0 +1,27 @@
+{
+  "id": "fa-shrine",
+  "region": "ash-wastes",
+  "type": "rest",
+  "description": "폭풍이 가라앉는다. 공기가 멈춘다. 모래는 아직 따뜻하다.\n\n발 아래 무언가 단단한 것이 드러난다. 반쯤 묻힌 작은 사당. 돌은 닳아 이름이 없다.\n\n누군가 마지막으로 새긴 글자 한 줄이 모래 위로 떠오른다. 외운 사람은 떠났고, 결만 남는다.",
+  "choices": [
+    {
+      "id": "shrine-pray",
+      "text": "한 줄을 외운다",
+      "outcome": {
+        "text": "너는 모래에 반쯤 묻힌 글자를 천천히 따라 읽는다. 누군가의 마지막 신앙이, 너의 입술 위에서 한 번 더 살아난다.",
+        "knowledgeGain": [
+          "forgotten-shrine"
+        ],
+        "nextNodeId": "fa-converge"
+      }
+    },
+    {
+      "id": "shrine-pass",
+      "text": "그저 지나친다",
+      "outcome": {
+        "text": "너는 사당을 지나친다. 등 뒤에서 바람이 다시 일고, 모래는 조용히 그것을 덮는다.",
+        "nextNodeId": "fa-converge"
+      }
+    }
+  ]
+}

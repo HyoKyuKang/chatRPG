@@ -63,5 +63,30 @@
     "id": "shadow-commander-glimpse",
     "name": "그림자 사령관과 마주침",
     "description": "마왕 4 장수 중 하나. 분노보다 슬픔이 깊은 자."
+  },
+  {
+    "id": "ash-wastes-glimpse",
+    "name": "재의 황무지 첫 인상",
+    "description": "잿빛 모래가 끝없이 펼쳐진다. 빛이 모래 위에서 한 박자 늦게 닿는다."
+  },
+  {
+    "id": "outsider-shard",
+    "name": "외신 조각의 흔적",
+    "description": "모래 아래 어딘가에서 인간 아닌 무엇이 깨어나고 있다. 마왕의 결과 다르다."
+  },
+  {
+    "id": "outsider-whisper",
+    "name": "외신의 속삭임",
+    "description": "들리지 않는 소리가 너를 들었다. 너의 머릿속에 모서리 하나가 더 생겼다."
+  },
+  {
+    "id": "mirror-self",
+    "name": "거울 자아의 결",
+    "description": "거울 면에 비친 너는 너보다 한 걸음 짧다. 그것은 너를 따라오지 않는다."
+  },
+  {
+    "id": "forgotten-shrine",
+    "name": "잊혀진 사당",
+    "description": "황무지 한가운데, 누군가 옛 신앙을 마지막으로 외운 자리. 이름은 새겨지지 않았다."
   }
 ]

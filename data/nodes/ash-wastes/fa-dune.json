@@ -1,0 +1,24 @@
+{
+  "id": "fa-dune",
+  "region": "ash-wastes",
+  "type": "encounter",
+  "description": "언덕 위. 사방이 모래다. 너의 발자국은 한 걸음 뒤에서 이미 지워진다.\n\n지평선에 회색 벽이 서 있다. 폭풍은 천천히 자라는 짐승처럼 다가온다.\n\n바람이 한 번 멎는다. 모래가 너의 발목을 조용히 삼킨다.",
+  "choices": [
+    {
+      "id": "dune-direct",
+      "text": "곧장 가로지른다",
+      "outcome": {
+        "text": "너는 회색 벽을 향해 똑바로 걷는다. 발자국은 남지 않는다.",
+        "nextNodeId": "fa-storm"
+      }
+    },
+    {
+      "id": "dune-watch",
+      "text": "주변을 살피며 간다",
+      "outcome": {
+        "text": "너는 한 걸음마다 고개를 돌린다. 모래는 모든 방향에서 같은 얼굴을 한다.",
+        "nextNodeId": "fa-storm"
+      }
+    }
+  ]
+}

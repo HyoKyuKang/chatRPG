@@ -1,0 +1,33 @@
+{
+  "id": "fa-whisper",
+  "region": "ash-wastes",
+  "type": "event",
+  "description": "어둠이 더 두꺼워진다. 동굴의 벽이 너에게서 한 뼘 멀어진다, 한 뼘 가까워진다.\n\n들리지 않는 소리가 너를 듣는다. 너의 머리 안에 모서리 하나가 더 생긴다. 그 모서리는 너의 것이 아니다.\n\n공기가 휘어진다. 너의 숨이 너보다 한 박자 늦게 돌아온다. 무언가 너의 이름을 발음하지 않은 채 너의 이름을 안다.\n\n바닥의 결이 한 줄, 잘못된 방향으로 흐른다.",
+  "choices": [
+    {
+      "id": "whisper-resist",
+      "text": "귀를 닫는다",
+      "outcome": {
+        "text": "너는 너의 안쪽을 닫는다. 모서리가 무뎌진다, 사라지지 않는다. 정신의 한 겹이 닳는다.",
+        "statDelta": {
+          "mana": -1
+        },
+        "nextNodeId": "fa-mirror"
+      }
+    },
+    {
+      "id": "whisper-listen",
+      "text": "들어본다",
+      "outcome": {
+        "text": "너는 그 결에 너를 맞춘다. 들리지 않는 소리가 너를 통과한다. 무언가의 형태가 너의 안에 자리 하나를 얻는다 — 그리고 너의 일부를 가져간다.",
+        "statDelta": {
+          "mana": -2
+        },
+        "knowledgeGain": [
+          "outsider-whisper"
+        ],
+        "nextNodeId": "fa-mirror"
+      }
+    }
+  ]
+}

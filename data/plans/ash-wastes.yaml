@@ -1,0 +1,230 @@
+region: ash-wastes
+name: 재의 황무지
+description: |-
+  마왕 영토의 끝. 잿빛 모래 아래 외신 조각이 잠들어 있다. 이형의 결이
+  본격적으로 드러나는 첫 지역.
+entry: fa-arrive
+boss: fa-fragment
+
+nodes:
+  - id: fa-arrive
+    type: encounter
+    beat: 황무지 입구. 끝없는 잿빛 모래. 빛이 모래 위에서 한 박자 늦게 닿음. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 1지역 안개, 2지역 폐허와 다른 결. 광활함 + 잿빛 + 빛의 어긋남. 차가움 대신 무감각.
+    previous: []
+    next: [fa-watcher]
+    choices:
+      - id: arrive-look
+        label: 모래 위를 살펴본다
+        outcome:
+          knowledgeGain: [ash-wastes-glimpse]
+          nextNodeId: fa-watcher
+      - id: arrive-walk
+        label: 그냥 들어간다
+        outcome:
+          nextNodeId: fa-watcher
+
+  - id: fa-watcher
+    type: event
+    beat: 수상자가 다시 등장 — 외신 조각 단서 흘림. "이 모래 아래엔 오래된 게 있다." 정체는 안 흘림.
+    personas: [narrator, sujangja]
+    toneTarget: 수상자의 단서가 무거움. 외신이라는 단어는 안 쓰지만 그 결만 흘림.
+    previous: [fa-arrive]
+    next: [fa-fork]
+    choices:
+      - id: watcher-listen
+        label: 수상자의 말을 듣는다
+        outcome:
+          knowledgeGain: [outsider-shard]
+          nextNodeId: fa-fork
+      - id: watcher-ignore
+        label: 지나친다
+        outcome:
+          nextNodeId: fa-fork
+
+  - id: fa-fork
+    type: encounter
+    beat: 갈림길. 모래 위로 가는 광활한 길 vs 모래 아래로 내려가는 동굴 입구. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 두 길의 무게 — 노출 vs 어둠. 침묵의 결단.
+    previous: [fa-watcher]
+    next: [fa-dune, fa-cavern]
+    choices:
+      - id: fork-dune
+        label: 모래 위 길로 간다
+        outcome:
+          nextNodeId: fa-dune
+      - id: fork-cavern
+        label: 동굴 입구로 간다
+        outcome:
+          nextNodeId: fa-cavern
+
+  - id: fa-dune
+    type: encounter
+    beat: 모래 언덕 위. 광활. 멀리서 모래 폭풍이 다가옴. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 광활함 + 임박한 위협. 모래 폭풍의 시각/소리가 점점 가까워짐.
+    previous: [fa-fork]
+    next: [fa-storm]
+    choices:
+      - id: dune-direct
+        label: 곧장 가로지른다
+        outcome:
+          nextNodeId: fa-storm
+      - id: dune-watch
+        label: 주변을 살피며 간다
+        outcome:
+          nextNodeId: fa-storm
+
+  - id: fa-storm
+    type: combat
+    beat: 모래 폭풍 안. 시야 잃음. 모래가 살을 갈라낼 듯. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 자연의 폭력성. 신체적 비용 또는 정신적 비용 — 어느 쪽이든 통과해야 함.
+    previous: [fa-dune]
+    next: [fa-shrine]
+    choices:
+      - id: storm-shelter
+        label: 낮게 엎드린다
+        outcome:
+          statDelta:
+            mana: -1
+          nextNodeId: fa-shrine
+      - id: storm-press
+        label: 그냥 통과한다
+        outcome:
+          statDelta:
+            hp: -1
+          nextNodeId: fa-shrine
+
+  - id: fa-shrine
+    type: rest
+    beat: 폭풍이 지나가고, 모래에 반쯤 묻힌 사당이 드러남. 옛 신앙의 흔적. 이름은 새겨지지 않음.
+    personas: [narrator]
+    toneTarget: 폭풍 직후의 정적. 사당은 비어 있지만 누군가가 마지막으로 외운 결이 남음.
+    previous: [fa-storm]
+    next: [fa-converge]
+    choices:
+      - id: shrine-pray
+        label: 한 줄을 외운다
+        outcome:
+          knowledgeGain: [forgotten-shrine]
+          nextNodeId: fa-converge
+      - id: shrine-pass
+        label: 그저 지나친다
+        outcome:
+          nextNodeId: fa-converge
+
+  - id: fa-cavern
+    type: encounter
+    beat: 동굴 진입. 어둠 + 차가움. 이방인 혼자. 위에서 모래 흘러내리는 소리.
+    personas: [narrator]
+    toneTarget: 어둠 + 좁음. 외신 결이 점점 가까워짐. 1지역 지하 통로보다 이질적.
+    previous: [fa-fork]
+    next: [fa-whisper]
+    choices:
+      - id: cavern-deep
+        label: 더 깊이 들어간다
+        outcome:
+          nextNodeId: fa-whisper
+      - id: cavern-listen
+        label: 잠시 멈춰 듣는다
+        outcome:
+          nextNodeId: fa-whisper
+
+  - id: fa-whisper
+    type: event
+    beat: 외신 속삭임 발현. 들리지 않는 소리가 너를 들음. narrator가 외부에서 묘사 (인간 voice X). 이방인 혼자.
+    personas: [narrator, outsider-fragment]
+    toneTarget: 인지 호러. 무서움보다 어긋남. 너의 감각이 정확히 잡지 못함. 머릿속 침범.
+    previous: [fa-cavern]
+    next: [fa-mirror]
+    choices:
+      - id: whisper-resist
+        label: 귀를 닫는다
+        outcome:
+          statDelta:
+            mana: -1
+          nextNodeId: fa-mirror
+      - id: whisper-listen
+        label: 들어본다
+        outcome:
+          statDelta:
+            mana: -2
+          knowledgeGain: [outsider-whisper]
+          nextNodeId: fa-mirror
+
+  - id: fa-mirror
+    type: event
+    beat: 거울 면 발견 — 모래 위에 떨어진 한 조각의 흑요석 또는 외신의 결 자체. 거울 자아 본체 (4지역 보스 단서). 이방인 혼자.
+    personas: [narrator, outsider-fragment]
+    toneTarget: 거울 자아의 결. 비친 너는 너보다 한 걸음 짧다. V1.1 디자인 4지역 단서 미리 흘림.
+    previous: [fa-whisper]
+    next: [fa-converge]
+    choices:
+      - id: mirror-look
+        label: 거울을 본다
+        outcome:
+          knowledgeGain: [mirror-self]
+          nextNodeId: fa-converge
+      - id: mirror-avoid
+        label: 지나친다
+        outcome:
+          nextNodeId: fa-converge
+
+  - id: fa-converge
+    type: encounter
+    beat: 두 길이 만남. 외신 결이 가까워짐. 공기가 휘어짐. 이방인 혼자.
+    personas: [narrator]
+    toneTarget: 외신 본체 직전. 공간이 어긋남. 거리감이 느슨해짐. 다음 비트 (보스) 무게.
+    previous: [fa-shrine, fa-mirror]
+    next: [fa-fragment]
+    choices:
+      - id: conv-press
+        label: 직선으로 간다
+        outcome:
+          nextNodeId: fa-fragment
+      - id: conv-careful
+        label: 조심스럽게 다가간다
+        outcome:
+          knowledgeGain: [outsider-shard]
+          nextNodeId: fa-fragment
+
+  - id: fa-fragment
+    type: boss
+    beat: 외신 조각 본체. 인간 형태 X, 인간 voice X. narrator가 외부에서 묘사. 클래스별 분기.
+    personas: [narrator, outsider-fragment]
+    toneTarget: 보스전 정점. 인지 호러. 검은 잘 안 듦, 룬은 효과적이지만 정신 소진 큼. 도주는 기억에 한 줄을 남김.
+    previous: [fa-converge]
+    next: [fa-resolution]
+    choices:
+      - id: frag-warrior
+        label: 검으로 베어낸다
+        condition:
+          class: warrior
+        outcome:
+          statDelta:
+            hp: -2
+          nextNodeId: fa-resolution
+      - id: frag-mage
+        label: 룬으로 봉인한다
+        condition:
+          class: mage
+        outcome:
+          statDelta:
+            mana: -3
+          nextNodeId: fa-resolution
+      - id: frag-flee
+        label: 도망친다
+        outcome:
+          nextNodeId: fa-resolution
+
+  - id: fa-resolution
+    type: ending
+    beat: 3지역 끝. 외신 조각의 발현 끝, but 진짜 외신 본체는 아니었다는 결. 수상자 짧은 한 줄 — 다음 지역(꿈꾸는 도시) 암시.
+    personas: [narrator, sujangja]
+    toneTarget: 결판 정서. 외신 조각을 멈췄어도 본체는 멀리 있다는 무게. 4지역 (꿈꾸는 도시) 가리킴. 마지막 단락은 개발용 메타 마커.
+    previous: [fa-fragment]
+    next: []
+    choices: []

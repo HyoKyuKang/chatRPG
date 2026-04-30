@@ -1,0 +1,24 @@
+{
+  "id": "fa-fork",
+  "region": "ash-wastes",
+  "type": "encounter",
+  "description": "갈림길이 너 앞에 누워 있다.\n\n위쪽 길은 모래 능선을 따라 멀리 뻗는다. 햇빛이 등을 누르고, 지평선까지 가릴 것이 없다.\n\n아래쪽은 모래에 뚫린 검은 입. 돌의 차가운 숨이 발끝을 핥는다. 빛은 두 걸음 안에서 죽는다.",
+  "choices": [
+    {
+      "id": "fork-dune",
+      "text": "모래 위 길로 간다",
+      "outcome": {
+        "text": "너는 능선을 오른다. 햇빛이 어깨에 자리를 잡는다.",
+        "nextNodeId": "fa-dune"
+      }
+    },
+    {
+      "id": "fork-cavern",
+      "text": "동굴 입구로 간다",
+      "outcome": {
+        "text": "너는 어둠으로 내려간다. 돌이 빛을 삼킨다.",
+        "nextNodeId": "fa-cavern"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "fa-converge",
+  "region": "ash-wastes",
+  "type": "encounter",
+  "description": "두 길이 한 점으로 모인다. 발자국이 겹치고, 재가 같은 방향으로 눕는다.\n\n공기가 휘어 있다. 멀리 있는 돌이 손끝에 닿을 듯하고, 가까운 돌은 한 걸음 너머로 물러난다. 빛이 자기 자리를 잃었다.\n\n앞쪽 어딘가에서 결이 흐른다. 보이지 않는 강이 공간을 가르는 것처럼, 소리 없이.",
+  "choices": [
+    {
+      "id": "conv-press",
+      "text": "직선으로 간다",
+      "outcome": {
+        "text": "발걸음이 멈추지 않는다. 휘어진 공기를 가르며, 너는 그 너머로 간다.",
+        "nextNodeId": "fa-fragment"
+      }
+    },
+    {
+      "id": "conv-careful",
+      "text": "조심스럽게 다가간다",
+      "outcome": {
+        "text": "한 걸음마다 결이 또렷해진다. 외신의 무늬가 공기 위에 얕게 새겨져 있다.",
+        "knowledgeGain": [
+          "outsider-shard"
+        ],
+        "nextNodeId": "fa-fragment"
+      }
+    }
+  ]
+}

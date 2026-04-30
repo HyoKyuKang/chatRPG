@@ -1,0 +1,30 @@
+{
+  "id": "fa-storm",
+  "region": "ash-wastes",
+  "type": "combat",
+  "description": "세상이 사라진다. 모래가 사방에서 너를 친다.\n\n시야는 한 뼘. 바람은 칼처럼 얇게 살을 가른다. 너는 폭풍의 입 안에 있다.\n\n앞도 뒤도 없다. 다만 통과해야 할 두께만 있다.",
+  "choices": [
+    {
+      "id": "storm-shelter",
+      "text": "낮게 엎드린다",
+      "outcome": {
+        "text": "너는 무릎을 꺾고 머리를 감싼다. 시간이 모래처럼 흘러내린다. 폭풍이 지나간 뒤 너는 일어선다 — 정신 한 줌이 비어 있다.",
+        "statDelta": {
+          "mana": -1
+        },
+        "nextNodeId": "fa-shrine"
+      }
+    },
+    {
+      "id": "storm-press",
+      "text": "그냥 통과한다",
+      "outcome": {
+        "text": "너는 어깨로 바람을 민다. 모래가 뺨을 긋고 손등을 벗긴다. 폭풍 너머로 나설 때 피가 점점이 떨어진다.",
+        "statDelta": {
+          "hp": -1
+        },
+        "nextNodeId": "fa-shrine"
+      }
+    }
+  ]
+}
