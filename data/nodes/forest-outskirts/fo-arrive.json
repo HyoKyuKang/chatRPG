@@ -2,13 +2,13 @@
   "id": "fo-arrive",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "안개 속에서 깨어났다. 몸은 너의 것이 맞지만, 이 땅은 너의 것이 아니다.\n\n발 밑에 풀이 있다. 이름을 모르는 풀이다.",
+  "description": "안개 속에서 깨어났다. 몸은 너의 것이 맞지만, 이 땅은 너의 것이 아니다.\n\n발 밑에 풀이 있다. 이름을 모르는 풀이다.\n\n멀리서 무엇인가 흐르는 소리. 물인지 바람인지 모른다.",
   "choices": [
     {
       "id": "arrive-look",
       "text": "주위를 둘러본다",
       "outcome": {
-        "text": "안개 사이로 무언가 결 같은 것이 잠깐 비친다. 형체는 잡히지 않는다.",
+        "text": "안개가 잠깐 결을 드러낸다. 형체는 없다. 무늬만 있다.",
         "knowledgeGain": ["glimpse-of-mist"],
         "nextNodeId": "fo-stranger"
       }
@@ -17,7 +17,7 @@
       "id": "arrive-stand",
       "text": "그냥 일어선다",
       "outcome": {
-        "text": "발이 차다. 앞으로 가야 할 것 같다는 생각만 든다.",
+        "text": "무릎이 펴진다. 앞으로 가야 한다는 생각만 남는다.",
         "nextNodeId": "fo-stranger"
       }
     }

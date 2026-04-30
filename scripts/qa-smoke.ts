@@ -43,11 +43,11 @@ async function main() {
   )
 
   await page.getByRole('button', { name: '낡은 양피지를 펼친다' }).click()
-  await page.waitForSelector('text=노인이 모닥불을 끼고 앉아 있다')
+  await page.waitForSelector('text=흰 머리의 노인')
   console.log('✓ fo-bayren-meet')
 
   await page.getByRole('button', { name: '이게 무슨 글인지 알려달라' }).click()
-  await page.waitForSelector('text=세 줄짜리 룬을 그린다')
+  await page.waitForSelector('text=딱 한 번 외워봐')
   await page.getByRole('button', { name: '긴 호흡을 하고 외운다' }).click()
   await page.waitForSelector('text=룬을 부를 수 있는 자')
   console.log('✓ fo-mage-awaken')
@@ -98,13 +98,13 @@ async function main() {
   )
 
   await page.getByRole('button', { name: '녹슨 검을 잡는다' }).click()
-  await page.waitForSelector('text=한 여자가 나타난다')
+  await page.waitForSelector('text=신참 템플러')
   console.log('✓ fo-astrid-meet')
 
   await page.getByRole('button', { name: '함께 가겠다' }).click()
   await page.waitForSelector('text=부패한 늑대')
   await page.getByRole('button', { name: '검을 휘두른다' }).click()
-  await page.waitForSelector('text=처음 검 잡는 거 같지 않은데')
+  await page.waitForSelector('text=처음이 아닌 거 같다')
   console.log('✓ fo-warrior-awaken')
 
   await page.getByRole('button', { name: '검을 든 자로 살겠다' }).click()
