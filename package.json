@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "lint:data": "tsx scripts/lint-data.ts",
     "qa:smoke": "tsx scripts/qa-smoke.ts",
+    "author": "tsx scripts/author-node.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
     "@capacitor/cli": "^8.3.1",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.2.4",
@@ -37,6 +39,7 @@
     "tsx": "^4.21.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "yaml": "^2.8.3"
   }
 }

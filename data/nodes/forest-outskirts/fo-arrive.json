@@ -9,7 +9,9 @@
       "text": "주위를 둘러본다",
       "outcome": {
         "text": "안개가 잠깐 결을 드러낸다. 형체는 없다. 무늬만 있다.",
-        "knowledgeGain": ["glimpse-of-mist"],
+        "knowledgeGain": [
+          "glimpse-of-mist"
+        ],
         "nextNodeId": "fo-stranger"
       }
     },
