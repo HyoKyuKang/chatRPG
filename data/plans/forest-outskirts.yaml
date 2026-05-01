@@ -26,9 +26,9 @@ nodes:
 
   - id: fo-stranger
     type: event
-    beat: 첫 캐릭터 등장 — 수상자가 안개 사이에서 모습 드러내고 첫 대사 ("드디어 왔구나").
-    personas: [narrator, sujangja]
-    toneTarget: 정체 모를 동맹의 첫 등장. 미스터리 + 약간의 권위. 환영보다는 인정. 수상자는 자기 정체 안 흘리고 옆으로 비킨다.
+    beat: 첫 캐릭터 등장 — 회색의 자가 안개 사이에서 모습 드러내고 첫 대사 ("드디어 왔구나").
+    personas: [narrator, gray-one]
+    toneTarget: 정체 모를 동맹의 첫 등장. 미스터리 + 약간의 권위. 환영보다는 인정. 회색의 자는 자기 정체 안 흘리고 옆으로 비킨다.
     previous: [fo-arrive]
     next: [fo-fork]
     choices:
@@ -49,9 +49,9 @@ nodes:
 
   - id: fo-fork
     type: encounter
-    beat: 죽은 나무 앞에서 검 vs 양피지 갈림길. 클래스 트랙 분기. 수상자 멀리서 한 줄.
-    personas: [narrator, sujangja]
-    toneTarget: 침묵의 선택. 두 가지 무게가 너 앞에 놓였다. 갈림 자체가 메인 무게. 수상자 목소리는 가깝지 않음.
+    beat: 죽은 나무 앞에서 검 vs 양피지 갈림길. 클래스 트랙 분기. 회색의 자 멀리서 한 줄.
+    personas: [narrator, gray-one]
+    toneTarget: 침묵의 선택. 두 가지 무게가 너 앞에 놓였다. 갈림 자체가 메인 무게. 회색의 자 목소리는 가깝지 않음.
     previous: [fo-stranger]
     next: [fo-astrid-meet, fo-bayren-meet]
     choices:
@@ -235,8 +235,8 @@ nodes:
 
   - id: fo-resolution
     type: ending
-    beat: 1지역 끝. 어떤 결로 왔든 살아 돌아왔다는 결판. 수상자 마지막 한 줄. 산맥 (2지역) 암시.
-    personas: [narrator, sujangja]
+    beat: 1지역 끝. 어떤 결로 왔든 살아 돌아왔다는 결판. 회색의 자 마지막 한 줄. 산맥 (2지역) 암시.
+    personas: [narrator, gray-one]
     toneTarget: 결판 정서. 살아 돌아온 자의 안도 (또는 어둠). 거대 나무 운명 모호 — "안개 너머의 일". 마지막 단락은 개발용 메타 마커.
     previous: [fo-boss-tree]
     next: []

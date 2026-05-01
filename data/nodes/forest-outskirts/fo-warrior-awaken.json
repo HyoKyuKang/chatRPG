@@ -2,15 +2,17 @@
   "id": "fo-warrior-awaken",
   "region": "forest-outskirts",
   "type": "event",
-  "description": "고요가 내려앉는다. 숲은 다시 숨을 쉰다.\n\n아스트리드가 너의 검을 본다. 너의 손이 떨리지 않는다.\n\n아스트리드: \"...너, 처음이 아닌 거 같다.\"\n\n너도 너의 손을 본다. 손가락이 자루의 결을 안다. 몸이 먼저 알고 있던 것이다.",
+  "description": "고요가 내려앉는다. 숲은 다시 숨을 쉰다.\n\n아스트리드가 너의 검을 본다. 너의 손이 떨리지 않는다.\n\n아스트리드: \"...너, 처음이 아닌 거 같다.\"\n\n너도 너의 손을 본다. 손가락이 자루의 결을 안다. 몸이 먼저 움직인다.",
   "choices": [
     {
       "id": "awaken-warrior",
       "text": "검을 든 자로 살겠다",
       "outcome": {
-        "text": "검의 무게가 손바닥에 자리를 잡는다. 더 이상 무겁지 않다. 너는 너 자신을 한 가지 이름으로 부른다 — 검을 든 자.",
+        "text": "검의 무게가 손바닥에 자리를 잡는다. 더 이상 무겁지 않다. 이름 하나가 너에게 들러붙는다 — 검을 든 자.",
+        "knowledgeGain": [
+          "warrior-awakened"
+        ],
         "classSet": "warrior",
-        "knowledgeGain": ["warrior-awakened"],
         "nextNodeId": "fo-converge"
       }
     }

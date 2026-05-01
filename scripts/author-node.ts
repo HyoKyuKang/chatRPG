@@ -462,14 +462,87 @@ async function autoNode(planPath: string, nodeId: string): Promise<string> {
   return integrate(planPath, nodeId, tmpPath)
 }
 
+async function reviewAll(planPath: string): Promise<void> {
+  const plan = await loadPlan(planPath)
+  if (!process.env.ANTHROPIC_API_KEY) {
+    // Manual mode — emit all briefs separated by markers, expect caller
+    // (main Claude Code session via Agent tool, or human) to produce a single
+    // JSON object keyed by node id and run review-integrate-batch.
+    const out: string[] = []
+    out.push(`# review-all (manual mode — ANTHROPIC_API_KEY not set)`)
+    out.push(`# region: ${plan.region}, ${plan.nodes.length} node(s)`)
+    out.push(``)
+    out.push(`# Review each node below. Produce ONE JSON object keyed by node id:`)
+    out.push(`#   { "fo-arrive": { "voiceMatch": 5, "toneMatch": 4, "structureOk": true, "issues": [] }, ... }`)
+    out.push(`# Save to /tmp/reviews-${plan.region}.json then run:`)
+    out.push(`#   npm run author -- review-integrate-batch <plan-path> /tmp/reviews-${plan.region}.json`)
+    out.push(``)
+    for (const node of plan.nodes) {
+      out.push(`\n=========================================================`)
+      out.push(`=== NODE: ${node.id}`)
+      out.push(`=========================================================\n`)
+      const brief = await buildReviewBrief(planPath, node.id)
+      out.push(brief)
+    }
+    console.log(out.join('\n'))
+    return
+  }
+  // Auto mode — call API for each node sequentially
+  process.stderr.write(`Reviewing ${plan.nodes.length} nodes in ${plan.region}...\n`)
+  const results: { id: string; pass: boolean; output: string }[] = []
+  for (const node of plan.nodes) {
+    process.stderr.write(`  ${node.id}...`)
+    const r = await autoReview(planPath, node.id)
+    process.stderr.write(` ${r.pass ? '✓' : '⚠'}\n`)
+    results.push({ id: node.id, ...r })
+  }
+  console.log(`\n# review-all summary: ${plan.region}\n`)
+  for (const r of results) console.log(r.output)
+  const passed = results.filter((r) => r.pass).length
+  const failed = results.filter((r) => !r.pass).length
+  console.log(`\nPassed: ${passed} / ${results.length}, Failed: ${failed}`)
+  if (failed > 0) process.exitCode = 2
+}
+
+async function reviewIntegrateBatch(
+  planPath: string,
+  reviewsPath: string,
+): Promise<void> {
+  const plan = await loadPlan(planPath)
+  const raw = await readFile(reviewsPath, 'utf8')
+  const reviewsRaw = JSON.parse(raw) as Record<string, unknown>
+  const results: { id: string; pass: boolean; output: string }[] = []
+  let missing = 0
+  for (const node of plan.nodes) {
+    const data = reviewsRaw[node.id]
+    if (data === undefined) {
+      console.log(`? ${node.id}  (no review data)`)
+      missing += 1
+      continue
+    }
+    const review = ReviewOutputSchema.parse(data)
+    const r = formatReview(node.id, review)
+    results.push({ id: node.id, ...r })
+    console.log(r.output)
+  }
+  const passed = results.filter((r) => r.pass).length
+  const failed = results.filter((r) => !r.pass).length
+  console.log(
+    `\nPassed: ${passed} / ${results.length}, Failed: ${failed}, Missing: ${missing}`,
+  )
+  if (failed > 0 || missing > 0) process.exitCode = 2
+}
+
 const HELP = `Usage:
   tsx scripts/author-node.ts validate-plan <plan-path>
   tsx scripts/author-node.ts build-brief <plan-path> <node-id>
   tsx scripts/author-node.ts integrate <plan-path> <node-id> <prose-json-path>
-  tsx scripts/author-node.ts auto <plan-path> <node-id>            (requires ANTHROPIC_API_KEY)
+  tsx scripts/author-node.ts auto <plan-path> <node-id>                       (requires ANTHROPIC_API_KEY)
   tsx scripts/author-node.ts review-brief <plan-path> <node-id>
   tsx scripts/author-node.ts review-integrate <plan-path> <node-id> <review-json-path>
-  tsx scripts/author-node.ts review <plan-path> <node-id>          (requires ANTHROPIC_API_KEY)
+  tsx scripts/author-node.ts review <plan-path> <node-id>                     (requires ANTHROPIC_API_KEY)
+  tsx scripts/author-node.ts review-all <plan-path>                           (auto if ANTHROPIC_API_KEY, else emits briefs)
+  tsx scripts/author-node.ts review-integrate-batch <plan-path> <reviews-json-path>
 `
 
 async function main() {
@@ -526,6 +599,18 @@ async function main() {
       const result = await autoReview(planPath, nodeId)
       console.log(result.output)
       if (!result.pass) process.exitCode = 2
+      break
+    }
+    case 'review-all': {
+      const [planPath] = args
+      if (!planPath) throw new Error(HELP)
+      await reviewAll(planPath)
+      break
+    }
+    case 'review-integrate-batch': {
+      const [planPath, reviewsPath] = args
+      if (!planPath || !reviewsPath) throw new Error(HELP)
+      await reviewIntegrateBatch(planPath, reviewsPath)
       break
     }
     default:

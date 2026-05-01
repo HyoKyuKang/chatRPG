@@ -2,7 +2,7 @@ region: dawn-spire
 name: 새벽의 첨탑
 description: |-
   옛 마법사들의 자리, 지금은 마왕의 옥좌. 이방인의 마지막 길.
-  수상자의 정체가 드러나고, 3 엔딩 분기점이 있다.
+  회색의 자의 정체가 드러나고, 3 엔딩 분기점이 있다.
 entry: ds-arrive
 boss: ds-mawang
 
@@ -27,23 +27,23 @@ nodes:
 
   - id: ds-watcher
     type: event
-    beat: 수상자 마지막 평소 등장 (reveal 직전). "...곧 알게 된다." 그가 너의 옆에 잠시 선다.
-    personas: [narrator, sujangja]
-    toneTarget: 수상자가 마지막으로 정체를 가린 채 등장. 무거움 — 그도 알고 있다, 다음에 reveal될 것.
+    beat: 회색의 자 마지막 평소 등장 (reveal 직전). "...곧 알게 된다." 그가 너의 옆에 잠시 선다.
+    personas: [narrator, gray-one]
+    toneTarget: 회색의 자가 마지막으로 정체를 가린 채 등장. 무거움 — 그도 알고 있다, 다음에 reveal될 것.
     previous: [ds-arrive]
     next: [ds-ascend]
     echoes:
       - condition:
           knowledge: trusted-stranger
         text: |-
-          수상자: "...너는 일찍부터 나를 따랐지. 곧 그 이유를 알게 된다."
+          회색의 자: "...너는 일찍부터 나를 따랐지. 곧 그 이유를 알게 된다."
       - condition:
           knowledge: rejected-stranger
         text: |-
-          수상자: "...거절한 자에게도, 결국 같은 곳에서 만난다."
+          회색의 자: "...거절한 자에게도, 결국 같은 곳에서 만난다."
     choices:
       - id: watcher-listen
-        label: 수상자의 말을 듣는다
+        label: 회색의 자의 말을 듣는다
         outcome:
           nextNodeId: ds-ascend
       - id: watcher-ascend
@@ -93,7 +93,7 @@ nodes:
     type: event
     beat: 2층 — 이전 이방인들의 흔적. 무덤 또는 기록. 자기 희생을 골랐던 자들의 결만 남음.
     personas: [narrator]
-    toneTarget: 이방인의 정체 단서 — 너 하나가 아니었다. 무거움. 수상자 reveal 직전 build-up.
+    toneTarget: 이방인의 정체 단서 — 너 하나가 아니었다. 무거움. 회색의 자 reveal 직전 build-up.
     previous: [ds-floor-illusion]
     next: [ds-floor-mages]
     echoes:
@@ -137,9 +137,9 @@ nodes:
 
   - id: ds-throne
     type: event
-    beat: 옥좌실 입구. 수상자가 옆에 서 있음. 그가 자기 정체를 말한다 — "나는 너 이전의 자다."
-    personas: [narrator, sujangja]
-    toneTarget: 수상자 reveal의 정점. 무거움 + 안도 + 슬픔. 그가 너에게 봉인 가능성 (희생 엔딩) 흘리지만 추천 X.
+    beat: 옥좌실 입구. 회색의 자가 옆에 서 있음. 그가 자기 정체를 말한다 — "나는 너 이전의 자다."
+    personas: [narrator, gray-one]
+    toneTarget: 회색의 자 reveal의 정점. 무거움 + 안도 + 슬픔. 그가 너에게 봉인 가능성 (희생 엔딩) 흘리지만 추천 X.
     previous: [ds-floor-mages]
     next: [ds-mawang]
     choices:
@@ -190,9 +190,9 @@ nodes:
 
   - id: ds-choice
     type: event
-    beat: 3 엔딩 분기점. 마왕 처치 / 배신 (마왕 합류) / 자기 희생 (수상자처럼 봉인). 마왕은 너를 막지 않는다.
-    personas: [narrator, mawang, sujangja]
-    toneTarget: 가장 무거운 자리. 셋 중 어느 것도 가볍지 않음. 마왕은 결과를 안다 ("끝은 어차피 같다 — 형태만 다르다"). 수상자는 침묵.
+    beat: 3 엔딩 분기점. 마왕 처치 / 배신 (마왕 합류) / 자기 희생 (회색의 자처럼 봉인). 마왕은 너를 막지 않는다.
+    personas: [narrator, mawang, gray-one]
+    toneTarget: 가장 무거운 자리. 셋 중 어느 것도 가볍지 않음. 마왕은 결과를 안다 ("끝은 어차피 같다 — 형태만 다르다"). 회색의 자는 침묵.
     previous: [ds-mawang]
     next: [ds-ending-defeat, ds-ending-betrayal, ds-ending-sacrifice]
     choices:
@@ -216,7 +216,7 @@ nodes:
     type: ending
     beat: 마왕 처치 엔딩. 영웅적 승리 — but 비극적. 다음 이방인이 또 올 것 (세계는 끝나지 않음).
     personas: [narrator, mawang]
-    toneTarget: 영웅적이지만 비극적. 마왕의 마지막 한 마디 ("...너도 자기 자리에 서게 된다."). 수상자 침묵 (그도 같은 자리에 섰던 자).
+    toneTarget: 영웅적이지만 비극적. 마왕의 마지막 한 마디 ("...너도 자기 자리에 서게 된다."). 회색의 자 침묵 (그도 같은 자리에 섰던 자).
     previous: [ds-choice]
     next: []
     choices: []
@@ -232,9 +232,9 @@ nodes:
 
   - id: ds-ending-sacrifice
     type: ending
-    beat: 자기 희생 엔딩 (진엔딩 후보). 수상자처럼 너 자신을 봉인의 일부로 씀. 다음 이방인을 기다리게 된다.
-    personas: [narrator, mawang, sujangja]
-    toneTarget: 진엔딩 후보. 무게 + 안도 + 미래 이방인의 그림자. 마왕의 옛 시대 회상 한 줄. 수상자가 너에게 자리를 넘김.
+    beat: 자기 희생 엔딩 (진엔딩 후보). 회색의 자처럼 너 자신을 봉인의 일부로 씀. 다음 이방인을 기다리게 된다.
+    personas: [narrator, mawang, gray-one]
+    toneTarget: 진엔딩 후보. 무게 + 안도 + 미래 이방인의 그림자. 마왕의 옛 시대 회상 한 줄. 회색의 자가 너에게 자리를 넘김.
     previous: [ds-choice]
     next: []
     choices: []

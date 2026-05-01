@@ -27,26 +27,26 @@ nodes:
 
   - id: fm-watcher
     type: event
-    beat: 망가진 망루. 수상자가 짧게 다시 등장 — 폐허 도시의 역사 단서를 흘린다.
-    personas: [narrator, sujangja]
-    toneTarget: 수상자의 짧은 단서. 도시 역사의 무게. 정체는 여전히 안 흘림.
+    beat: 망가진 망루. 회색의 자가 짧게 다시 등장 — 폐허 도시의 역사 단서를 흘린다.
+    personas: [narrator, gray-one]
+    toneTarget: 회색의 자의 짧은 단서. 도시 역사의 무게. 정체는 여전히 안 흘림.
     previous: [fm-arrive]
     next: [fm-street]
     echoes:
       - condition:
           knowledge: trusted-stranger
         text: |-
-          수상자: "...너의 발걸음이 가벼워졌군. 알고 있었다."
+          회색의 자: "...너의 발걸음이 가벼워졌군. 알고 있었다."
       - condition:
           knowledge: rejected-stranger
         text: |-
-          수상자: "그래도 너는 다시 왔다."
+          회색의 자: "그래도 너는 다시 왔다."
 
           그의 어조에 흔들림이 없다.
       - condition:
           knowledge: fled-tree
         text: |-
-          수상자: "한 번 등을 돌린 자도, 또 다른 등을 마주한다."
+          회색의 자: "한 번 등을 돌린 자도, 또 다른 등을 마주한다."
     choices:
       - id: watcher-ask
         label: 이 도시는 무엇이었는가
@@ -222,7 +222,7 @@ nodes:
   - id: fm-resolution
     type: ending
     beat: 결판. 사령관 처치 또는 도주. 그의 마지막 한 줄. 다음 지역 (재의 황무지) 암시.
-    personas: [narrator, shadow-commander, sujangja]
+    personas: [narrator, shadow-commander, gray-one]
     toneTarget: 결판 정서. 사령관 마지막 한 줄 ("...고맙다." 결). 황무지 가리킴. 마지막 단락은 개발용 메타 마커.
     previous: [fm-boss]
     next: []

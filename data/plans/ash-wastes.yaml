@@ -27,29 +27,29 @@ nodes:
 
   - id: fa-watcher
     type: event
-    beat: 수상자가 다시 등장 — 마왕 영토 깊이의 단서. "여긴 마왕이 사람의 마음에 닿는 곳이다." 정체는 안 흘림.
-    personas: [narrator, sujangja]
-    toneTarget: 수상자의 단서가 무거움. 마왕이 단순 적이 아니라 사람의 마음에 닿는 자라는 결.
+    beat: 회색의 자가 다시 등장 — 마왕 영토 깊이의 단서. "여긴 마왕이 사람의 마음에 닿는 곳이다." 정체는 안 흘림.
+    personas: [narrator, gray-one]
+    toneTarget: 회색의 자의 단서가 무거움. 마왕이 단순 적이 아니라 사람의 마음에 닿는 자라는 결.
     previous: [fa-arrive]
     next: [fa-fork]
     echoes:
       - condition:
           knowledge: trusted-stranger
         text: |-
-          수상자가 잠깐 멈춘다.
+          회색의 자가 잠깐 멈춘다.
 
-          수상자: "...너의 문은 일찍 열렸지. 잠그는 법도 너에게 있다."
+          회색의 자: "...너의 문은 일찍 열렸지. 잠그는 법도 너에게 있다."
       - condition:
           knowledge: rejected-stranger
         text: |-
-          수상자: "믿지 않아도 된다. 다만 닫아 두기는 하라."
+          회색의 자: "믿지 않아도 된다. 다만 닫아 두기는 하라."
       - condition:
           knowledge: fled-shadow
         text: |-
-          수상자: "산맥에서 한 번 등을 돌린 자도, 여기선 등을 돌릴 곳이 없다."
+          회색의 자: "산맥에서 한 번 등을 돌린 자도, 여기선 등을 돌릴 곳이 없다."
     choices:
       - id: watcher-listen
-        label: 수상자의 말을 듣는다
+        label: 회색의 자의 말을 듣는다
         outcome:
           knowledgeGain: [mawang-deep]
           nextNodeId: fa-fork
@@ -251,9 +251,9 @@ nodes:
 
   - id: fa-resolution
     type: ending
-    beat: 3지역 끝. 잠식된 자 처치/도주 후 그의 마지막 한 줄. 수상자 등장 — 4지역(꿈꾸는 도시) 암시 ("거기선 마왕의 환각이 사람 전체를 가둔다"). 이방인은 마왕의 정신 조작 능력의 깊이를 처음으로 가늠함.
-    personas: [narrator, corrupted-one, sujangja]
-    toneTarget: 결판 정서 + 무감각의 무게. 잠식된 자의 마지막 한 마디는 짧음 ("이게 끝이다" 결). 수상자는 꿈꾸는 도시 가리킴 — 사람 전체가 환각에 갇힌 곳. 마지막 단락은 개발용 메타 마커.
+    beat: 3지역 끝. 잠식된 자 처치/도주 후 그의 마지막 한 줄. 회색의 자 등장 — 4지역(꿈꾸는 도시) 암시 ("거기선 마왕의 환각이 사람 전체를 가둔다"). 이방인은 마왕의 정신 조작 능력의 깊이를 처음으로 가늠함.
+    personas: [narrator, corrupted-one, gray-one]
+    toneTarget: 결판 정서 + 무감각의 무게. 잠식된 자의 마지막 한 마디는 짧음 ("이게 끝이다" 결). 회색의 자는 꿈꾸는 도시 가리킴 — 사람 전체가 환각에 갇힌 곳. 마지막 단락은 개발용 메타 마커.
     previous: [fa-corrupted]
     next: []
     echoes:

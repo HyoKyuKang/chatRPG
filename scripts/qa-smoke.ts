@@ -51,7 +51,7 @@ async function main() {
   await page.getByRole('button', { name: '이게 무슨 글인지 알려달라' }).click()
   await page.waitForSelector('text=딱 한 번 외워봐')
   await page.getByRole('button', { name: '긴 호흡을 하고 외운다' }).click()
-  await page.waitForSelector('text=룬을 부를 수 있는 자')
+  await page.waitForSelector('text=외운 건 외운 거다')
   console.log('✓ fo-mage-awaken')
 
   await page.getByRole('button', { name: '룬을 부르는 자로 살겠다' }).click()

@@ -6,12 +6,12 @@
   },
   {
     "id": "trusted-stranger",
-    "name": "수상자에게 응답함",
+    "name": "회색의 자에게 응답함",
     "description": "정체 모를 자의 말을 일단 따르기로 했다."
   },
   {
     "id": "rejected-stranger",
-    "name": "수상자를 거절함",
+    "name": "회색의 자를 거절함",
     "description": "그의 말을 듣지 않기로 했다. 그는 사라졌지만 또 올 것이다."
   },
   {
@@ -191,8 +191,8 @@
   },
   {
     "id": "watcher-revealed",
-    "name": "수상자의 정체",
-    "description": "수상자는 너 이전의 이방인이었다. 자기 희생 엔딩으로 봉인의 일부가 된 자."
+    "name": "회색의 자의 정체",
+    "description": "회색의 자는 너 이전의 이방인이었다. 자기 희생 엔딩으로 봉인의 일부가 된 자."
   },
   {
     "id": "chose-defeat",
@@ -207,6 +207,6 @@
   {
     "id": "chose-sacrifice",
     "name": "스스로를 봉인함",
-    "description": "수상자처럼, 너 자신을 끝의 봉인으로 썼다. 다음 이방인을 기다리게 된다."
+    "description": "회색의 자처럼, 너 자신을 끝의 봉인으로 썼다. 다음 이방인을 기다리게 된다."
   }
 ]
