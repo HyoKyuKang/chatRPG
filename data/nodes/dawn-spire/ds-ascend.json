@@ -22,6 +22,22 @@
         "text": "이름들을 밟고 지나간다. 발바닥 아래에서 글씨가 식어 있다. 위를 본다. 계단은 끝이 보이지 않는 곳으로 휘어 사라진다.",
         "nextNodeId": "ds-floor-illusion"
       }
+    },
+    {
+      "id": "ascend-alcove",
+      "text": "옆 벽감의 결을 따라간다",
+      "outcome": {
+        "text": "발걸음이 계단에서 한 발 비낀다. 좁은 벽감 안쪽으로 새벽 빛 한 줄이 비스듬히 들어온다.",
+        "nextNodeId": "ds-rest-alcove"
+      }
+    },
+    {
+      "id": "ascend-side-engraving",
+      "text": "벽의 작은 새김을 살핀다",
+      "outcome": {
+        "text": "다른 이름들과 떨어진 자리에 짧은 자국 하나가 비낀다. 손톱으로 새긴 결.",
+        "nextNodeId": "ds-discovery-engraving"
+      }
     }
   ]
 }

@@ -53,11 +53,11 @@ nodes:
 
   - id: ds-ascend
     type: encounter
-    beat: 첨탑을 오르기 시작. 계단에 옛 이름들이 새겨져 있음 — 지나간 자들의 자국.
+    beat: 첨탑을 오르기 시작. 계단에 옛 이름들이 새겨져 있음 — 지나간 자들의 자국. 가지 진입 (벽감 / 새김 결) 두 개 추가 — gate 없음.
     personas: [narrator]
-    toneTarget: 오름의 무게. 계단마다 옛 자들의 흔적. 이방인이 너 하나가 아니었음의 첫 단서.
+    toneTarget: 오름의 무게. 계단마다 옛 자들의 흔적. 이방인이 너 하나가 아니었음의 첫 단서. 가지 분기는 무게보다 호흡 — 오름에서 잠깐 비껴남.
     previous: [ds-watcher]
-    next: [ds-floor-illusion]
+    next: [ds-floor-illusion, ds-rest-alcove, ds-discovery-engraving]
     choices:
       - id: ascend-read
         label: 계단의 이름들을 읽는다
@@ -68,6 +68,14 @@ nodes:
         label: 곧장 오른다
         outcome:
           nextNodeId: ds-floor-illusion
+      - id: ascend-alcove
+        label: 옆 벽감의 결을 따라간다
+        outcome:
+          nextNodeId: ds-rest-alcove
+      - id: ascend-side-engraving
+        label: 벽의 작은 새김을 살핀다
+        outcome:
+          nextNodeId: ds-discovery-engraving
 
   - id: ds-floor-illusion
     type: event
@@ -156,9 +164,9 @@ nodes:
 
   - id: ds-mawang
     type: boss
-    beat: 마왕 첫 등장. 옥좌에서 일어남. "또 왔구나." 정중함 + 차가움. 적개심 X — 인식.
+    beat: 마왕 첫 등장. 옥좌에서 일어남. "또 왔구나." 적개심 X — 인식. narrator 가 그의 본질("한때 사람이었던") / 감정("분노 없음, 정중함") / 너의 내면("너 자신의 끝을 본다") 직접 단언 X — 외부 결(평탄한 목소리, 한 박자도 안 흔들림, 시선이 늦게 돌아옴) 으로만.
     personas: [narrator, mawang]
-    toneTarget: 마왕의 첫 등장. 사령관(슬픔), 잠식된 자(무감), 잠든 왕(모름)과 다른 결 — **인식 + 비극적 깊이**. 그도 한때 이방인이었음의 결.
+    toneTarget: 마왕의 첫 등장. 사령관(슬픔), 잠식된 자(무감), 잠든 왕(모름)과 다른 결 — **인식 + 비극적 깊이**. 그도 한때 이방인이었음의 결은 그의 대사로만 직접, narrator 는 외부 동작/시선의 결로 비춤.
     previous: [ds-throne]
     next: [ds-choice]
     echoes:
@@ -238,3 +246,74 @@ nodes:
     previous: [ds-choice]
     next: []
     choices: []
+
+  - id: ds-rest-alcove
+    type: rest
+    beat: 계단 옆 작은 벽감. 옛 마법사가 한 호흡 내려놓던 자리. HP +1. 벽감 뒤 좁은 문으로 기록자(ds-shop-archive) 진입.
+    personas: [narrator]
+    toneTarget: 차가운 첨탑 안의 한 호흡. 1지역 옛 샘 / 2지역 사당 / 3지역 옛 우물 / 4지역 골목 분수와 다른 결 — 좁은 새벽 빛 한 줄. narrator 외부 관찰만.
+    previous: [ds-ascend]
+    next: [ds-floor-illusion, ds-shop-archive]
+    choices:
+      - id: alcove-rest
+        label: 잠시 의자에 앉는다
+        outcome:
+          statDelta:
+            hp: 1
+          nextNodeId: ds-floor-illusion
+      - id: alcove-archive
+        label: 벽감 너머의 좁은 문을 살핀다
+        outcome:
+          nextNodeId: ds-shop-archive
+      - id: alcove-leave
+        label: 그대로 계단으로 돌아간다
+        outcome:
+          nextNodeId: ds-floor-illusion
+
+  - id: ds-shop-archive
+    type: shop
+    beat: 작은 서고. 기록자 — 옛 마법사 시대가 끝났을 때 첨탑에 남은 자, 사람인지 환영인지 묻지 않음. HP↔MP 양방향 거래 두 종 + 떠나기. heroEncounter=archivist.
+    personas: [narrator, archivist]
+    toneTarget: 짧은 어조, 정중한 거리. 행객 단(직설) / 탈영자(짧음) / 순례자(짧은 옛 음절) / 깨어 있는 자(작은 목소리) 와 차별 — 기록자는 "한 호흡 남기시오" 결로 첨탑 자체와 같이 머문 자.
+    previous: [ds-rest-alcove]
+    next: [ds-floor-illusion]
+    choices:
+      - id: archive-trade-mp
+        label: 피로 룬 한 줄을 산다 (HP -1, MP +2)
+        outcome:
+          statDelta:
+            hp: -1
+            mana: 2
+          heroEncounter: archivist
+          nextNodeId: ds-floor-illusion
+      - id: archive-trade-hp
+        label: 주문 한 줄을 내주고 호흡을 산다 (MP -1, HP +2)
+        outcome:
+          statDelta:
+            mana: -1
+            hp: 2
+          heroEncounter: archivist
+          nextNodeId: ds-floor-illusion
+      - id: archive-leave
+        label: 거래하지 않고 떠난다
+        outcome:
+          heroEncounter: archivist
+          nextNodeId: ds-floor-illusion
+
+  - id: ds-discovery-engraving
+    type: event
+    beat: 계단 옆 벽의 짧은 새김. 한 자가 손톱으로 새긴 짧은 이름 — 다른 이름들과 떨어진 자리. stranger-mark knowledge. previous-strangers (계단의 여러 이름) 와 차별 — 한 자의 개별 자국.
+    personas: [narrator]
+    toneTarget: 첨탑 안의 한 호흡 멈춤. 손길의 결이 너의 결과 같다는 단서 — 회색의 자 reveal 직전 build-up 의 작은 결.
+    previous: [ds-ascend]
+    next: [ds-floor-illusion]
+    choices:
+      - id: engraving-trace
+        label: 결을 따라 손을 올린다
+        outcome:
+          knowledgeGain: [stranger-mark]
+          nextNodeId: ds-floor-illusion
+      - id: engraving-pass
+        label: 그대로 지나친다
+        outcome:
+          nextNodeId: ds-floor-illusion

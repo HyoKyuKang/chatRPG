@@ -1,0 +1,33 @@
+{
+  "id": "ds-rest-alcove",
+  "region": "dawn-spire",
+  "type": "rest",
+  "description": "계단 옆으로 작은 벽감이 패여 있다. 옛 마법사가 한 호흡을 내려놓았던 자리.\n\n돌의자 위에 누군가가 깔아 둔 천이 있다. 색은 빛을 잃었지만 결은 또렷하다.\n\n바깥의 새벽 빛이 좁은 창으로 한 줄 들어와, 천 위에 잠시 머문다.",
+  "choices": [
+    {
+      "id": "alcove-rest",
+      "text": "잠시 의자에 앉는다",
+      "outcome": {
+        "text": "돌이 차다. 차가움이 등을 따라 가슴까지 닿는다. 호흡이 한 박자 길어진다.",
+        "statDelta": { "hp": 1 },
+        "nextNodeId": "ds-floor-illusion"
+      }
+    },
+    {
+      "id": "alcove-archive",
+      "text": "벽감 너머의 좁은 문을 살핀다",
+      "outcome": {
+        "text": "돌의자 뒤로 좁은 문이 비낀다. 안쪽에서 종이 결의 냄새가 한 줌 새어 나온다.",
+        "nextNodeId": "ds-shop-archive"
+      }
+    },
+    {
+      "id": "alcove-leave",
+      "text": "그대로 계단으로 돌아간다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 천 위의 새벽 빛 자국이 너의 등 뒤에서 잠시 더 머문다.",
+        "nextNodeId": "ds-floor-illusion"
+      }
+    }
+  ]
+}
