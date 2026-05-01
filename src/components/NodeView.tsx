@@ -460,10 +460,22 @@ function SpeechLine({
   body: string
   muted?: boolean
 }) {
+  const hero = heroByName.get(speaker)
+  const [avatarError, setAvatarError] = useState(false)
+  const showAvatar = hero && !avatarError
   return (
     <div className="my-1 fade-in-up">
       <div className="flex items-center gap-2 mb-1">
-        <span className="h-[1px] w-3 bg-gold-700/60" />
+        {showAvatar ? (
+          <img
+            src={`/portraits/${hero.id}.webp`}
+            alt={speaker}
+            onError={() => setAvatarError(true)}
+            className="w-6 h-6 rounded-full object-cover border border-gold-700/40 -ml-0.5"
+          />
+        ) : (
+          <span className="h-[1px] w-3 bg-gold-700/60" />
+        )}
         <span className="text-gold-300 text-[10px] font-semibold tracking-[0.2em] uppercase">
           {speaker}
         </span>
@@ -500,18 +512,31 @@ function HeroIntroCard({ hero }: { hero: Hero }) {
   const enc = hero.encounter
   const tone = ENCOUNTER_TONE[enc]
   const initial = hero.name[0]
+  const [imageError, setImageError] = useState(false)
+  const portraitUrl = `/portraits/${hero.id}.webp`
   return (
     <div
       className={`my-4 rounded-lg border bg-gradient-to-br overflow-hidden shadow-card fade-in-up ${tone}`}
     >
-      <div className="aspect-[5/3] flex items-center justify-center bg-gradient-to-br from-black/40 via-transparent to-black/30 border-b border-white/5 relative">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_70%)]" />
-        <div className="text-[88px] font-bold text-white/20 tracking-tight select-none drop-shadow-lg">
-          {initial}
-        </div>
-        <div className="absolute bottom-2 right-3 text-[9px] uppercase tracking-[0.3em] text-white/30">
-          일러스트 곧 추가
-        </div>
+      <div className="aspect-[5/3] flex items-center justify-center bg-gradient-to-br from-black/40 via-transparent to-black/30 border-b border-white/5 relative overflow-hidden">
+        {!imageError ? (
+          <img
+            src={portraitUrl}
+            alt={hero.name}
+            onError={() => setImageError(true)}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <>
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_70%)]" />
+            <div className="text-[88px] font-bold text-white/20 tracking-tight select-none drop-shadow-lg">
+              {initial}
+            </div>
+            <div className="absolute bottom-2 right-3 text-[9px] uppercase tracking-[0.3em] text-white/30">
+              일러스트 곧 추가
+            </div>
+          </>
+        )}
       </div>
       <div className="px-4 py-3 bg-ink-900/40">
         <div className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 opacity-90">
