@@ -20,6 +20,8 @@ async function main() {
     headless: true,
   })
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
+  // Disable Phase B staged reveal during smoke (NodeView checks prefers-reduced-motion)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   page.on('pageerror', (e) => console.error('  [pageerror]', e.message))
   page.on('console', (msg) => {
     if (msg.type() === 'error') console.error('  [console.error]', msg.text())

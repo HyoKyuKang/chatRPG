@@ -1,6 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { data, useGame } from '../store'
-import type { Choice } from '../schemas'
+import type { Choice, Hero } from '../schemas'
+
+// ─── Choice condition ─────────────────────────────────────────────────────
 
 function isChoiceVisible(
   choice: Choice,
@@ -23,6 +25,8 @@ function isChoiceVisible(
   return true
 }
 
+// ─── Paragraph parsing ────────────────────────────────────────────────────
+
 interface ParsedParagraph {
   kind: 'narrator' | 'speech'
   speaker?: string
@@ -43,59 +47,77 @@ function splitParagraphs(text: string): ParsedParagraph[] {
     })
 }
 
-function NarratorBlock({ text }: { text: string }) {
-  return (
-    <div className="space-y-3">
-      {splitParagraphs(text).map((p, i) =>
-        p.kind === 'speech' ? (
-          <SpeechLine key={i} speaker={p.speaker!} body={p.body} />
-        ) : (
-          <p
-            key={i}
-            className="prose-ko text-ink-100 whitespace-pre-line"
-          >
-            {p.body}
-          </p>
-        ),
-      )}
-    </div>
-  )
+// ─── Reveal queue items ───────────────────────────────────────────────────
+
+type HistoryKind = 'node' | 'choice' | 'outcome' | 'death'
+
+type RevealItem =
+  | {
+      kind: 'paragraph'
+      parentKind: HistoryKind
+      parentIndex: number
+      paragraph: ParsedParagraph
+    }
+  | { kind: 'hero-card'; parentIndex: number; heroId: string }
+  | { kind: 'simple'; parentKind: HistoryKind; parentIndex: number; body: string }
+
+const heroByName = new Map<string, Hero>()
+data.heroes.forEach((h) => heroByName.set(h.name, h))
+
+function entryToReveal(
+  entry: { kind: HistoryKind; text: string },
+  index: number,
+  alreadyEncountered: Set<string>,
+): RevealItem[] {
+  if (entry.kind === 'choice' || entry.kind === 'death') {
+    return [
+      {
+        kind: 'simple',
+        parentKind: entry.kind,
+        parentIndex: index,
+        body: entry.text,
+      },
+    ]
+  }
+  // 'node' or 'outcome' — split into paragraphs and inject hero cards
+  const paragraphs = splitParagraphs(entry.text)
+  const items: RevealItem[] = []
+  paragraphs.forEach((p) => {
+    if (p.kind === 'speech' && p.speaker) {
+      const hero = heroByName.get(p.speaker)
+      if (hero && !alreadyEncountered.has(hero.id)) {
+        items.push({ kind: 'hero-card', parentIndex: index, heroId: hero.id })
+        alreadyEncountered.add(hero.id)
+      }
+    }
+    items.push({
+      kind: 'paragraph',
+      parentKind: entry.kind,
+      parentIndex: index,
+      paragraph: p,
+    })
+  })
+  return items
 }
 
-function SpeechLine({ speaker, body }: { speaker: string; body: string }) {
-  return (
-    <div className="my-1">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="h-[1px] w-3 bg-gold-700/60" />
-        <span className="text-gold-300 text-[10px] font-semibold tracking-[0.2em] uppercase">
-          {speaker}
-        </span>
-      </div>
-      <p className="prose-ko text-ink-50 pl-5 whitespace-pre-line">
-        {body}
-      </p>
-    </div>
-  )
+// ─── Reveal pacing ────────────────────────────────────────────────────────
+
+// Hades-style pacing: narrator instant (batched), only character speech is staged.
+// Hero intro card pauses briefly for cinematic effect; death gets emphasis pause.
+function pacingFor(item: RevealItem): { delay: number; typing: boolean } {
+  if (item.kind === 'simple') {
+    if (item.parentKind === 'choice') return { delay: 0, typing: false }
+    return { delay: 220, typing: false } // death — slight emphasis
+  }
+  if (item.kind === 'hero-card') return { delay: 280, typing: false }
+  // paragraph
+  const isSpeech = item.paragraph.kind === 'speech'
+  if (isSpeech) return { delay: 700, typing: true }
+  // narrator / outcome-narrator → instant (batched with siblings)
+  return { delay: 0, typing: false }
 }
 
-function OutcomeBlock({ text }: { text: string }) {
-  return (
-    <div className="space-y-2 pl-3 border-l border-ink-700/50">
-      {splitParagraphs(text).map((p, i) =>
-        p.kind === 'speech' ? (
-          <SpeechLine key={i} speaker={p.speaker!} body={p.body} />
-        ) : (
-          <p
-            key={i}
-            className="prose-ko text-ink-200 italic whitespace-pre-line"
-          >
-            {p.body}
-          </p>
-        ),
-      )}
-    </div>
-  )
-}
+// ─── Main component ───────────────────────────────────────────────────────
 
 export function NodeView() {
   const run = useGame((s) => s.run)
@@ -113,16 +135,133 @@ export function NodeView() {
       ? data.regions.get(currentRegion.nextRegion)
       : undefined
 
+  // Reveal state
+  const [revealed, setRevealed] = useState<RevealItem[]>([])
+  const [pending, setPending] = useState<RevealItem[]>([])
+  const [typing, setTyping] = useState(false)
+  const lastHistoryLengthRef = useRef(0)
+  const hydratedRef = useRef(false)
+
+  // Skip staging when user prefers reduced motion (also used by QA smoke)
+  const reducedMotion = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Sync history → reveal queue
+  useEffect(() => {
+    const history = run.history
+    const encountered = new Set(run.heroesEncountered)
+
+    // First mount with content → instant hydrate (no staged reveal for old)
+    if (!hydratedRef.current && history.length > 0) {
+      const allItems = history.flatMap((h, i) =>
+        entryToReveal(h, i, encountered),
+      )
+      setRevealed(allItems)
+      setPending([])
+      lastHistoryLengthRef.current = history.length
+      hydratedRef.current = true
+      return
+    }
+
+    // History shrank (reset / resetAll) → restart with staged reveal
+    if (history.length < lastHistoryLengthRef.current) {
+      const fresh = new Set<string>() // restart encounters
+      const items = history.flatMap((h, i) => entryToReveal(h, i, fresh))
+      if (reducedMotion) {
+        setRevealed(items)
+        setPending([])
+      } else {
+        setRevealed([])
+        setPending(items)
+      }
+      setTyping(false)
+      lastHistoryLengthRef.current = history.length
+      return
+    }
+
+    // History grew → enqueue new entries (or instant-reveal if reduced motion)
+    if (history.length > lastHistoryLengthRef.current) {
+      const startIdx = lastHistoryLengthRef.current
+      const newEntries = history.slice(startIdx)
+      const encounteredForNew = new Set(run.heroesEncountered)
+      revealed.forEach((it) => {
+        if (it.kind === 'hero-card') encounteredForNew.add(it.heroId)
+      })
+      const newItems = newEntries.flatMap((h, di) =>
+        entryToReveal(h, startIdx + di, encounteredForNew),
+      )
+      if (reducedMotion) {
+        setRevealed((prev) => [...prev, ...newItems])
+      } else {
+        setPending((prev) => [...prev, ...newItems])
+      }
+      lastHistoryLengthRef.current = history.length
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [run.history.length])
+
+  // Process pending queue:
+  // 1. Drain leading instant items in one batch (narrator/choice → flushed together)
+  // 2. Then schedule the next paced item via setTimeout
+  useEffect(() => {
+    if (pending.length === 0) {
+      if (typing) setTyping(false)
+      return
+    }
+
+    // Batch-flush leading instant items (delay === 0, no typing)
+    let batchEnd = 0
+    while (batchEnd < pending.length) {
+      const { delay, typing: shouldType } = pacingFor(pending[batchEnd])
+      if (delay > 0 || shouldType) break
+      batchEnd++
+    }
+    if (batchEnd > 0) {
+      const batch = pending.slice(0, batchEnd)
+      setRevealed((prev) => [...prev, ...batch])
+      setPending((prev) => prev.slice(batchEnd))
+      return
+    }
+
+    // pending[0] is a paced item
+    const next = pending[0]
+    const { delay, typing: shouldType } = pacingFor(next)
+    if (shouldType) setTyping(true)
+    else if (typing) setTyping(false)
+
+    const timer = setTimeout(() => {
+      setRevealed((prev) => [...prev, next])
+      setPending((prev) => prev.slice(1))
+      setTyping(false)
+    }, delay)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pending])
+
+  // Auto-scroll to bottom on new content
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
       behavior: 'smooth',
     })
-  }, [run.history.length])
+  }, [revealed.length, typing])
+
+  // Tap-to-skip
+  const skipAll = () => {
+    if (pending.length === 0 && !typing) return
+    setRevealed((prev) => [...prev, ...pending])
+    setPending([])
+    setTyping(false)
+  }
+
+  const revealComplete = pending.length === 0 && !typing
 
   const visibleChoices =
-    !isDead && !isEnding && node
+    !isDead && !isEnding && node && revealComplete
       ? node.choices.filter((c) =>
           isChoiceVisible(c, {
             classChosen: run.classChosen,
@@ -133,46 +272,36 @@ export function NodeView() {
         )
       : []
 
+  // Group revealed items by parentIndex for entry-level styling
+  const groups = useMemo(() => {
+    const map = new Map<number, RevealItem[]>()
+    revealed.forEach((it) => {
+      if (!map.has(it.parentIndex)) map.set(it.parentIndex, [])
+      map.get(it.parentIndex)!.push(it)
+    })
+    return Array.from(map.entries()).sort(([a], [b]) => a - b)
+  }, [revealed])
+
   return (
     <div className="flex flex-col h-full">
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-5 py-5 space-y-4"
+        onClick={skipAll}
+        className="flex-1 overflow-y-auto px-5 py-5 space-y-4 cursor-default"
       >
-        {run.history.map((h, i) => {
-          if (h.kind === 'node') return <NarratorBlock key={i} text={h.text} />
+        {groups.map(([parentIndex, items]) => (
+          <RevealedGroup key={parentIndex} items={items} />
+        ))}
 
-          if (h.kind === 'choice')
-            return (
-              <p
-                key={i}
-                className="text-gold-500/90 text-[13px] tracking-wide pl-3 border-l-2 border-gold-700/40 my-1"
-              >
-                <span className="opacity-70 mr-1">▸</span>
-                {h.text}
-              </p>
-            )
-
-          if (h.kind === 'outcome') return <OutcomeBlock key={i} text={h.text} />
-
-          if (h.kind === 'death')
-            return (
-              <div
-                key={i}
-                className="my-3 px-4 py-3 rounded-md border border-blood-700/50 bg-blood-700/15"
-              >
-                <p className="text-blood-300 text-sm whitespace-pre-line">
-                  {h.text}
-                </p>
-              </div>
-            )
-
-          return null
-        })}
+        {typing && <TypingIndicator />}
       </div>
 
       <div className="border-t border-white/5 px-4 pt-3 pb-4 space-y-2 bg-ink-950/40 backdrop-blur-sm">
-        {isDead ? (
+        {!revealComplete ? (
+          <p className="text-ink-500 text-center py-4 text-[12px] tracking-widest uppercase select-none">
+            화면을 누르면 빨리감기
+          </p>
+        ) : isDead ? (
           <ChoiceButton variant="death" onClick={reset}>
             다시 출정
           </ChoiceButton>
@@ -190,7 +319,11 @@ export function NodeView() {
           </p>
         ) : (
           visibleChoices.map((c) => (
-            <ChoiceButton key={c.id} variant="default" onClick={() => choose(c.id)}>
+            <ChoiceButton
+              key={c.id}
+              variant="default"
+              onClick={() => choose(c.id)}
+            >
               {c.text}
             </ChoiceButton>
           ))
@@ -199,6 +332,165 @@ export function NodeView() {
     </div>
   )
 }
+
+// ─── Group renderer (one history entry's worth of items) ──────────────────
+
+function RevealedGroup({ items }: { items: RevealItem[] }) {
+  if (items.length === 0) return null
+  const head = items[0]
+
+  if (head.kind === 'simple' && head.parentKind === 'choice') {
+    return (
+      <p className="text-gold-500/90 text-[13px] tracking-wide pl-3 border-l-2 border-gold-700/40 my-1 fade-in-up">
+        <span className="opacity-70 mr-1">▸</span>
+        {head.body}
+      </p>
+    )
+  }
+
+  if (head.kind === 'simple' && head.parentKind === 'death') {
+    return (
+      <div className="my-3 px-4 py-3 rounded-md border border-blood-700/50 bg-blood-700/15 fade-in-up">
+        <p className="text-blood-300 text-sm whitespace-pre-line">
+          {head.body}
+        </p>
+      </div>
+    )
+  }
+
+  // 'node' or 'outcome' — paragraphs + hero cards
+  const isOutcome = head.parentKind === 'outcome'
+  const wrapperClass = isOutcome
+    ? 'space-y-2 pl-3 border-l border-ink-700/50'
+    : 'space-y-3'
+
+  return (
+    <div className={wrapperClass}>
+      {items.map((it, i) => {
+        if (it.kind === 'hero-card') {
+          const hero = data.heroes.get(it.heroId)
+          if (!hero) return null
+          return <HeroIntroCard key={i} hero={hero} />
+        }
+        if (it.kind === 'paragraph') {
+          const p = it.paragraph
+          if (p.kind === 'speech' && p.speaker) {
+            return (
+              <SpeechLine
+                key={i}
+                speaker={p.speaker}
+                body={p.body}
+                muted={isOutcome}
+              />
+            )
+          }
+          return (
+            <p
+              key={i}
+              className={`prose-ko whitespace-pre-line fade-in-up ${
+                isOutcome ? 'text-ink-200 italic' : 'text-ink-100'
+              }`}
+            >
+              {p.body}
+            </p>
+          )
+        }
+        return null
+      })}
+    </div>
+  )
+}
+
+function SpeechLine({
+  speaker,
+  body,
+  muted,
+}: {
+  speaker: string
+  body: string
+  muted?: boolean
+}) {
+  return (
+    <div className="my-1 fade-in-up">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="h-[1px] w-3 bg-gold-700/60" />
+        <span className="text-gold-300 text-[10px] font-semibold tracking-[0.2em] uppercase">
+          {speaker}
+        </span>
+      </div>
+      <p
+        className={`prose-ko pl-5 whitespace-pre-line ${
+          muted ? 'text-ink-100/85' : 'text-ink-50'
+        }`}
+      >
+        {body}
+      </p>
+    </div>
+  )
+}
+
+// ─── Hero intro placeholder card ──────────────────────────────────────────
+
+const ENCOUNTER_LABEL: Record<Hero['encounter'], string> = {
+  companion: '동행',
+  neutral: '조우',
+  foe: '적',
+}
+
+const ENCOUNTER_TONE: Record<Hero['encounter'], string> = {
+  companion:
+    'border-gold-500/40 from-gold-700/25 to-ink-800/60 text-gold-300',
+  neutral:
+    'border-rune-500/40 from-rune-700/25 to-ink-800/60 text-rune-300',
+  foe:
+    'border-blood-500/40 from-blood-700/30 to-ink-800/60 text-blood-300',
+}
+
+function HeroIntroCard({ hero }: { hero: Hero }) {
+  const enc = hero.encounter
+  const tone = ENCOUNTER_TONE[enc]
+  const initial = hero.name[0]
+  return (
+    <div
+      className={`my-4 rounded-lg border bg-gradient-to-br overflow-hidden shadow-card fade-in-up ${tone}`}
+    >
+      <div className="aspect-[5/3] flex items-center justify-center bg-gradient-to-br from-black/40 via-transparent to-black/30 border-b border-white/5 relative">
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent_70%)]" />
+        <div className="text-[88px] font-bold text-white/20 tracking-tight select-none drop-shadow-lg">
+          {initial}
+        </div>
+        <div className="absolute bottom-2 right-3 text-[9px] uppercase tracking-[0.3em] text-white/30">
+          일러스트 곧 추가
+        </div>
+      </div>
+      <div className="px-4 py-3 bg-ink-900/40">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 opacity-90">
+          {ENCOUNTER_LABEL[enc]}
+        </div>
+        <div className="text-lg font-semibold text-ink-50 mb-1.5">
+          {hero.name}
+        </div>
+        <div className="text-[13px] text-ink-200/75 leading-relaxed">
+          {hero.bio}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Typing indicator ─────────────────────────────────────────────────────
+
+function TypingIndicator() {
+  return (
+    <div className="pl-5 py-1 flex gap-1.5 items-center fade-in" aria-hidden>
+      <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-300/80" />
+      <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-300/80" />
+      <span className="typing-dot h-1.5 w-1.5 rounded-full bg-gold-300/80" />
+    </div>
+  )
+}
+
+// ─── Choice button ────────────────────────────────────────────────────────
 
 interface ChoiceButtonProps {
   variant: 'default' | 'advance' | 'death' | 'neutral'
@@ -209,28 +501,37 @@ interface ChoiceButtonProps {
 function ChoiceButton({ variant, onClick, children }: ChoiceButtonProps) {
   const styles: Record<ChoiceButtonProps['variant'], string> = {
     default:
-      'border-gold-700/40 hover:border-gold-500/70 bg-gradient-to-b from-gold-700/15 to-gold-700/5 hover:from-gold-700/25 hover:to-gold-700/10 text-ink-100 hover:text-gold-300',
+      'border-gold-700/40 hover:border-gold-500/70 bg-gradient-to-b from-gold-700/15 to-gold-700/5 hover:from-gold-700/30 hover:to-gold-700/10 text-ink-100 hover:text-gold-300 active:bg-gold-500/30 active:border-gold-300 active:text-gold-200',
     advance:
-      'border-rune-500/40 hover:border-rune-300/70 bg-gradient-to-b from-rune-700/20 to-rune-700/5 hover:from-rune-700/35 text-rune-300',
+      'border-rune-500/40 hover:border-rune-300/70 bg-gradient-to-b from-rune-700/20 to-rune-700/5 hover:from-rune-700/40 text-rune-300 active:bg-rune-500/30 active:border-rune-300',
     death:
-      'border-blood-500/40 hover:border-blood-300/70 bg-gradient-to-b from-blood-700/20 to-blood-700/5 hover:from-blood-700/35 text-blood-300',
+      'border-blood-500/40 hover:border-blood-300/70 bg-gradient-to-b from-blood-700/20 to-blood-700/5 hover:from-blood-700/40 text-blood-300 active:bg-blood-500/30 active:border-blood-300',
     neutral:
-      'border-ink-400/40 hover:border-ink-200/70 bg-gradient-to-b from-ink-700/30 to-ink-700/10 hover:from-ink-700/40 text-ink-100',
+      'border-ink-400/40 hover:border-ink-200/70 bg-gradient-to-b from-ink-700/30 to-ink-700/10 hover:from-ink-700/45 text-ink-100 active:bg-ink-500/30 active:border-ink-200',
   }
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
       className={`
-        w-full px-4 py-3.5 text-left text-[14px]
-        rounded-md border transition-all
-        active:scale-[0.99]
-        group
+        relative w-full px-4 py-3.5 text-left text-[14px]
+        rounded-md border transition-all duration-150
+        active:scale-[0.97]
+        group fade-in overflow-hidden
         ${styles[variant]}
       `}
     >
-      <span className="opacity-60 group-hover:opacity-100 mr-2 transition">
-        {variant === 'default' ? '▸' : variant === 'advance' ? '✦' : variant === 'death' ? '✕' : '◇'}
+      <span className="opacity-60 group-hover:opacity-100 group-active:opacity-100 mr-2 transition">
+        {variant === 'default'
+          ? '▸'
+          : variant === 'advance'
+            ? '✦'
+            : variant === 'death'
+              ? '✕'
+              : '◇'}
       </span>
       {children}
     </button>

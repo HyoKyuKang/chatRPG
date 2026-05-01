@@ -98,6 +98,54 @@ body::before {
 .typing-dot:nth-child(2) { animation-delay: 0.15s; }
 .typing-dot:nth-child(3) { animation-delay: 0.3s; }
 
+/* Reveal animations (Phase B) */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in-up { animation: fade-in-up 320ms ease-out both; }
+.fade-in    { animation: fade-in 240ms ease-out both; }
+
+/* Stat change animations (Phase C) */
+@keyframes stat-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-2px); }
+  40%      { transform: translateX(2px); }
+  60%      { transform: translateX(-1px); }
+  80%      { transform: translateX(1px); }
+}
+@keyframes stat-pulse {
+  0%   { filter: brightness(1) saturate(1); }
+  30%  { filter: brightness(1.6) saturate(1.4); }
+  100% { filter: brightness(1) saturate(1); }
+}
+@keyframes stat-float-loss {
+  0%   { opacity: 0; transform: translateY(0); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(14px); }
+}
+@keyframes stat-float-gain {
+  0%   { opacity: 0; transform: translateY(0); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+.stat-shake { animation: stat-shake 320ms ease-out; }
+.stat-pulse { animation: stat-pulse 600ms ease-out; }
+.stat-float-loss { animation: stat-float-loss 1100ms ease-out forwards; }
+.stat-float-gain { animation: stat-float-gain 1100ms ease-out forwards; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up, .fade-in, .typing-dot,
+  .stat-shake, .stat-pulse, .stat-float-loss, .stat-float-gain {
+    animation: none !important;
+  }
+}
+
 /* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--color-gold-500);
