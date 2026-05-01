@@ -1,0 +1,33 @@
+{
+  "id": "fm-rest-shrine",
+  "region": "forgotten-mountains",
+  "type": "rest",
+  "description": "무너진 첨탑 그늘 아래, 작은 사당 하나가 남아 있다. 지붕은 절반이 떨어졌고, 안쪽 돌에는 옛 기도문의 자국이 결만 남는다.\n\n바람이 사당을 한 번 통과한다. 안의 공기가 바깥보다 한 박자 따뜻하다.",
+  "choices": [
+    {
+      "id": "rest-pray",
+      "text": "사당 앞에 잠시 무릎을 꿇는다",
+      "outcome": {
+        "text": "무릎이 차다. 차가움이 가슴까지 닿고, 호흡이 한 박자 길어진다.",
+        "statDelta": { "hp": 1 },
+        "nextNodeId": "fm-fork"
+      }
+    },
+    {
+      "id": "rest-back",
+      "text": "사당 뒤편의 인기척을 살핀다",
+      "outcome": {
+        "text": "사당 뒤로 발걸음을 옮긴다. 부서진 벽 너머에 누군가 무릎에 보따리를 모으고 앉아 있다.",
+        "nextNodeId": "fm-shop-deserter"
+      }
+    },
+    {
+      "id": "rest-leave",
+      "text": "그대로 길로 돌아간다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 사당의 기도문 자국이 너의 등 뒤에 잠시 머문다.",
+        "nextNodeId": "fm-fork"
+      }
+    }
+  ]
+}
