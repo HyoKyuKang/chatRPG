@@ -23,6 +23,80 @@ function isChoiceVisible(
   return true
 }
 
+interface ParsedParagraph {
+  kind: 'narrator' | 'speech'
+  speaker?: string
+  body: string
+}
+
+const SPEAKER_RE = /^([가-힣A-Za-z·]+(?:\s[가-힣A-Za-z·]+)?):\s+([\s\S]+)$/
+
+function splitParagraphs(text: string): ParsedParagraph[] {
+  return text
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => {
+      const m = p.match(SPEAKER_RE)
+      if (m) return { kind: 'speech', speaker: m[1], body: m[2] }
+      return { kind: 'narrator', body: p }
+    })
+}
+
+function NarratorBlock({ text }: { text: string }) {
+  return (
+    <div className="space-y-3">
+      {splitParagraphs(text).map((p, i) =>
+        p.kind === 'speech' ? (
+          <SpeechLine key={i} speaker={p.speaker!} body={p.body} />
+        ) : (
+          <p
+            key={i}
+            className="prose-ko text-ink-100 whitespace-pre-line"
+          >
+            {p.body}
+          </p>
+        ),
+      )}
+    </div>
+  )
+}
+
+function SpeechLine({ speaker, body }: { speaker: string; body: string }) {
+  return (
+    <div className="my-1">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="h-[1px] w-3 bg-gold-700/60" />
+        <span className="text-gold-300 text-[10px] font-semibold tracking-[0.2em] uppercase">
+          {speaker}
+        </span>
+      </div>
+      <p className="prose-ko text-ink-50 pl-5 whitespace-pre-line">
+        {body}
+      </p>
+    </div>
+  )
+}
+
+function OutcomeBlock({ text }: { text: string }) {
+  return (
+    <div className="space-y-2 pl-3 border-l border-ink-700/50">
+      {splitParagraphs(text).map((p, i) =>
+        p.kind === 'speech' ? (
+          <SpeechLine key={i} speaker={p.speaker!} body={p.body} />
+        ) : (
+          <p
+            key={i}
+            className="prose-ko text-ink-200 italic whitespace-pre-line"
+          >
+            {p.body}
+          </p>
+        ),
+      )}
+    </div>
+  )
+}
+
 export function NodeView() {
   const run = useGame((s) => s.run)
   const choose = useGame((s) => s.choose)
@@ -63,86 +137,102 @@ export function NodeView() {
     <div className="flex flex-col h-full">
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-5 py-6 space-y-3"
+        className="flex-1 overflow-y-auto px-5 py-5 space-y-4"
       >
         {run.history.map((h, i) => {
-          if (h.kind === 'node')
-            return (
-              <p
-                key={i}
-                className="text-zinc-100 whitespace-pre-line leading-relaxed"
-              >
-                {h.text}
-              </p>
-            )
+          if (h.kind === 'node') return <NarratorBlock key={i} text={h.text} />
+
           if (h.kind === 'choice')
             return (
-              <p key={i} className="text-purple-300/80 text-sm pl-4">
-                → {h.text}
-              </p>
-            )
-          if (h.kind === 'death')
-            return (
               <p
                 key={i}
-                className="text-rose-300/90 text-sm whitespace-pre-line"
+                className="text-gold-500/90 text-[13px] tracking-wide pl-3 border-l-2 border-gold-700/40 my-1"
               >
+                <span className="opacity-70 mr-1">▸</span>
                 {h.text}
               </p>
             )
-          return (
-            <p
-              key={i}
-              className="text-zinc-500 text-sm italic whitespace-pre-line"
-            >
-              {h.text}
-            </p>
-          )
+
+          if (h.kind === 'outcome') return <OutcomeBlock key={i} text={h.text} />
+
+          if (h.kind === 'death')
+            return (
+              <div
+                key={i}
+                className="my-3 px-4 py-3 rounded-md border border-blood-700/50 bg-blood-700/15"
+              >
+                <p className="text-blood-300 text-sm whitespace-pre-line">
+                  {h.text}
+                </p>
+              </div>
+            )
+
+          return null
         })}
       </div>
 
-      <div className="border-t border-white/10 p-4 space-y-2 bg-zinc-950/30">
+      <div className="border-t border-white/5 px-4 pt-3 pb-4 space-y-2 bg-ink-950/40 backdrop-blur-sm">
         {isDead ? (
-          <button
-            type="button"
-            onClick={reset}
-            className="w-full px-4 py-3 rounded-md border border-rose-400/40 bg-rose-400/10 text-rose-100 hover:bg-rose-400/20 active:scale-[0.99] transition"
-          >
+          <ChoiceButton variant="death" onClick={reset}>
             다시 출정
-          </button>
+          </ChoiceButton>
         ) : isEnding && nextRegion ? (
-          <button
-            type="button"
-            onClick={transitionToNextRegion}
-            className="w-full px-4 py-3 rounded-md border border-emerald-400/40 bg-emerald-400/10 text-emerald-100 hover:bg-emerald-400/20 active:scale-[0.99] transition"
-          >
+          <ChoiceButton variant="advance" onClick={transitionToNextRegion}>
             {nextRegion.name}으로 간다
-          </button>
+          </ChoiceButton>
         ) : isEnding ? (
-          <button
-            type="button"
-            onClick={reset}
-            className="w-full px-4 py-3 rounded-md border border-zinc-400/40 bg-zinc-400/10 text-zinc-100 hover:bg-zinc-400/20 active:scale-[0.99] transition"
-          >
+          <ChoiceButton variant="neutral" onClick={reset}>
             다시 출정
-          </button>
+          </ChoiceButton>
         ) : visibleChoices.length === 0 ? (
-          <p className="text-zinc-600 text-center py-4 text-sm">
+          <p className="text-ink-400 text-center py-4 text-sm">
             가능한 선택지 없음
           </p>
         ) : (
           visibleChoices.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => choose(c.id)}
-              className="w-full px-4 py-3 text-left rounded-md border border-purple-400/30 bg-purple-400/5 text-zinc-100 hover:bg-purple-400/15 active:scale-[0.99] transition"
-            >
+            <ChoiceButton key={c.id} variant="default" onClick={() => choose(c.id)}>
               {c.text}
-            </button>
+            </ChoiceButton>
           ))
         )}
       </div>
     </div>
+  )
+}
+
+interface ChoiceButtonProps {
+  variant: 'default' | 'advance' | 'death' | 'neutral'
+  onClick: () => void
+  children: React.ReactNode
+}
+
+function ChoiceButton({ variant, onClick, children }: ChoiceButtonProps) {
+  const styles: Record<ChoiceButtonProps['variant'], string> = {
+    default:
+      'border-gold-700/40 hover:border-gold-500/70 bg-gradient-to-b from-gold-700/15 to-gold-700/5 hover:from-gold-700/25 hover:to-gold-700/10 text-ink-100 hover:text-gold-300',
+    advance:
+      'border-rune-500/40 hover:border-rune-300/70 bg-gradient-to-b from-rune-700/20 to-rune-700/5 hover:from-rune-700/35 text-rune-300',
+    death:
+      'border-blood-500/40 hover:border-blood-300/70 bg-gradient-to-b from-blood-700/20 to-blood-700/5 hover:from-blood-700/35 text-blood-300',
+    neutral:
+      'border-ink-400/40 hover:border-ink-200/70 bg-gradient-to-b from-ink-700/30 to-ink-700/10 hover:from-ink-700/40 text-ink-100',
+  }
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`
+        w-full px-4 py-3.5 text-left text-[14px]
+        rounded-md border transition-all
+        active:scale-[0.99]
+        group
+        ${styles[variant]}
+      `}
+    >
+      <span className="opacity-60 group-hover:opacity-100 mr-2 transition">
+        {variant === 'default' ? '▸' : variant === 'advance' ? '✦' : variant === 'death' ? '✕' : '◇'}
+      </span>
+      {children}
+    </button>
   )
 }
