@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { data, useGame } from '../store'
+import { data, useGame, type HistoryEntry } from '../store'
 import type { Choice, Hero } from '../schemas'
 
 // ─── Choice condition ─────────────────────────────────────────────────────
@@ -65,10 +65,13 @@ const heroByName = new Map<string, Hero>()
 data.heroes.forEach((h) => heroByName.set(h.name, h))
 
 function entryToReveal(
-  entry: { kind: HistoryKind; text: string },
+  entry: HistoryEntry,
   index: number,
   alreadyEncountered: Set<string>,
 ): RevealItem[] {
+  // Region marker is a boundary signal only — never rendered
+  if (entry.kind === 'region-marker') return []
+
   if (entry.kind === 'choice' || entry.kind === 'death') {
     return [
       {
@@ -98,6 +101,15 @@ function entryToReveal(
     })
   })
   return items
+}
+
+// Find the index of the most recent region-marker in history.
+// Returns -1 if none (legacy persist data without markers).
+function findLastRegionMarker(history: HistoryEntry[]): number {
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].kind === 'region-marker') return i
+  }
+  return -1
 }
 
 // ─── Reveal pacing ────────────────────────────────────────────────────────
@@ -135,11 +147,14 @@ export function NodeView() {
       ? data.regions.get(currentRegion.nextRegion)
       : undefined
 
-  // Reveal state
+  // Reveal state — scoped to "active region" (entries after last region-marker)
   const [revealed, setRevealed] = useState<RevealItem[]>([])
   const [pending, setPending] = useState<RevealItem[]>([])
   const [typing, setTyping] = useState(false)
-  const lastHistoryLengthRef = useRef(0)
+  const lastSnapshotRef = useRef<{ historyLen: number; activeStart: number }>({
+    historyLen: 0,
+    activeStart: 0,
+  })
   const hydratedRef = useRef(false)
 
   // Skip staging when user prefers reduced motion (also used by QA smoke)
@@ -150,27 +165,37 @@ export function NodeView() {
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Sync history → reveal queue
+  // Sync history → reveal queue (region-scoped: only render entries after the
+  // last region-marker; new region-marker wipes the chat log)
   useEffect(() => {
     const history = run.history
-    const encountered = new Set(run.heroesEncountered)
+    const lastMarker = findLastRegionMarker(history)
+    const activeStart = lastMarker + 1
+    const last = lastSnapshotRef.current
 
-    // First mount with content → instant hydrate (no staged reveal for old)
-    if (!hydratedRef.current && history.length > 0) {
-      const allItems = history.flatMap((h, i) =>
-        entryToReveal(h, i, encountered),
+    // ─── First mount / hydrate from persist ────────────────────
+    if (!hydratedRef.current) {
+      if (history.length === 0) return
+      const activeEntries = history.slice(activeStart)
+      const encountered = new Set(run.heroesEncountered)
+      const items = activeEntries.flatMap((h, di) =>
+        entryToReveal(h, activeStart + di, encountered),
       )
-      setRevealed(allItems)
+      setRevealed(items)
       setPending([])
-      lastHistoryLengthRef.current = history.length
+      setTyping(false)
+      lastSnapshotRef.current = { historyLen: history.length, activeStart }
       hydratedRef.current = true
       return
     }
 
-    // History shrank (reset / resetAll) → restart with staged reveal
-    if (history.length < lastHistoryLengthRef.current) {
-      const fresh = new Set<string>() // restart encounters
-      const items = history.flatMap((h, i) => entryToReveal(h, i, fresh))
+    // ─── Reset (history shrank) ────────────────────────────────
+    if (history.length < last.historyLen) {
+      const fresh = new Set<string>()
+      const activeEntries = history.slice(activeStart)
+      const items = activeEntries.flatMap((h, di) =>
+        entryToReveal(h, activeStart + di, fresh),
+      )
       if (reducedMotion) {
         setRevealed(items)
         setPending([])
@@ -179,27 +204,46 @@ export function NodeView() {
         setPending(items)
       }
       setTyping(false)
-      lastHistoryLengthRef.current = history.length
+      lastSnapshotRef.current = { historyLen: history.length, activeStart }
       return
     }
 
-    // History grew → enqueue new entries (or instant-reveal if reduced motion)
-    if (history.length > lastHistoryLengthRef.current) {
-      const startIdx = lastHistoryLengthRef.current
+    // ─── Region transition (new region-marker) — wipe + restage ─
+    if (activeStart !== last.activeStart) {
+      const newEntries = history.slice(activeStart)
+      const fresh = new Set<string>()
+      const items = newEntries.flatMap((h, di) =>
+        entryToReveal(h, activeStart + di, fresh),
+      )
+      if (reducedMotion) {
+        setRevealed(items)
+        setPending([])
+      } else {
+        setRevealed([])
+        setPending(items)
+      }
+      setTyping(false)
+      lastSnapshotRef.current = { historyLen: history.length, activeStart }
+      return
+    }
+
+    // ─── Normal grow within same region ────────────────────────
+    if (history.length > last.historyLen) {
+      const startIdx = last.historyLen
       const newEntries = history.slice(startIdx)
-      const encounteredForNew = new Set(run.heroesEncountered)
+      const encountered = new Set(run.heroesEncountered)
       revealed.forEach((it) => {
-        if (it.kind === 'hero-card') encounteredForNew.add(it.heroId)
+        if (it.kind === 'hero-card') encountered.add(it.heroId)
       })
       const newItems = newEntries.flatMap((h, di) =>
-        entryToReveal(h, startIdx + di, encounteredForNew),
+        entryToReveal(h, startIdx + di, encountered),
       )
       if (reducedMotion) {
         setRevealed((prev) => [...prev, ...newItems])
       } else {
         setPending((prev) => [...prev, ...newItems])
       }
-      lastHistoryLengthRef.current = history.length
+      lastSnapshotRef.current = { historyLen: history.length, activeStart }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [run.history.length])

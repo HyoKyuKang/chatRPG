@@ -15,6 +15,7 @@ export type HistoryEntry =
   | { kind: 'choice'; text: string }
   | { kind: 'outcome'; text: string }
   | { kind: 'death'; text: string }
+  | { kind: 'region-marker'; regionId: string; regionName: string }
 
 export interface RunState {
   currentNodeId: string
@@ -61,7 +62,10 @@ function freshRun(): RunState {
   }
   return {
     ...run,
-    history: [{ kind: 'node', text: renderNodeText(entry, run) }],
+    history: [
+      { kind: 'region-marker', regionId: region.id, regionName: region.name },
+      { kind: 'node', text: renderNodeText(entry, run) },
+    ],
   }
 }
 
@@ -277,6 +281,11 @@ export const useGame = create<PersistedState & Actions>()(
             ...nextRun,
             history: [
               ...run.history,
+              {
+                kind: 'region-marker',
+                regionId: nextRegion.id,
+                regionName: nextRegion.name,
+              },
               { kind: 'node', text: renderNodeText(entryNode, nextRun) },
             ],
           },
