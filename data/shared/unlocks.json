@@ -1,0 +1,30 @@
+[
+  {
+    "id": "start-hp-bonus",
+    "name": "단단한 시작",
+    "description": "이방인의 몸이 한 번 죽음을 견딘다. 시작 체력 +1.",
+    "cost": 3,
+    "effect": { "type": "startStat", "stat": "hp", "delta": 1 }
+  },
+  {
+    "id": "start-mp-bonus",
+    "name": "깨어 있는 정신",
+    "description": "이전 런의 마법이 얕게 남는다. 시작 마나 +1.",
+    "cost": 3,
+    "effect": { "type": "startStat", "stat": "mana", "delta": 1 }
+  },
+  {
+    "id": "start-rusted-sword",
+    "name": "익숙한 무게",
+    "description": "녹슨 검의 손바닥 결을 손이 기억한다. 시작 시 녹슨 검을 가지고 출발.",
+    "cost": 5,
+    "effect": { "type": "startItem", "itemId": "rusted-sword" }
+  },
+  {
+    "id": "start-old-scroll",
+    "name": "한 줄의 룬",
+    "description": "흐릿한 룬 한 줄이 머릿속에 남아 있다. 시작 시 낡은 양피지를 가지고 출발.",
+    "cost": 5,
+    "effect": { "type": "startItem", "itemId": "old-scroll" }
+  }
+]

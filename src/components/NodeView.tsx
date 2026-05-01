@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { data, useGame, type HistoryEntry } from '../store'
 import type { Choice, Hero } from '../schemas'
+import { MetaUnlockScreen } from './MetaUnlockScreen'
 
 // ─── Choice condition ─────────────────────────────────────────────────────
 
@@ -326,6 +327,19 @@ export function NodeView() {
     return Array.from(map.entries()).sort(([a], [b]) => a - b)
   }, [revealed])
 
+  // After the chat log finishes revealing a death or final ending, swap the
+  // entire view to MetaUnlockScreen (공허). Region transitions stay in chat log.
+  const isFinalEnding = isEnding && !nextRegion
+  const showMetaScreen = revealComplete && (isDead || isFinalEnding)
+  if (showMetaScreen) {
+    return (
+      <MetaUnlockScreen
+        reason={isDead ? 'death' : 'ending'}
+        onContinue={reset}
+      />
+    )
+  }
+
   return (
     <div className="flex flex-col h-full">
       <div
@@ -345,17 +359,9 @@ export function NodeView() {
           <p className="text-ink-500 text-center py-4 text-[12px] tracking-widest uppercase select-none">
             화면을 누르면 빨리감기
           </p>
-        ) : isDead ? (
-          <ChoiceButton variant="death" onClick={reset}>
-            다시 출정
-          </ChoiceButton>
         ) : isEnding && nextRegion ? (
           <ChoiceButton variant="advance" onClick={transitionToNextRegion}>
             {nextRegion.name}으로 간다
-          </ChoiceButton>
-        ) : isEnding ? (
-          <ChoiceButton variant="neutral" onClick={reset}>
-            다시 출정
           </ChoiceButton>
         ) : visibleChoices.length === 0 ? (
           <p className="text-ink-400 text-center py-4 text-sm">

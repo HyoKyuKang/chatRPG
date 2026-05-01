@@ -5,6 +5,7 @@ import {
   Hero,
   Item,
   Knowledge,
+  Unlock,
   type RegionId,
 } from '../schemas'
 
@@ -14,6 +15,7 @@ export interface GameData {
   heroes: Map<string, Hero>
   items: Map<string, Item>
   knowledge: Map<string, Knowledge>
+  unlocks: Map<string, Unlock>
 }
 
 type Mod = { default: unknown }
@@ -31,6 +33,9 @@ const itemFiles = import.meta.glob('/data/shared/items.json', {
   eager: true,
 }) as Record<string, Mod>
 const knowledgeFiles = import.meta.glob('/data/shared/knowledge.json', {
+  eager: true,
+}) as Record<string, Mod>
+const unlockFiles = import.meta.glob('/data/shared/unlocks.json', {
   eager: true,
 }) as Record<string, Mod>
 
@@ -75,5 +80,13 @@ export function loadGameData(): GameData {
     }
   }
 
-  return { nodes, regions, heroes, items, knowledge }
+  const unlocks = new Map<string, Unlock>()
+  for (const mod of Object.values(unlockFiles)) {
+    for (const u of z.array(Unlock).parse(mod.default)) {
+      if (unlocks.has(u.id)) throw new Error(`duplicate unlock id ${u.id}`)
+      unlocks.set(u.id, u)
+    }
+  }
+
+  return { nodes, regions, heroes, items, knowledge, unlocks }
 }

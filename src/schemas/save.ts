@@ -18,6 +18,7 @@ export const MetaState = z
   .object({
     memoryShards: z.number(),
     unlockedClasses: z.array(ClassType),
+    unlockedBonusIds: z.array(z.string()),
     discoveredKnowledge: z.array(z.string()),
     completedRuns: z.number(),
     endingsReached: z.array(EndingId),

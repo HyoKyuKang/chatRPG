@@ -8,6 +8,7 @@ export const data = loadGameData()
 const STARTING_REGION = 'forest-outskirts' as const
 const STARTING_STATS: Stats = { hp: 5, mana: 3 }
 const SHARDS_PER_DEATH = 1
+const SHARDS_PER_ENDING = 3
 const STORAGE_KEY = 'chat-rpg/save-v1'
 
 export type HistoryEntry =
@@ -40,20 +41,44 @@ interface Actions {
   reset: () => void
   resetAll: () => void
   transitionToNextRegion: () => void
+  applyUnlock: (unlockId: string) => void
 }
 
-function freshRun(): RunState {
+function applyUnlockEffects(
+  baseStats: Stats,
+  baseInventory: string[],
+  meta: MetaState,
+): { stats: Stats; inventory: string[] } {
+  let stats: Stats = { ...baseStats }
+  let inventory = [...baseInventory]
+  for (const id of meta.unlockedBonusIds) {
+    const unlock = data.unlocks.get(id)
+    if (!unlock) continue
+    const eff = unlock.effect
+    if (eff.type === 'startStat') {
+      stats = { ...stats, [eff.stat]: stats[eff.stat] + eff.delta }
+    } else if (eff.type === 'startItem') {
+      if (!inventory.includes(eff.itemId)) inventory.push(eff.itemId)
+    }
+  }
+  return { stats, inventory }
+}
+
+function freshRun(meta: MetaState): RunState {
   const region = data.regions.get(STARTING_REGION)
   if (!region)
     throw new Error(`Starting region "${STARTING_REGION}" not loaded`)
   const entry = data.nodes.get(region.entryNodeId)
   if (!entry)
     throw new Error(`Entry node "${region.entryNodeId}" not loaded`)
+
+  const { stats, inventory } = applyUnlockEffects(STARTING_STATS, [], meta)
+
   const run: RunState = {
     currentNodeId: entry.id,
     classChosen: null,
-    stats: { ...STARTING_STATS },
-    inventory: [],
+    stats,
+    inventory,
     knowledge: [],
     heroesEncountered: [],
     history: [],
@@ -73,6 +98,7 @@ function freshMeta(): MetaState {
   return {
     memoryShards: 0,
     unlockedClasses: [],
+    unlockedBonusIds: [],
     discoveredKnowledge: [],
     completedRuns: 0,
     endingsReached: [],
@@ -114,7 +140,7 @@ export const useGame = create<PersistedState & Actions>()(
     (set, get) => ({
       schemaVersion: 1,
       meta: freshMeta(),
-      run: freshRun(),
+      run: freshRun(freshMeta()),
 
       choose: (choiceId) => {
         const state = get()
@@ -246,6 +272,7 @@ export const useGame = create<PersistedState & Actions>()(
             ? {
                 ...state.meta,
                 completedRuns: state.meta.completedRuns + 1,
+                memoryShards: state.meta.memoryShards + SHARDS_PER_ENDING,
                 discoveredKnowledge: uniq(
                   state.meta.discoveredKnowledge,
                   knowledge,
@@ -255,9 +282,24 @@ export const useGame = create<PersistedState & Actions>()(
         })
       },
 
-      reset: () => set({ run: freshRun() }),
+      reset: () => set({ run: freshRun(get().meta) }),
 
-      resetAll: () => set({ run: freshRun(), meta: freshMeta() }),
+      resetAll: () => set({ run: freshRun(freshMeta()), meta: freshMeta() }),
+
+      applyUnlock: (unlockId) => {
+        const state = get()
+        const unlock = data.unlocks.get(unlockId)
+        if (!unlock) return
+        if (state.meta.unlockedBonusIds.includes(unlockId)) return // already owned
+        if (state.meta.memoryShards < unlock.cost) return // not enough shards
+        set({
+          meta: {
+            ...state.meta,
+            memoryShards: state.meta.memoryShards - unlock.cost,
+            unlockedBonusIds: [...state.meta.unlockedBonusIds, unlockId],
+          },
+        })
+      },
 
       transitionToNextRegion: () => {
         const state = get()
@@ -301,6 +343,17 @@ export const useGame = create<PersistedState & Actions>()(
         meta: state.meta,
         run: state.run,
       }),
+      // Deep-merge persisted state with defaults so new fields (e.g.
+      // unlockedBonusIds added in V2) get populated for older saves.
+      merge: (persistedState, currentState) => {
+        const p = (persistedState ?? {}) as Partial<PersistedState>
+        return {
+          ...currentState,
+          ...p,
+          meta: { ...currentState.meta, ...(p.meta ?? {}) },
+          run: { ...currentState.run, ...(p.run ?? {}) },
+        }
+      },
     },
   ),
 )
