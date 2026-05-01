@@ -19,6 +19,22 @@
         "text": "너는 어둠으로 내려간다. 돌이 빛을 삼킨다.",
         "nextNodeId": "fa-cavern"
       }
+    },
+    {
+      "id": "fork-oasis",
+      "text": "옛 우물의 결을 따라간다",
+      "outcome": {
+        "text": "발걸음이 길에서 한 발 비낀다. 모래 아래로 돌의 결이 짧게 비친다.",
+        "nextNodeId": "fa-rest-oasis"
+      }
+    },
+    {
+      "id": "fork-side-prayer",
+      "text": "다른 결을 살핀다",
+      "outcome": {
+        "text": "샛길의 모래는 사람이 자주 다닌 결이 아니다. 그래도 글자의 자국이 멀리서 흐릿하게 비친다.",
+        "nextNodeId": "fa-discovery-prayer"
+      }
     }
   ]
 }
