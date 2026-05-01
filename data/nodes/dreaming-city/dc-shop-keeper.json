@@ -1,0 +1,37 @@
+{
+  "id": "dc-shop-keeper",
+  "region": "dreaming-city",
+  "type": "shop",
+  "description": "좁은 가게 안, 한 자가 작은 카운터 너머에 서 있다. 손에 든 천으로 같은 자리를 천천히 닦는다. 손길이 그치지 않는다.\n\n그의 눈은 광장의 시민들과 다르다 — 같은 각도로 걸린 미소가 없다.\n\n깨어 있는 자: \"...광장 사람들에겐 안 들리는 목소리로 부탁하오. 거래는 짧게.\"",
+  "choices": [
+    {
+      "id": "keeper-trade-mp",
+      "text": "피로 한 호흡을 산다 (HP -1, MP +2)",
+      "outcome": {
+        "text": "그가 작은 단지를 카운터 위로 밀어놓는다. 한 모금. 머리가 차고, 손끝이 시린다.",
+        "statDelta": { "hp": -1, "mana": 2 },
+        "heroEncounter": "awake-one",
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
+      "id": "keeper-trade-hp",
+      "text": "주문 한 줄을 내주고 호흡을 산다 (MP -1, HP +2)",
+      "outcome": {
+        "text": "그가 마른 잎 한 줌을 카운터 위에 올린다. 단단히 우려 마신다. 가슴이 풀린다.",
+        "statDelta": { "mana": -1, "hp": 2 },
+        "heroEncounter": "awake-one",
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
+      "id": "keeper-leave",
+      "text": "거래하지 않고 떠난다",
+      "outcome": {
+        "text": "그가 천을 다시 카운터 위로 옮긴다. 손길이 그치지 않는다.\n\n깨어 있는 자: \"...깨어 있으시오.\"",
+        "heroEncounter": "awake-one",
+        "nextNodeId": "dc-fork"
+      }
+    }
+  ]
+}
