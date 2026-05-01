@@ -1,0 +1,38 @@
+{
+  "id": "fo-shop-traveler",
+  "region": "forest-outskirts",
+  "type": "shop",
+  "description": "길 옆에 천막 하나가 펴져 있다. 너무 단정해서, 막 자리를 잡은 자국이 보이지 않는다.\n\n검은 망토의 사람이 천막 그늘에 앉아 있다. 얼굴 절반이 천에 가렸다.\n\n행객 단: \"오는 줄 알았소. 가진 게 많지 않으니, 짧게 하지.\"",
+  "choices": [
+    {
+      "id": "shop-trade-mp",
+      "text": "피로 마음의 결을 산다 (HP -1, MP +2)",
+      "outcome": {
+        "text": "단이 작은 단지를 내민다. 한 모금. 머리가 맑아지고, 손끝이 시린다.",
+        "statDelta": { "hp": -1, "mana": 2 },
+        "heroEncounter": "wanderer-dan",
+        "nextNodeId": "fo-fork"
+      }
+    },
+    {
+      "id": "shop-buy-herb",
+      "text": "마른 약초를 산다 (MP -1)",
+      "outcome": {
+        "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 손바닥에 닿는 결이 가볍다.",
+        "statDelta": { "mana": -1 },
+        "itemAdd": ["dried-herb"],
+        "heroEncounter": "wanderer-dan",
+        "nextNodeId": "fo-fork"
+      }
+    },
+    {
+      "id": "shop-leave",
+      "text": "거래하지 않고 떠난다",
+      "outcome": {
+        "text": "단이 고개를 한 번 끄덕인다. 천막은 어느새 너의 등 뒤에서 비어 있다.\n\n행객 단: \"다음에 보지.\"",
+        "heroEncounter": "wanderer-dan",
+        "nextNodeId": "fo-fork"
+      }
+    }
+  ]
+}

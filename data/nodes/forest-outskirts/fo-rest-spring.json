@@ -1,0 +1,33 @@
+{
+  "id": "fo-rest-spring",
+  "region": "forest-outskirts",
+  "type": "rest",
+  "description": "안개가 한 번 갈라진다. 옛 샘 하나가 드러난다.\n\n돌가에 이름의 자국이 있다. 누가 새겼는지, 글자는 비바람에 닳아 결만 남는다.\n\n수면이 잔잔하다. 새소리가 끊긴 자리에서도, 물 위에 작은 동심원이 하나씩 번진다.",
+  "choices": [
+    {
+      "id": "rest-drink",
+      "text": "샘에서 물을 마신다",
+      "outcome": {
+        "text": "물이 차다. 차가움이 가슴까지 닿고, 숨이 한 박자 길어진다.",
+        "statDelta": { "hp": 1 },
+        "nextNodeId": "fo-fork"
+      }
+    },
+    {
+      "id": "rest-tent",
+      "text": "샘 너머의 천막을 살핀다",
+      "outcome": {
+        "text": "안개 사이로 천 한 자락이 비친다. 누군가가 자리를 잡은 결이다.",
+        "nextNodeId": "fo-shop-traveler"
+      }
+    },
+    {
+      "id": "rest-leave",
+      "text": "그대로 길로 돌아간다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 동심원은 너의 등 뒤에서도 계속 번진다.",
+        "nextNodeId": "fo-fork"
+      }
+    }
+  ]
+}

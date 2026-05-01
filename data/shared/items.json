@@ -11,5 +11,12 @@
     "description": "흐릿한 룬이 적혀 있다. 한 번은 외울 수 있을 것 같다.",
     "classRestriction": ["mage"],
     "consumable": true
+  },
+  {
+    "id": "dried-herb",
+    "name": "마른 약초",
+    "description": "행객 단의 가죽 주머니에서 나온 마른 잎 한 줌. 손바닥에 닿는 결이 가볍다. 한 번 우려 마실 수 있다.",
+    "statBonus": { "hp": 1 },
+    "consumable": true
   }
 ]

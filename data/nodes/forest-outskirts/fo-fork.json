@@ -23,6 +23,22 @@
         "knowledgeGain": ["mist-meaning"],
         "nextNodeId": "fo-bayren-meet"
       }
+    },
+    {
+      "id": "fork-spring",
+      "text": "안개 너머 샘으로 가본다",
+      "outcome": {
+        "text": "발걸음이 길에서 한 발 비낀다. 풀의 결이 다른 방향으로 누워 있다.",
+        "nextNodeId": "fo-rest-spring"
+      }
+    },
+    {
+      "id": "fork-side-path",
+      "text": "옆 길을 살핀다",
+      "outcome": {
+        "text": "샛길의 흙은 사람이 자주 다닌 결이 아니다. 그래도 발이 그쪽으로 간다.",
+        "nextNodeId": "fo-discovery-relic"
+      }
     }
   ]
 }
