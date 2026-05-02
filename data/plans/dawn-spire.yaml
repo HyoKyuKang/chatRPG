@@ -99,9 +99,9 @@ nodes:
 
   - id: ds-floor-strangers
     type: event
-    beat: 2층 — 이전 이방인들의 흔적. 무덤 또는 기록. 자기 희생을 골랐던 자들의 결만 남음.
+    beat: 2층 — 이전 이방인들의 흔적. 무덤 또는 기록. 자기 희생을 골랐던 자들의 결만 남음. narrator 가 너의 인지("너는 안다") / 사실 단언("이들은 떠나지 않았다") X — 외부 결(이름들이 줄을 잇음, 자국이 끊기지 않음) 로만 비춤.
     personas: [narrator]
-    toneTarget: 이방인의 정체 단서 — 너 하나가 아니었다. 무거움. 회색의 자 reveal 직전 build-up.
+    toneTarget: 이방인의 정체 단서 — 너 하나가 아니었다는 결은 외부(이어진 이름들, 끊기지 않는 자국)로만. 회색의 자 reveal 직전 build-up.
     previous: [ds-floor-illusion]
     next: [ds-floor-mages]
     echoes:
@@ -122,9 +122,9 @@ nodes:
 
   - id: ds-floor-mages
     type: event
-    beat: 3층 — 옛 마법사들의 흔적. 베일런 노사가 떠난 이유 — 그의 옛 동료들 모두 마왕에 잠식됨.
+    beat: 3층 — 옛 마법사들의 흔적. 베일런 노사가 떠난 이유 — 그의 옛 동료들 결이 펜던트로 비침. narrator 가 그들의 인식("인식하지 못한다") / 평가("이들은 한때 그의 동료였다") / 베일런의 무게 단언("막을 수 없었던 것을 본 자의 무게") X — 외부 결(시선이 닿지 않음, 같은 펜던트 결, 흙바닥의 자국) 로만 비춤.
     personas: [narrator]
-    toneTarget: 베일런의 옛 동료들의 결 — 그가 첨탑을 떠난 이유. 마왕의 정신 조작이 첨탑까지 닿았다.
+    toneTarget: 베일런의 옛 동료들의 결 — 그가 첨탑을 떠난 이유. 마왕의 정신 조작이 첨탑까지 닿은 결은 외부 (펜던트의 같은 닳음, 끊어진 음절) 로 비춤. narrator 가 베일런 정서/이유 단언 X — 너의 회상은 narrator.md 의 "회상 명백 시 예외" 로 OK.
     previous: [ds-floor-strangers]
     next: [ds-throne]
     echoes:
@@ -145,9 +145,9 @@ nodes:
 
   - id: ds-throne
     type: event
-    beat: 옥좌실 입구. 회색의 자가 옆에 서 있음. 그가 자기 정체를 말한다 — "나는 너 이전의 자다."
+    beat: 옥좌실 입구. 회색의 자가 옆에 서 있음. 그가 자기 정체를 말한다 — "나는 너 이전의 자다." 무게는 그의 긴 대사로만 직접. narrator 가 그의 감정 단언("분노도 자긍심도 없다, 오래 짊어진 자의 무게") / 의도 단언("권하지 않는다") X — 외부 결(목소리 평평함, 한 박자도 빨라지지 않음, 한 발 다가서지 않음) 로만.
     personas: [narrator, gray-one]
-    toneTarget: 회색의 자 reveal의 정점. 무거움 + 안도 + 슬픔. 그가 너에게 봉인 가능성 (희생 엔딩) 흘리지만 추천 X.
+    toneTarget: 회색의 자 reveal의 정점. 무거움은 그의 긴 발화에 짊어지게 함. narrator 는 외부 결(목소리 결, 발걸음 거리)로만 비추고 그의 정서/의도 단언 X.
     previous: [ds-floor-mages]
     next: [ds-mawang]
     choices:
