@@ -9,6 +9,7 @@
     "prebuild": "npm run lint:data",
     "lint": "eslint .",
     "lint:data": "tsx scripts/lint-data.ts",
+    "lint:echoes": "tsx scripts/lint-echoes.ts",
     "qa:smoke": "tsx scripts/qa-smoke.ts",
     "qa:combat-smoke": "tsx scripts/qa-combat-smoke.ts",
     "author": "tsx scripts/author-node.ts",
