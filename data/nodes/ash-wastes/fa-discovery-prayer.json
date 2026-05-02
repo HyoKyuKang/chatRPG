@@ -1,0 +1,25 @@
+{
+  "id": "fa-discovery-prayer",
+  "region": "ash-wastes",
+  "type": "event",
+  "description": "샛길의 모래 위, 작은 자국 하나가 비낀다. 누군가 손가락으로 같은 글자를 여러 번 새긴 자국이다.\n\n글자는 모래가 시간을 지나며 흐려졌다. 결만 또렷이 남는다 — 호흡 같은 결.",
+  "choices": [
+    {
+      "id": "prayer-trace",
+      "text": "결을 따라 손을 올린다",
+      "outcome": {
+        "text": "모래가 손바닥에서 잠깐 색을 잃는다. 글자의 결이 손금에 닿았다가 다시 흩어진다.",
+        "knowledgeGain": ["ash-prayer"],
+        "nextNodeId": "fa-fork"
+      }
+    },
+    {
+      "id": "prayer-pass",
+      "text": "그대로 지나친다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 모래는 너의 등 뒤에서 결을 한 번 다시 잡는다.",
+        "nextNodeId": "fa-fork"
+      }
+    }
+  ]
+}

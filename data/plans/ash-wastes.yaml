@@ -60,11 +60,11 @@ nodes:
 
   - id: fa-fork
     type: encounter
-    beat: 갈림길. 모래 위로 가는 광활한 길 vs 모래 아래로 내려가는 동굴 입구. 이방인 혼자.
+    beat: 갈림길. 모래 위로 가는 광활한 길 vs 모래 아래로 내려가는 동굴 입구. 가지 진입 (옛 우물 / 샛길 결) 두 개 추가 — gate 없음. 이방인 혼자.
     personas: [narrator]
-    toneTarget: 두 길의 무게 — 노출 vs 어둠. 침묵의 결단.
+    toneTarget: 두 길의 무게 — 노출 vs 어둠. 침묵의 결단. 가지 분기는 무게보다 호흡.
     previous: [fa-watcher]
-    next: [fa-dune, fa-cavern]
+    next: [fa-dune, fa-cavern, fa-rest-oasis, fa-discovery-prayer]
     choices:
       - id: fork-dune
         label: 모래 위 길로 간다
@@ -74,6 +74,14 @@ nodes:
         label: 동굴 입구로 간다
         outcome:
           nextNodeId: fa-cavern
+      - id: fork-oasis
+        label: 옛 우물의 결을 따라간다
+        outcome:
+          nextNodeId: fa-rest-oasis
+      - id: fork-side-prayer
+        label: 다른 결을 살핀다
+        outcome:
+          nextNodeId: fa-discovery-prayer
 
   - id: fa-dune
     type: encounter
@@ -208,9 +216,9 @@ nodes:
 
   - id: fa-corrupted
     type: boss
-    beat: 잠식된 자 보스 — 옛 영웅, 자기 이름 잊음. 광기 부대 우두머리. 적개심 X, 슬픔 X — 무감한 비틀림. 클래스별 다른 결 한 줄.
+    beat: 잠식된 자 보스 — 옛 영웅, 자기 이름 잊음. 광기 부대 우두머리. 적개심 X, 슬픔 X — 무감한 비틀림. 클래스별 다른 결 한 줄. narrator 가 그의 과거("한때 영웅") 직접 단언 X — 외부 동작(자세 비낌, 한 호흡 깊음)으로만.
     personas: [narrator, corrupted-one]
-    toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X).
+    toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X) — 페르소나 가이드의 "너를 적으로 보지 않음" 결은 narrator 가 무리 결로 잡아내도 OK.
     previous: [fa-converge]
     next: [fa-resolution]
     echoes:
@@ -274,3 +282,74 @@ nodes:
         text: |-
           들리지 않던 음절들이 이제는 너의 머릿속에서 분명한 자리를 가진다. 무거움.
     choices: []
+
+  - id: fa-rest-oasis
+    type: rest
+    beat: 잿빛 모래 아래의 옛 우물. 물 거의 다 빠짐, 바닥에 검은 한 줌. HP +1. 우물 너머 발자국에서 순례자(fa-shop-pilgrim) 진입.
+    personas: [narrator]
+    toneTarget: 황무지 무감각 안의 짧은 호흡. 1지역 옛 샘 / 2지역 사당과 다른 결 — 빛 없는 잠잠. narrator 외부 관찰만.
+    previous: [fa-fork]
+    next: [fa-fork, fa-shop-pilgrim]
+    choices:
+      - id: oasis-drink
+        label: 물 한 모금을 마신다
+        outcome:
+          statDelta:
+            hp: 1
+          nextNodeId: fa-fork
+      - id: oasis-tracks
+        label: 우물 너머의 발자국을 따라간다
+        outcome:
+          nextNodeId: fa-shop-pilgrim
+      - id: oasis-leave
+        label: 그대로 길로 돌아간다
+        outcome:
+          nextNodeId: fa-fork
+
+  - id: fa-shop-pilgrim
+    type: shop
+    beat: 짧은 그늘의 순례자. 모래에 표식 새기는 자, 잿빛 결로 동화된 겉옷. HP↔MP 양방향 거래 두 종 + 떠나기. heroEncounter=pilgrim.
+    personas: [narrator, pilgrim]
+    toneTarget: 짧은 어조, 옛 음절. 행객 단(직설 거래) / 탈영자(정중한 거리) 와 차별 — 순례자는 "이름을 잘 두라" 결로 잠식 톤과 대비.
+    previous: [fa-rest-oasis]
+    next: [fa-fork]
+    choices:
+      - id: pilgrim-trade-mp
+        label: 피로 한 호흡을 산다 (HP -1, MP +2)
+        outcome:
+          statDelta:
+            hp: -1
+            mana: 2
+          heroEncounter: pilgrim
+          nextNodeId: fa-fork
+      - id: pilgrim-trade-hp
+        label: 주문 한 줄을 내주고 잠을 산다 (MP -1, HP +2)
+        outcome:
+          statDelta:
+            mana: -1
+            hp: 2
+          heroEncounter: pilgrim
+          nextNodeId: fa-fork
+      - id: pilgrim-leave
+        label: 거래하지 않고 떠난다
+        outcome:
+          heroEncounter: pilgrim
+          nextNodeId: fa-fork
+
+  - id: fa-discovery-prayer
+    type: event
+    beat: 샛길 모래 위의 짧은 글자 자국. 누군가 같은 글자를 여러 번 새긴 결. ash-prayer knowledge. 잠식 음절(corrupted-whisper)과 대비되는 호흡 결.
+    personas: [narrator]
+    toneTarget: 잿빛 침묵 안의 한 호흡. forgotten-shrine 이 자리이면 ash-prayer 는 자리가 아닌 결 — 글자가 흩어진 자국. narrator 외부 관찰만.
+    previous: [fa-fork]
+    next: [fa-fork]
+    choices:
+      - id: prayer-trace
+        label: 결을 따라 손을 올린다
+        outcome:
+          knowledgeGain: [ash-prayer]
+          nextNodeId: fa-fork
+      - id: prayer-pass
+        label: 그대로 지나친다
+        outcome:
+          nextNodeId: fa-fork

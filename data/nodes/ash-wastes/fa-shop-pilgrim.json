@@ -1,0 +1,37 @@
+{
+  "id": "fa-shop-pilgrim",
+  "region": "ash-wastes",
+  "type": "shop",
+  "description": "짧은 그늘 안쪽, 한 자가 모래에 무릎을 꿇고 손가락으로 작은 표식을 새기고 있다.\n\n겉옷은 잿빛에 먼지가 쌓여 같은 결로 변했고, 등에는 가벼운 보따리 하나만 메고 있다.\n\n순례자: \"...한 모금 줄까. 값은 자네가 정하고.\"",
+  "choices": [
+    {
+      "id": "pilgrim-trade-mp",
+      "text": "피로 한 호흡을 산다 (HP -1, MP +2)",
+      "outcome": {
+        "text": "순례자가 작은 단지를 내민다. 한 모금. 머리가 차고, 손끝이 시린다.",
+        "statDelta": { "hp": -1, "mana": 2 },
+        "heroEncounter": "pilgrim",
+        "nextNodeId": "fa-fork"
+      }
+    },
+    {
+      "id": "pilgrim-trade-hp",
+      "text": "주문 한 줄을 내주고 잠을 산다 (MP -1, HP +2)",
+      "outcome": {
+        "text": "순례자가 너의 손바닥에 마른 잎 한 줌을 올린다. 단단히 우려 마신다. 가슴이 풀린다.",
+        "statDelta": { "mana": -1, "hp": 2 },
+        "heroEncounter": "pilgrim",
+        "nextNodeId": "fa-fork"
+      }
+    },
+    {
+      "id": "pilgrim-leave",
+      "text": "거래하지 않고 떠난다",
+      "outcome": {
+        "text": "순례자가 새기던 표식 위에 다시 손가락을 올린다. 너의 등 뒤에서 자세가 바뀌지 않는다.\n\n순례자: \"...이름은 잘 두시오.\"",
+        "heroEncounter": "pilgrim",
+        "nextNodeId": "fa-fork"
+      }
+    }
+  ]
+}

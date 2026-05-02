@@ -1,0 +1,33 @@
+{
+  "id": "fa-rest-oasis",
+  "region": "ash-wastes",
+  "type": "rest",
+  "description": "잿빛 모래 아래로 돌이 한 자 비친다. 발로 결을 따라가니 옛 우물의 입이 드러난다.\n\n물은 거의 다 빠졌다. 바닥에 검은 거울 같은 한 줌만 남는다. 모래는 그 가장자리에서만 잠깐 색을 잃는다.",
+  "choices": [
+    {
+      "id": "oasis-drink",
+      "text": "물 한 모금을 마신다",
+      "outcome": {
+        "text": "물이 차고 무겁다. 한 모금이 가슴까지 닿는다. 호흡이 한 박자 길어진다.",
+        "statDelta": { "hp": 1 },
+        "nextNodeId": "fa-fork"
+      }
+    },
+    {
+      "id": "oasis-tracks",
+      "text": "우물 너머의 발자국을 따라간다",
+      "outcome": {
+        "text": "발자국은 모래 위에서 흐려지고 다시 또렷해진다. 한 자가 그늘 안쪽에서 무릎을 꿇고 무엇인가를 모래에 새기고 있다.",
+        "nextNodeId": "fa-shop-pilgrim"
+      }
+    },
+    {
+      "id": "oasis-leave",
+      "text": "그대로 길로 돌아간다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 우물의 검은 한 줌이 너의 등 뒤에서 잠시 더 잠잠하다.",
+        "nextNodeId": "fa-fork"
+      }
+    }
+  ]
+}
