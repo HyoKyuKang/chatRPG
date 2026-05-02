@@ -1,0 +1,30 @@
+{
+  "id": "dc-citizen-attack",
+  "region": "dreaming-city",
+  "type": "combat",
+  "enemyId": "phantom-citizen",
+  "description": "시민이 한 박자 늦게 같은 인사를 다시 시작한다. 그러나 그의 미소가 이번엔 풀리지 않는다.\n\n그의 손이 너의 옷자락에 닿는다 — 가볍게, 그러나 떨어지지 않는다. 그의 시선이 너의 너머에서 너의 안쪽으로 한 칸 들어온다.\n\n환영이 너에게 달라붙기 시작한다.",
+  "choices": [
+    {
+      "id": "citizen-attack-shake",
+      "text": "그를 떼어낸다",
+      "outcome": {
+        "text": "너는 그의 손을 떼어낸다. 그의 미소가 한 박자 늦게 풀리며, 그의 형상이 안개로 흩어진다. 그의 인사가 거리의 끝까지 따라온다.",
+        "statDelta": { "mana": -1 },
+        "enemyDamage": 5,
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
+      "id": "citizen-attack-name",
+      "text": "그의 이름을 묻는다",
+      "outcome": {
+        "text": "너는 그의 이름을 묻는다. 그의 입이 한 결 떨리고 — 자리에 빈 결만 남는다. 환영이 무너지듯 흩어진다.",
+        "statDelta": { "hp": -1 },
+        "enemyDamage": 5,
+        "knowledgeGain": ["city-illusion"],
+        "nextNodeId": "dc-fork"
+      }
+    }
+  ]
+}

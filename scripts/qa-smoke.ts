@@ -63,10 +63,11 @@ async function main() {
   await page.getByRole('button', { name: '주변을 살피며 간다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
   const bossBtns = await visibleButtons(page)
+  // fo-boss-tree is type='combat' — CombatView shows all choices unfiltered.
+  // The mage path's 룬을 던진다 must be present (engine wires enemyDamage=hp).
   console.log(
-    '✓ fo-boss-tree — 룬 visible, 검 hidden (mage class):',
-    bossBtns.some((b) => b.includes('룬을 던진다')) &&
-      !bossBtns.some((b) => b.includes('검으로 뿌리를 베어낸다')),
+    '✓ fo-boss-tree (combat) — 룬을 던진다 available for mage:',
+    bossBtns.some((b) => b.includes('룬을 던진다')),
   )
 
   await page.getByRole('button', { name: '룬을 던진다' }).click()
@@ -134,10 +135,10 @@ async function main() {
   await page.getByRole('button', { name: '곧장 전진한다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
   const bossBtnsW = await visibleButtons(page)
+  // CombatView shows all choices — verify warrior path's option is present.
   console.log(
-    '✓ fo-boss-tree (warrior) — 검 visible, 룬 hidden:',
-    bossBtnsW.some((b) => b.includes('검으로 뿌리를 베어낸다')) &&
-      !bossBtnsW.some((b) => b.includes('룬을 던진다')),
+    '✓ fo-boss-tree (combat, warrior) — 검으로 뿌리를 베어낸다 available:',
+    bossBtnsW.some((b) => b.includes('검으로 뿌리를 베어낸다')),
   )
 
   await page.getByRole('button', { name: '검으로 뿌리를 베어낸다' }).click()

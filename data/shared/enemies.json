@@ -173,5 +173,279 @@
         ]
       }
     ]
+  },
+  {
+    "id": "corrupted-tree",
+    "name": "부패한 거대 나무",
+    "hp": 8,
+    "actions": [
+      {
+        "id": "roots-stretch",
+        "name": "뿌리 뻗음",
+        "predictionText": "뿌리가 흙 아래에서 너를 향해 뻗어 온다 — 다음 턴에 발목을 휘감는다.",
+        "executeText": "뿌리가 너의 발목을 스친다. 흙이 갈라진다.",
+        "statDelta": {}
+      },
+      {
+        "id": "root-strike",
+        "name": "뿌리 후려침",
+        "predictionText": "한 가닥의 뿌리가 머리 위로 솟아오른다 — 곧 내려친다.",
+        "executeText": "검은 액체가 묻은 뿌리가 너의 어깨를 친다. (HP -1)",
+        "statDelta": { "hp": -1 }
+      },
+      {
+        "id": "branch-fall",
+        "name": "가지 낙하",
+        "predictionText": "윗가지가 무게를 잃는다 — 곧 떨어진다.",
+        "executeText": "가지가 무너지며 너의 옆구리를 짓이긴다. (HP -2)",
+        "statDelta": { "hp": -2 }
+      },
+      {
+        "id": "name-call",
+        "name": "이름 부름",
+        "predictionText": "나무가 한 음절을 천천히 만든다 — 너의 것이 아닌 이름이다.",
+        "executeText": "그 이름이 너의 머릿속에 자국을 남긴다. (마나 -1)",
+        "statDelta": { "mana": -1 }
+      }
+    ]
+  },
+  {
+    "id": "shadow-commander",
+    "name": "그림자 사령관",
+    "hp": 12,
+    "actions": [
+      {
+        "id": "low-guard",
+        "name": "낮은 자세",
+        "predictionText": "사령관이 자세를 낮춘다 — 다음 한 박자가 짧을 것이다.",
+        "executeText": "사령관의 어깨가 한 번 무겁게 들썩인다. 칼끝은 흔들리지 않는다.",
+        "statDelta": {}
+      },
+      {
+        "id": "cut-low",
+        "name": "낮은 베기",
+        "predictionText": "칼끝이 너의 무릎 높이에 머문다 — 곧 그 자리를 가른다.",
+        "executeText": "칼이 너의 허벅지를 스친다. 따뜻한 줄 하나가 그어진다. (HP -1)",
+        "statDelta": { "hp": -1 }
+      },
+      {
+        "id": "cut-high",
+        "name": "높은 베기",
+        "predictionText": "사령관이 칼을 어깨 위로 든다 — 곧 위에서 내려친다.",
+        "executeText": "칼이 너의 어깨에 박힌다. 갑옷의 결이 갈라진다. (HP -2)",
+        "statDelta": { "hp": -2 }
+      }
+    ],
+    "phases": [
+      {
+        "atTurn": 3,
+        "actionsOverride": [
+          {
+            "id": "wrath-step",
+            "name": "분노의 한 걸음",
+            "predictionText": "사령관이 한 걸음 더 다가선다 — 칼끝의 흔들림이 사라진다.",
+            "executeText": "그의 어조가 바뀐다. \"...이 길은 더 가지 마라.\" 칼이 너의 갈비뼈 사이를 긋는다. (HP -2)",
+            "statDelta": { "hp": -2 }
+          },
+          {
+            "id": "wrath-strike",
+            "name": "분노의 검",
+            "predictionText": "칼날에 어둠이 진하게 묻는다 — 다음 일격은 막을 수 없다.",
+            "executeText": "검은 결이 칼끝을 따라 흘러내려 너의 가슴을 가른다. (HP -3)",
+            "statDelta": { "hp": -3 }
+          }
+        ]
+      },
+      {
+        "atTurn": 5,
+        "actionsOverride": [
+          {
+            "id": "final-blow",
+            "name": "결정타",
+            "predictionText": "사령관이 칼끝을 너의 심장에 맞춘다 — 마지막 한 호흡이다.",
+            "executeText": "칼이 너의 가슴을 깊이 가른다. \"...고맙다.\" (HP -4)",
+            "statDelta": { "hp": -4 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "consumed-one",
+    "name": "잠식된 자",
+    "hp": 14,
+    "actions": [
+      {
+        "id": "empty-stare",
+        "name": "텅 빈 시선",
+        "predictionText": "그가 너를 보지 않는 채 너에게 시선을 둔다 — 다음 턴에 무언가가 흘러나온다.",
+        "executeText": "그의 시선이 너의 안쪽을 한 칸 비운다. (마나 -1)",
+        "statDelta": { "mana": -1 }
+      },
+      {
+        "id": "slow-cut",
+        "name": "느린 베기",
+        "predictionText": "그가 칼을 천천히 든다 — 빠르지 않지만 한 호흡이 깊다.",
+        "executeText": "칼이 너의 옆구리를 길게 가른다. (HP -2)",
+        "statDelta": { "hp": -2 }
+      },
+      {
+        "id": "mass-whisper",
+        "name": "무리의 음절",
+        "predictionText": "광기 부대의 짧은 음절이 한 박자 늦게 같은 결로 모인다 — 곧 너에게 닿는다.",
+        "executeText": "음절이 너의 머릿속에 자리를 잡는다. (마나 -1, HP -1)",
+        "statDelta": { "mana": -1, "hp": -1 }
+      }
+    ],
+    "phases": [
+      {
+        "atTurn": 3,
+        "actionsOverride": [
+          {
+            "id": "name-take",
+            "name": "이름 거두기",
+            "predictionText": "그가 너의 이름을 부르려 한다 — 그러나 그 자리에 자기 이름의 빈 결을 놓는다.",
+            "executeText": "너의 이름이 한 칸 비낀다. \"...너도 곧 잊을 것이다.\" (마나 -2)",
+            "statDelta": { "mana": -2 }
+          },
+          {
+            "id": "hollow-strike",
+            "name": "빈 일격",
+            "predictionText": "그의 칼끝이 어디에도 머물지 않는다 — 다음 일격은 무게가 없을 것 같지만, 그래서 더 무겁다.",
+            "executeText": "칼이 너의 갑옷 안쪽까지 닿는다. (HP -3)",
+            "statDelta": { "hp": -3 }
+          },
+          {
+            "id": "march-tide",
+            "name": "무리의 조류",
+            "predictionText": "광기 부대가 한 박자 늦게 같은 방향으로 어깨를 들썩인다 — 너의 등 뒤로 모인다.",
+            "executeText": "그들의 호흡이 너의 등에 닿는다. 막을 길이 좁다. (HP -2)",
+            "statDelta": { "hp": -2 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sleeping-king",
+    "name": "잠든 왕",
+    "hp": 10,
+    "actions": [
+      {
+        "id": "dream-sigh",
+        "name": "꿈의 한숨",
+        "predictionText": "잠든 왕의 숨이 천장을 한 결 더 채운다 — 곧 도시의 결이 너에게 닿는다.",
+        "executeText": "그의 숨결이 너의 결심을 한 번 두드린다. (마나 -1)",
+        "statDelta": { "mana": -1 }
+      },
+      {
+        "id": "citizen-tide",
+        "name": "시민의 조류",
+        "predictionText": "옥좌실 너머에서 시민들의 가벼운 발걸음이 같은 방향으로 모인다 — 곧 환영이 너를 둘러싼다.",
+        "executeText": "환영의 손들이 너의 옷자락을 가볍게 잡는다. 뿌리치는 자리에서 살이 까진다. (HP -1)",
+        "statDelta": { "hp": -1 }
+      },
+      {
+        "id": "name-fade",
+        "name": "이름의 흐려짐",
+        "predictionText": "그가 너의 이름이 아닌 옛 백성의 이름을 부른다 — 너의 결이 한 칸 흐려진다.",
+        "executeText": "그 이름이 너에게 자국을 남긴다. (마나 -1, HP -1)",
+        "statDelta": { "mana": -1, "hp": -1 }
+      }
+    ],
+    "phases": [
+      {
+        "atTurn": 3,
+        "actionsOverride": [
+          {
+            "id": "wake-near",
+            "name": "깨어남의 가장자리",
+            "predictionText": "그의 눈꺼풀이 한 결 떨린다 — 다음 호흡이면 환영이 갈라진다.",
+            "executeText": "도시의 결이 멀리서 한 번 무너진다. 시민들의 비명이 짧게 닿는다. (HP -2)",
+            "statDelta": { "hp": -2 }
+          },
+          {
+            "id": "throne-grip",
+            "name": "옥좌의 손",
+            "predictionText": "그의 손이 옥좌의 팔걸이에서 한 결 들썩인다 — 그러나 들리지 않는다.",
+            "executeText": "그가 손을 들지 않는다. 그 자리에 무게만 머문다. (마나 -2)",
+            "statDelta": { "mana": -2 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mawang",
+    "name": "마왕",
+    "hp": 16,
+    "actions": [
+      {
+        "id": "mage-greet",
+        "name": "옛 마법사의 인사",
+        "predictionText": "마왕이 손을 가볍게 든다 — 옛 시대의 결로, 룬 한 줄이 공기 위에 그려진다.",
+        "executeText": "룬이 너의 안쪽을 천천히 더듬는다. (마나 -1)",
+        "statDelta": { "mana": -1 }
+      },
+      {
+        "id": "old-recite",
+        "name": "옛 시대의 영창",
+        "predictionText": "그가 한 음절을 길게 늘인다 — 옛 첨탑의 결이 묻은 음절이다.",
+        "executeText": "음절이 너의 결심을 한 칸 흐린다. (마나 -1, HP -1)",
+        "statDelta": { "mana": -1, "hp": -1 }
+      }
+    ],
+    "phases": [
+      {
+        "atTurn": 3,
+        "actionsOverride": [
+          {
+            "id": "illusion-self",
+            "name": "환각: 너 자신",
+            "predictionText": "옥좌실의 벽이 잠시 다른 벽이 된다 — 너 자신의 형상이 너의 옆에 선다.",
+            "executeText": "환영의 너가 네 자세 그대로 검을 든다. 너의 손이 떨린다. (HP -1, 마나 -1)",
+            "statDelta": { "hp": -1, "mana": -1 }
+          },
+          {
+            "id": "illusion-mages",
+            "name": "환각: 옛 동료들",
+            "predictionText": "푸른 불 사이로 옛 마법사들이 지나간다 — 너를 보지 않는다.",
+            "executeText": "그들의 시선이 너의 어깨를 스친다. 베일런 노사의 결이 잠시 닿는다. (마나 -2)",
+            "statDelta": { "mana": -2 }
+          }
+        ]
+      },
+      {
+        "atTurn": 5,
+        "actionsOverride": [
+          {
+            "id": "consume-near",
+            "name": "잠식의 가장자리",
+            "predictionText": "마왕의 어조가 한 결 비낀다 — 잠식된 자의 무감각한 결이 그의 음성에 묻는다.",
+            "executeText": "그의 손끝이 너의 이름을 한 칸 비킨다. (마나 -2, HP -1)",
+            "statDelta": { "mana": -2, "hp": -1 }
+          },
+          {
+            "id": "consume-strike",
+            "name": "잠식의 일격",
+            "predictionText": "그의 손이 검은 결로 길게 뻗는다 — 잠식의 결이 칼날 대신 손에 묻어 있다.",
+            "executeText": "검은 결이 너의 가슴에 자국을 남긴다. (HP -3)",
+            "statDelta": { "hp": -3 }
+          }
+        ]
+      },
+      {
+        "atTurn": 7,
+        "actionsOverride": [
+          {
+            "id": "self-recognize",
+            "name": "자기 인식",
+            "predictionText": "마왕이 너에게서 한 발 비낀다 — 그의 시선이 너의 너머의 자기 자신에 머문다.",
+            "executeText": "마왕: \"...너의 자리에 한때 내가 있었다.\" 그의 어조가 한 박자도 흔들리지 않는다. (HP -2, 마나 -2)",
+            "statDelta": { "hp": -2, "mana": -2 }
+          }
+        ]
+      }
+    ]
   }
 ]

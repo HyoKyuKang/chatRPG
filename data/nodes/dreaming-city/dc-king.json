@@ -1,42 +1,31 @@
 {
   "id": "dc-king",
   "region": "dreaming-city",
-  "type": "boss",
+  "type": "combat",
+  "enemyId": "sleeping-king",
   "description": "옥좌실의 공기가 멈춘다. 잠든 왕의 숨이 천장을 채운다.\n\n그의 의식이 한 겹 떠오른다. 가까이, 더 가까이. 너의 이마에 닿을 듯.\n\n잠든 왕: \"...너무 길었다.\"\n\n잠든 왕: \"내 백성은 잘 자고 있는가.\"\n\n그의 손은 옥좌의 팔걸이에 그대로 놓여 있다. 너의 발이 그 앞에서 한 박자 멈춘다.",
   "choices": [
     {
       "id": "king-warrior",
       "text": "검으로 끝낸다",
-      "condition": {
-        "class": "warrior"
-      },
+      "condition": { "class": "warrior" },
       "outcome": {
-        "text": "너는 칼을 든다. 칼끝이 그의 가슴 위에서 한 박자 멈춘다.\n\n잠든 왕: \"...칼을 들고 왔는가. 옛적엔 칼이 무거웠지.\"\n\n너의 손이 떨린다. 칼은 가볍게 들어가고, 도시가 멀리서 무너지는 소리가 난다. 칼날이 손에서 떨어지지 않는다.",
-        "statDelta": {
-          "hp": -2
-        },
-        "knowledgeGain": [
-          "ethical-weight",
-          "chose-end"
-        ],
+        "text": "너는 칼을 든다. 칼끝이 그의 가슴 위에서 한 박자 멈춘다.\n\n잠든 왕: \"...칼을 들고 왔는가. 옛적엔 칼이 무거웠지.\"\n\n너의 손이 떨린다. 칼은 가볍게 들어가고, 도시가 멀리서 무너지는 소리가 난다.",
+        "statDelta": { "hp": -1 },
+        "enemyDamage": 4,
+        "knowledgeGain": ["ethical-weight", "chose-end"],
         "nextNodeId": "dc-resolution"
       }
     },
     {
       "id": "king-mage",
       "text": "룬으로 그를 깨운다",
-      "condition": {
-        "class": "mage"
-      },
+      "condition": { "class": "mage" },
       "outcome": {
-        "text": "너는 룬을 그린다. 공기에 새겨진 글자가 그의 이마로 흘러든다.\n\n잠든 왕: \"...룬을 외울 줄 아는구나. 내 시대의 마법사들도 그랬다.\"\n\n그의 눈꺼풀이 천천히 열린다. 도시가 함께 깨어난다 — 시민들이 비명을 지르며 일어선다. 너의 마나가 빠져나간다.",
-        "statDelta": {
-          "mana": -2
-        },
-        "knowledgeGain": [
-          "ethical-weight",
-          "chose-wake"
-        ],
+        "text": "너는 룬을 그린다. 공기에 새겨진 글자가 그의 이마로 흘러든다.\n\n잠든 왕: \"...룬을 외울 줄 아는구나. 내 시대의 마법사들도 그랬다.\"\n\n그의 눈꺼풀이 천천히 열린다. 도시가 함께 깨어난다 — 시민들이 비명을 지르며 일어선다.",
+        "statDelta": { "mana": -1 },
+        "enemyDamage": 4,
+        "knowledgeGain": ["ethical-weight", "chose-wake"],
         "nextNodeId": "dc-resolution"
       }
     },
@@ -45,10 +34,8 @@
       "text": "떠난다 (환영 그대로)",
       "outcome": {
         "text": "너는 등을 돌린다. 그의 숨이 여전히 천장을 채운다.\n\n옥좌실의 문이 닫힌다. 도시는 그대로 잠들어 있다. 시민들은 평화롭게 꿈꾼다 — 영원히.\n\n환영은 그대로 남는다. 너의 발걸음만 멀어진다.",
-        "knowledgeGain": [
-          "ethical-weight",
-          "chose-leave"
-        ],
+        "enemyDamage": 10,
+        "knowledgeGain": ["ethical-weight", "chose-leave"],
         "nextNodeId": "dc-resolution"
       }
     }

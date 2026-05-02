@@ -103,11 +103,11 @@ nodes:
 
   - id: fm-tunnel
     type: encounter
-    beat: 지하 통로 — 어둡고 좁음. 위쪽에서 군세 발자국 소리. 이방인 혼자.
+    beat: 지하 통로 — 어둡고 좁음. 위쪽에서 군세 발자국 소리. 이방인 혼자. W9 — 새 가지 진입 (fm-tunnel-fight) 추가.
     personas: [narrator]
-    toneTarget: 어둠 + 발자국 소리. 긴장. 빠르게 vs 조용히의 대비.
+    toneTarget: 어둠 + 발자국 소리. 긴장. 빠르게 vs 조용히 vs 마주치기의 대비.
     previous: [fm-fork]
-    next: [fm-tunnel-exit]
+    next: [fm-tunnel-exit, fm-tunnel-fight]
     choices:
       - id: tunnel-quiet
         label: 조용히 지나간다
@@ -118,6 +118,34 @@ nodes:
         outcome:
           statDelta:
             hp: -1
+          nextNodeId: fm-tunnel-exit
+      - id: tunnel-confront
+        label: 발자국을 향해 올라간다
+        outcome:
+          nextNodeId: fm-tunnel-fight
+
+  - id: fm-tunnel-fight
+    type: combat
+    enemyId: demon-vanguard
+    beat: 통로 안의 척후병 조우 (W9 추가). 좁은 어둠에서 단검과 칼이 부딪힘. fm-front-fight 와 차별 — 좁은 공간 결.
+    personas: [narrator]
+    toneTarget: 1지역 늑대보다 무거움. 거리 정면(fm-front-fight)과 차별 — 좁음 + 어둠 + 한 발 물러설 자리 없음.
+    previous: [fm-tunnel]
+    next: [fm-tunnel-exit]
+    choices:
+      - id: tunnel-fight-strike
+        label: 먼저 친다
+        outcome:
+          statDelta:
+            hp: -1
+          enemyDamage: 6
+          nextNodeId: fm-tunnel-exit
+      - id: tunnel-fight-pin
+        label: 벽으로 몰아붙인다
+        outcome:
+          statDelta:
+            hp: -2
+          enemyDamage: 6
           nextNodeId: fm-tunnel-exit
 
   - id: fm-tunnel-exit
@@ -139,9 +167,10 @@ nodes:
 
   - id: fm-front-fight
     type: combat
-    beat: 거리 순찰병 조우 + 첫 전투. 늑대가 아닌 사람 형태의 적.
+    enemyId: demon-vanguard
+    beat: 거리 순찰병 조우 + 첫 전투. 늑대가 아닌 사람 형태의 적. W9 — enemyId 매핑 (demon-vanguard hp 6) — 1턴 결판.
     personas: [narrator]
-    toneTarget: 인간 적과의 전투. 1지역 늑대보다 무거움. 회피도 비용 있음.
+    toneTarget: 인간 적과의 전투. 1지역 늑대보다 무거움. 회피도 비용 있음. 엔진의 단검 예고가 무게를 더함.
     previous: [fm-fork]
     next: [fm-front-tower]
     choices:
@@ -150,12 +179,14 @@ nodes:
         outcome:
           statDelta:
             hp: -2
+          enemyDamage: 6
           nextNodeId: fm-front-tower
       - id: fight-evade
         label: 회피해서 지나친다
         outcome:
           statDelta:
             mana: -1
+          enemyDamage: 6
           nextNodeId: fm-front-tower
 
   - id: fm-front-tower
@@ -198,10 +229,11 @@ nodes:
           nextNodeId: fm-boss
 
   - id: fm-boss
-    type: boss
-    beat: 그림자 사령관 보스전. 그가 칼을 든다. 행동(어깨 들썩임, 칼끝 흔들리지 않음)으로만 결을 보여줌. 이방인 혼자, 사령관 단독.
+    type: combat
+    enemyId: shadow-commander
+    beat: 그림자 사령관 보스전. 그가 칼을 든다. 행동(어깨 들썩임, 칼끝 흔들리지 않음)으로만 결을 보여줌. 이방인 혼자, 사령관 단독. W9 — 5턴 3페이즈 (shadow-commander hp 12, atTurn 3 분노 / atTurn 5 결정타).
     personas: [narrator, shadow-commander]
-    toneTarget: 보스전 정점. 사령관 결은 행동으로만 — narrator 가 "분노/의무" 같은 동기 단언 X. 클래스별 출력 차별은 사령관 대사에서만. 전사에게 templar 단서 한 줄, 마법사에게 짧은 정중한 거절.
+    toneTarget: 보스전 정점. 사령관 결은 행동으로만 — narrator 가 "분노/의무" 같은 동기 단언 X. 클래스별 출력 차별은 사령관 대사에서만. 전사에게 templar 단서 한 줄, 마법사에게 짧은 정중한 거절. 페이즈 전환은 enemy 예고 텍스트로만 비춤 (페이즈 1 cut-low/high → 페이즈 2 wrath-step/strike → 페이즈 3 final-blow).
     previous: [fm-square]
     next: [fm-resolution]
     choices:
@@ -211,7 +243,8 @@ nodes:
           class: warrior
         outcome:
           statDelta:
-            hp: -2
+            hp: -1
+          enemyDamage: 3
           nextNodeId: fm-resolution
       - id: boss-mage
         label: 룬으로 침식을 끊는다
@@ -219,11 +252,13 @@ nodes:
           class: mage
         outcome:
           statDelta:
-            mana: -2
+            mana: -1
+          enemyDamage: 3
           nextNodeId: fm-resolution
       - id: boss-flee
         label: 도망친다
         outcome:
+          enemyDamage: 12
           knowledgeGain: [fled-shadow]
           nextNodeId: fm-resolution
 

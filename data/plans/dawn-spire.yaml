@@ -79,11 +79,11 @@ nodes:
 
   - id: ds-floor-illusion
     type: event
-    beat: 1층 — 마왕의 환각 발현. 옛 시대 첨탑 광경 (마법사들이 살던 시대) 잠시 보임. 4지역 환각 결 콜백.
+    beat: 1층 — 마왕의 환각 발현. 옛 시대 첨탑 광경 (마법사들이 살던 시대) 잠시 보임. 4지역 환각 결 콜백. W9 — 새 가지 진입 (ds-floor-illusion-fight) 추가.
     personas: [narrator, mawang]
     toneTarget: 환각의 결 — 옛 시대가 잠시 비침. 마왕이 너를 시험하는 결 (직접 등장 X, 환각만). 4지역 톤 회상.
     previous: [ds-ascend]
-    next: [ds-floor-strangers]
+    next: [ds-floor-strangers, ds-floor-illusion-fight]
     choices:
       - id: illusion-watch
         label: 환영을 본다
@@ -95,6 +95,35 @@ nodes:
       - id: illusion-press
         label: 환영을 지나친다
         outcome:
+          nextNodeId: ds-floor-strangers
+      - id: illusion-step-in
+        label: 환영 속으로 들어선다
+        outcome:
+          nextNodeId: ds-floor-illusion-fight
+
+  - id: ds-floor-illusion-fight
+    type: combat
+    enemyId: demon-king-lieutenant
+    beat: 1층 환각 안에서 마왕 군세 장수의 환영과 마주침 (W9 추가). 환영이지만 칼끝의 무게는 환영이 아님. demon-king-lieutenant 의 페이즈 (atTurn 4 진노) 가 발동될 수 있음.
+    personas: [narrator, mawang]
+    toneTarget: 환영의 무게가 신체로 닿는 결. 푸른 불 사이의 갑옷, 마왕의 칙령이 묻은 어둠. 4지역 환각 결 + 5지역 마왕 결의 교차.
+    previous: [ds-floor-illusion]
+    next: [ds-floor-strangers]
+    choices:
+      - id: illusion-fight-cut
+        label: 환영을 가른다
+        outcome:
+          statDelta:
+            hp: -2
+          enemyDamage: 8
+          nextNodeId: ds-floor-strangers
+      - id: illusion-fight-rune
+        label: 룬으로 환영의 결을 끊는다
+        outcome:
+          statDelta:
+            mana: -2
+          enemyDamage: 8
+          knowledgeGain: [old-ages]
           nextNodeId: ds-floor-strangers
 
   - id: ds-floor-strangers
@@ -163,10 +192,11 @@ nodes:
           nextNodeId: ds-mawang
 
   - id: ds-mawang
-    type: boss
-    beat: 마왕 첫 등장. 옥좌에서 일어남. "또 왔구나." 적개심 X — 인식. narrator 가 그의 본질("한때 사람이었던") / 감정("분노 없음, 정중함") / 너의 내면("너 자신의 끝을 본다") 직접 단언 X — 외부 결(평탄한 목소리, 한 박자도 안 흔들림, 시선이 늦게 돌아옴) 으로만.
+    type: combat
+    enemyId: mawang
+    beat: 마왕 첫 등장. 옥좌에서 일어남. "또 왔구나." 적개심 X — 인식. narrator 가 그의 본질("한때 사람이었던") / 감정("분노 없음, 정중함") / 너의 내면("너 자신의 끝을 본다") 직접 단언 X — 외부 결(평탄한 목소리, 한 박자도 안 흔들림, 시선이 늦게 돌아옴) 으로만. W9 — 7턴 4페이즈 (mawang hp 16, atTurn 3 환각 / atTurn 5 잠식 / atTurn 7 자기 인식). 마주봄/잠시 멈춤 = 1턴 결판 (대화적 결), 한 호흡 정리하고 맞섬 = 다중턴 페이즈 진행.
     personas: [narrator, mawang]
-    toneTarget: 마왕의 첫 등장. 사령관(슬픔), 잠식된 자(무감), 잠든 왕(모름)과 다른 결 — **인식 + 비극적 깊이**. 그도 한때 이방인이었음의 결은 그의 대사로만 직접, narrator 는 외부 동작/시선의 결로 비춤.
+    toneTarget: 마왕의 첫 등장. 사령관(슬픔), 잠식된 자(무감), 잠든 왕(모름)과 다른 결 — **인식 + 비극적 깊이**. 그도 한때 이방인이었음의 결은 그의 대사로만 직접, narrator 는 외부 동작/시선의 결로 비춤. 페이즈 4가지 (옛 마법사 → 환각 → 잠식 → 자기 인식) 는 enemy 예고 텍스트로만 비추고 narrator 단언 X.
     previous: [ds-throne]
     next: [ds-choice]
     echoes:
@@ -186,12 +216,23 @@ nodes:
       - id: mawang-meet
         label: 그를 마주본다
         outcome:
+          enemyDamage: 16
           heroEncounter: mawang
           knowledgeGain: [mawang-glimpse]
           nextNodeId: ds-choice
       - id: mawang-pause
         label: 잠시 멈춘다
         outcome:
+          enemyDamage: 16
+          heroEncounter: mawang
+          knowledgeGain: [mawang-glimpse]
+          nextNodeId: ds-choice
+      - id: mawang-engage
+        label: 한 호흡을 정리하고 맞선다
+        outcome:
+          statDelta:
+            mana: -1
+          enemyDamage: 2
           heroEncounter: mawang
           knowledgeGain: [mawang-glimpse]
           nextNodeId: ds-choice

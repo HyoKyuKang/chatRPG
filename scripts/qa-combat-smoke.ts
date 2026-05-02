@@ -31,7 +31,7 @@ const raw = JSON.parse(
   readFileSync('data/shared/enemies.json', 'utf8'),
 ) as unknown
 const enemies = z.array(EnemyPattern).parse(raw)
-check('enemies.json parses', enemies.length === 5, `got ${enemies.length}`)
+check('enemies.json parses', enemies.length === 10, `got ${enemies.length}`)
 
 const ids = new Set(enemies.map((e) => e.id))
 check(
@@ -71,6 +71,48 @@ check(
   wrathActions !== lieutenant.actions &&
     wrathActions[0].id === 'wrath-strike',
   `got ${wrathActions[0]?.id}`,
+)
+
+// Boss phase coverage — shadow-commander 5턴 3페이즈, mawang 7턴 4페이즈.
+const shadow = enemies.find((e) => e.id === 'shadow-commander')!
+const shadowT1 = activeEnemyActions(shadow, 1)
+const shadowT3 = activeEnemyActions(shadow, 3)
+const shadowT5 = activeEnemyActions(shadow, 5)
+check(
+  'shadow-commander phase 1 (turn 1) = base',
+  shadowT1 === shadow.actions,
+)
+check(
+  'shadow-commander phase 2 (turn 3) = wrath',
+  shadowT3 !== shadow.actions && shadowT3[0].id === 'wrath-step',
+  `got ${shadowT3[0]?.id}`,
+)
+check(
+  'shadow-commander phase 3 (turn 5) = final-blow',
+  shadowT5[0].id === 'final-blow',
+  `got ${shadowT5[0]?.id}`,
+)
+
+const mawang = enemies.find((e) => e.id === 'mawang')!
+const mawangT1 = activeEnemyActions(mawang, 1)
+const mawangT3 = activeEnemyActions(mawang, 3)
+const mawangT5 = activeEnemyActions(mawang, 5)
+const mawangT7 = activeEnemyActions(mawang, 7)
+check('mawang phase 1 (turn 1) = old-mage base', mawangT1 === mawang.actions)
+check(
+  'mawang phase 2 (turn 3) = illusion',
+  mawangT3 !== mawang.actions && mawangT3[0].id === 'illusion-self',
+  `got ${mawangT3[0]?.id}`,
+)
+check(
+  'mawang phase 3 (turn 5) = consume',
+  mawangT5[0].id === 'consume-near',
+  `got ${mawangT5[0]?.id}`,
+)
+check(
+  'mawang phase 4 (turn 7) = self-recognize',
+  mawangT7[0].id === 'self-recognize',
+  `got ${mawangT7[0]?.id}`,
 )
 
 // ─── 4. Simulated combat: victory path ───────────────────────────────

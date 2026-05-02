@@ -25,6 +25,14 @@
         "text": "너는 눈을 거둔다. 환영은 사라지지 않는다, 다만 너의 가장자리로 밀려난다. 발이 검은 돌을 디딘다. 복도의 끝이 다시 가까워진다.",
         "nextNodeId": "ds-floor-strangers"
       }
+    },
+    {
+      "id": "illusion-step-in",
+      "text": "환영 속으로 들어선다",
+      "outcome": {
+        "text": "너는 푸른 불 안으로 한 걸음 들어선다. 환영의 결이 너의 어깨에 무게로 닿고, 한 형상이 너에게 걸어 나온다.",
+        "nextNodeId": "ds-floor-illusion-fight"
+      }
     }
   ]
 }

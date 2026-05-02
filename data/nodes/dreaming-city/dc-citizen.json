@@ -22,6 +22,14 @@
         ],
         "nextNodeId": "dc-fork"
       }
+    },
+    {
+      "id": "citizen-shake",
+      "text": "그를 흔든다",
+      "outcome": {
+        "text": "너는 그의 어깨를 잡는다. 그의 미소가 풀리지 않은 채로 너에게 더 가까이 닿는다. 환영의 손들이 너의 옷자락을 가볍게 잡기 시작한다.",
+        "nextNodeId": "dc-citizen-attack"
+      }
     }
   ]
 }

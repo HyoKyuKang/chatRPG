@@ -1,25 +1,20 @@
 {
   "id": "ds-mawang",
   "region": "dawn-spire",
-  "type": "boss",
+  "type": "combat",
+  "enemyId": "mawang",
   "description": "옥좌실의 천장은 밤하늘처럼 높다. 별빛이 새어드는 틈으로 먼지가 내려앉는다.\n\n옥좌에 앉은 형상이 천천히 일어선다. 검은 망토가 흘러내리고, 그 아래의 얼굴은 너무도 평범하다 — 오래 본 듯한 결이 있다.\n\n마왕: \"또 왔구나.\"\n\n그의 목소리는 차고 평탄하다. 한 박자도 흔들리지 않는다.\n\n마왕: \"...너의 자리에 한때 내가 있었다.\"",
   "echoes": [
     {
-      "condition": {
-        "knowledge": "warrior-awakened"
-      },
+      "condition": { "knowledge": "warrior-awakened" },
       "text": "마왕: \"...칼은 약하다. 그러나 너는 그것을 알면서도 들었군.\""
     },
     {
-      "condition": {
-        "knowledge": "mage-awakened"
-      },
+      "condition": { "knowledge": "mage-awakened" },
       "text": "마왕: \"...룬을 외운 자가 또 왔다. 베일런 그가 너에게 가르쳤는가.\""
     },
     {
-      "condition": {
-        "knowledge": "chose-wake"
-      },
+      "condition": { "knowledge": "chose-wake" },
       "text": "마왕: \"...도시를 깨운 자로구나. 시민들의 비명이 너의 등 뒤에서 따라왔겠지.\""
     }
   ],
@@ -29,9 +24,8 @@
       "text": "그를 마주본다",
       "outcome": {
         "text": "너는 시선을 피하지 않는다. 그의 눈은 깊고 평탄하다. 너의 시선이 그 안에서 한 박자 늦게 돌아온다.",
-        "knowledgeGain": [
-          "mawang-glimpse"
-        ],
+        "enemyDamage": 16,
+        "knowledgeGain": ["mawang-glimpse"],
         "heroEncounter": "mawang",
         "nextNodeId": "ds-choice"
       }
@@ -41,9 +35,20 @@
       "text": "잠시 멈춘다",
       "outcome": {
         "text": "너는 한 걸음을 삼킨다. 옥좌실의 공기가 너의 숨을 천천히 돌려준다.",
-        "knowledgeGain": [
-          "mawang-glimpse"
-        ],
+        "enemyDamage": 16,
+        "knowledgeGain": ["mawang-glimpse"],
+        "heroEncounter": "mawang",
+        "nextNodeId": "ds-choice"
+      }
+    },
+    {
+      "id": "mawang-engage",
+      "text": "한 호흡을 정리하고 맞선다",
+      "outcome": {
+        "text": "너는 자세를 잡는다. 마왕의 손이 한 결 들썩인다. 옥좌실의 결이 한 박자씩 어긋나기 시작한다.",
+        "statDelta": { "mana": -1 },
+        "enemyDamage": 2,
+        "knowledgeGain": ["mawang-glimpse"],
         "heroEncounter": "mawang",
         "nextNodeId": "ds-choice"
       }

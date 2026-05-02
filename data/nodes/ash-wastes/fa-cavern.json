@@ -19,6 +19,14 @@
         "text": "너는 멈춘다. 숨을 죽인다. 모래의 실 너머에서, 무언가가 너를 기다리고 있다.",
         "nextNodeId": "fa-whisper"
       }
+    },
+    {
+      "id": "cavern-confront",
+      "text": "그 자리에서 맞선다",
+      "outcome": {
+        "text": "너는 발걸음을 멈춘다. 어둠의 결이 너의 앞에서 한 결 더 짙어지고, 한 형체가 천천히 일어선다.",
+        "nextNodeId": "fa-cavern-fight"
+      }
     }
   ]
 }

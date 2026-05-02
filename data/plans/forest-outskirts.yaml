@@ -90,9 +90,10 @@ nodes:
 
   - id: fo-astrid-fight
     type: combat
-    beat: 부패한 늑대와 첫 전투. 아스트리드 옆에서 외운 신앙 문구 들림.
+    enemyId: rotting-wolf
+    beat: 부패한 늑대와 첫 전투. 아스트리드 옆에서 외운 신앙 문구 들림. W9 combat 인프라에 enemyId 매핑 (rotting-wolf hp 5) — 1턴 결판.
     personas: [narrator, astrid]
-    toneTarget: 첫 전투. 즉물적. 신체 감각 강함. 부패의 색/냄새 비침.
+    toneTarget: 첫 전투. 즉물적. 신체 감각 강함. 부패의 색/냄새 비침. 엔진은 enemy bar/예고만 표시, 결판은 단일 클릭.
     previous: [fo-astrid-meet]
     next: [fo-warrior-awaken]
     choices:
@@ -103,11 +104,13 @@ nodes:
         outcome:
           statDelta:
             hp: -1
+          enemyDamage: 5
           knowledgeGain: [templar-creed, astrid-respect]
           nextNodeId: fo-warrior-awaken
       - id: fight-cover
         label: 그녀 뒤에 선다
         outcome:
+          enemyDamage: 5
           knowledgeGain: [astrid-doubt]
           nextNodeId: fo-warrior-awaken
 
@@ -201,10 +204,11 @@ nodes:
           nextNodeId: fo-boss-tree
 
   - id: fo-boss-tree
-    type: boss
-    beat: 부패한 거대 나무 — 의인화된 식물. 이방인 혼자 (동반자 없음). 너의 이름이 아닌 무언가를 부른다 (외신 결).
+    type: combat
+    enemyId: corrupted-tree
+    beat: 부패한 거대 나무 — 의인화된 식물. 이방인 혼자 (동반자 없음). 너의 이름이 아닌 무언가를 부른다 (외신 결). W9 — 첫 보스, 페이즈 없음 (corrupted-tree hp 8) — 단일 클릭 결판으로 narrative pacing 유지.
     personas: [narrator]
-    toneTarget: 보스 도착. 위협 정점. 외신 결 핵심. 클래스별 출력 차별화. 도망은 잔향이 길다.
+    toneTarget: 보스 도착. 위협 정점. 외신 결 핵심. 클래스별 출력 차별화. 도망은 잔향이 길다. 엔진의 enemy bar/뿌리 예고가 무게를 더함.
     previous: [fo-converge]
     next: [fo-resolution]
     choices:
@@ -216,6 +220,7 @@ nodes:
         outcome:
           statDelta:
             hp: -2
+          enemyDamage: 8
           nextNodeId: fo-resolution
       - id: boss-rune
         label: 룬을 던진다
@@ -225,11 +230,13 @@ nodes:
         outcome:
           statDelta:
             mana: -2
+          enemyDamage: 8
           itemRemove: [old-scroll]
           nextNodeId: fo-resolution
       - id: boss-flee
         label: 도망친다
         outcome:
+          enemyDamage: 8
           knowledgeGain: [fled-tree]
           nextNodeId: fo-resolution
 

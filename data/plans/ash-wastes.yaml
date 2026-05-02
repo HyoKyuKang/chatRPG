@@ -101,8 +101,8 @@ nodes:
           nextNodeId: fa-storm
 
   - id: fa-storm
-    type: combat
-    beat: 모래 폭풍 안. 시야 잃음. 모래가 살을 갈라낼 듯. 이방인 혼자.
+    type: event
+    beat: 모래 폭풍 안. 시야 잃음. 모래가 살을 갈라낼 듯. 이방인 혼자. W9 — combat 타입에서 event 로 정정 (적이 없는 자연 결, enemyId 가 없으므로 엔진 트리거 안 함).
     personas: [narrator]
     toneTarget: 자연의 폭력성. 신체적 비용 또는 정신적 비용 — 어느 쪽이든 통과해야 함.
     previous: [fa-dune]
@@ -141,11 +141,11 @@ nodes:
 
   - id: fa-cavern
     type: encounter
-    beat: 동굴 진입. 어둠 + 차가움. 이방인 혼자. 위에서 모래 흘러내리는 소리.
+    beat: 동굴 진입. 어둠 + 차가움. 이방인 혼자. 위에서 모래 흘러내리는 소리. W9 — 새 가지 진입 (fa-cavern-fight) 추가.
     personas: [narrator]
     toneTarget: 어둠 + 좁음. 인공적이 아닌, 자라난 결. 마왕의 영토 깊은 곳으로 들어감.
     previous: [fa-fork]
-    next: [fa-whisper]
+    next: [fa-whisper, fa-cavern-fight]
     choices:
       - id: cavern-deep
         label: 더 깊이 들어간다
@@ -154,6 +154,34 @@ nodes:
       - id: cavern-listen
         label: 잠시 멈춰 듣는다
         outcome:
+          nextNodeId: fa-whisper
+      - id: cavern-confront
+        label: 그 자리에서 맞선다
+        outcome:
+          nextNodeId: fa-cavern-fight
+
+  - id: fa-cavern-fight
+    type: combat
+    enemyId: consumed-fanatic
+    beat: 동굴 안의 광신도 조우 (W9 추가). 영창이 완성되기 전 끊는 결.
+    personas: [narrator]
+    toneTarget: 광기 부대의 결을 처음 직접 마주함. 음절이 끊기는 결, 또는 안쪽으로 받는 결.
+    previous: [fa-cavern]
+    next: [fa-whisper]
+    choices:
+      - id: cavern-fight-cut
+        label: 음절을 끊는다
+        outcome:
+          statDelta:
+            mana: -1
+          enemyDamage: 7
+          nextNodeId: fa-whisper
+      - id: cavern-fight-endure
+        label: 그의 결을 받아내며 친다
+        outcome:
+          statDelta:
+            hp: -2
+          enemyDamage: 7
           nextNodeId: fa-whisper
 
   - id: fa-whisper
@@ -180,11 +208,11 @@ nodes:
 
   - id: fa-mirror
     type: event
-    beat: 거울 면 발견 — 흑요석 또는 광이 잘 닦인 돌. 거울에 비친 너는 한 걸음 짧음 — 너도 잠식될 수 있다는 가능성. 4지역(꿈꾸는 도시) 환각 build-up. 이방인 혼자.
+    beat: 거울 면 발견 — 흑요석 또는 광이 잘 닦인 돌. 거울에 비친 너는 한 걸음 짧음 — 너도 잠식될 수 있다는 가능성. 4지역(꿈꾸는 도시) 환각 build-up. 이방인 혼자. W9 — 새 가지 진입 (fa-mirror-fight) 추가.
     personas: [narrator]
     toneTarget: 자기 잠식의 가능성을 직면. 무서움보다 두려움. V1.1 4지역 보스 단서 미리 흘림 (마왕의 환각 능력).
     previous: [fa-whisper]
-    next: [fa-converge]
+    next: [fa-converge, fa-mirror-fight]
     choices:
       - id: mirror-look
         label: 거울을 본다
@@ -194,6 +222,36 @@ nodes:
       - id: mirror-avoid
         label: 지나친다
         outcome:
+          nextNodeId: fa-converge
+      - id: mirror-step-in
+        label: 거울 속의 자에게 다가선다
+        outcome:
+          nextNodeId: fa-mirror-fight
+
+  - id: fa-mirror-fight
+    type: combat
+    enemyId: consumed-fanatic
+    beat: 거울 속의 자가 흑요석에서 빠져나옴 (W9 추가). 광기 부대의 짧은 음절을 흥얼거리는 자기 자신과 마주침. 자기 잠식 가능성을 신체적으로 직면.
+    personas: [narrator]
+    toneTarget: 자기 자신과의 첫 직접 대치. fa-mirror 의 가능성이 신체로 닿는 결. 이름의 자리가 비어 있음.
+    previous: [fa-mirror]
+    next: [fa-converge]
+    choices:
+      - id: mirror-fight-self
+        label: 거울 속의 자를 친다
+        outcome:
+          statDelta:
+            mana: -1
+          enemyDamage: 7
+          knowledgeGain: [mirror-self]
+          nextNodeId: fa-converge
+      - id: mirror-fight-name
+        label: 너의 이름을 부른다
+        outcome:
+          statDelta:
+            mana: -2
+          enemyDamage: 7
+          knowledgeGain: [mirror-self]
           nextNodeId: fa-converge
 
   - id: fa-converge
@@ -215,10 +273,11 @@ nodes:
           nextNodeId: fa-corrupted
 
   - id: fa-corrupted
-    type: boss
-    beat: 잠식된 자 보스 — 옛 영웅, 자기 이름 잊음. 광기 부대 우두머리. 적개심 X, 슬픔 X — 무감한 비틀림. 클래스별 다른 결 한 줄. narrator 가 그의 과거("한때 영웅") 직접 단언 X — 외부 동작(자세 비낌, 한 호흡 깊음)으로만.
+    type: combat
+    enemyId: consumed-one
+    beat: 잠식된 자 보스 — 옛 영웅, 자기 이름 잊음. 광기 부대 우두머리. 적개심 X, 슬픔 X — 무감한 비틀림. 클래스별 다른 결 한 줄. narrator 가 그의 과거("한때 영웅") 직접 단언 X — 외부 동작(자세 비낌, 한 호흡 깊음)으로만. W9 — 4턴 2페이즈 (consumed-one hp 14, atTurn 3 이름 거두기/빈 일격/무리의 조류).
     personas: [narrator, corrupted-one]
-    toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X) — 페르소나 가이드의 "너를 적으로 보지 않음" 결은 narrator 가 무리 결로 잡아내도 OK.
+    toneTarget: 보스전 정점 + 인간 비극. 그림자 사령관(슬픔)과 다른 결 — 무감각 + "너도 곧 잊을 것" 결. 광기 부대는 무리로 묘사 (개별 voice X) — 페르소나 가이드의 "너를 적으로 보지 않음" 결은 narrator 가 무리 결로 잡아내도 OK. 페이즈 전환은 enemy 예고로만 (페이즈 1 텅 빈 시선/느린 베기/무리 음절 → 페이즈 2 이름 거두기/빈 일격/무리의 조류).
     previous: [fa-converge]
     next: [fa-resolution]
     echoes:
@@ -241,7 +300,8 @@ nodes:
           class: warrior
         outcome:
           statDelta:
-            hp: -2
+            hp: -1
+          enemyDamage: 4
           nextNodeId: fa-resolution
       - id: corrupted-mage
         label: 룬으로 그의 잠식을 끊는다
@@ -249,11 +309,13 @@ nodes:
           class: mage
         outcome:
           statDelta:
-            mana: -2
+            mana: -1
+          enemyDamage: 4
           nextNodeId: fa-resolution
       - id: corrupted-flee
         label: 도망친다
         outcome:
+          enemyDamage: 14
           knowledgeGain: [fled-corrupted]
           nextNodeId: fa-resolution
 

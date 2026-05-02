@@ -22,6 +22,14 @@
         },
         "nextNodeId": "fm-tunnel-exit"
       }
+    },
+    {
+      "id": "tunnel-confront",
+      "text": "발자국을 향해 올라간다",
+      "outcome": {
+        "text": "너는 좁은 돌계단을 따라 위로 오른다. 발자국이 가까워지고, 한 형체가 어둠 안에서 너를 마주친다.",
+        "nextNodeId": "fm-tunnel-fight"
+      }
     }
   ]
 }

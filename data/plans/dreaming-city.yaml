@@ -60,11 +60,11 @@ nodes:
 
   - id: dc-citizen
     type: encounter
-    beat: 시민과 첫 조우. 친절한 인사 — but 결이 어긋남. 같은 인사를 반복함, 같은 미소. 환영 안의 사람.
+    beat: 시민과 첫 조우. 친절한 인사 — but 결이 어긋남. 같은 인사를 반복함, 같은 미소. 환영 안의 사람. W9 — 새 가지 진입 (dc-citizen-attack) 추가.
     personas: [narrator]
     toneTarget: 친절함의 결이 잘못된 결. 시민은 따뜻하지만 너의 안쪽에 닿지 않음. 환영의 첫 명확한 증거.
     previous: [dc-watcher]
-    next: [dc-fork]
+    next: [dc-fork, dc-citizen-attack]
     choices:
       - id: citizen-respond
         label: 인사를 받아준다
@@ -73,6 +73,35 @@ nodes:
       - id: citizen-ask
         label: 그에게 진실을 묻는다
         outcome:
+          knowledgeGain: [city-illusion]
+          nextNodeId: dc-fork
+      - id: citizen-shake
+        label: 그를 흔든다
+        outcome:
+          nextNodeId: dc-citizen-attack
+
+  - id: dc-citizen-attack
+    type: combat
+    enemyId: phantom-citizen
+    beat: 시민의 환영이 너에게 달라붙음 (W9 추가). 미소가 풀리지 않은 채 손이 옷자락에 닿는 결.
+    personas: [narrator]
+    toneTarget: 환영의 따뜻함이 위협으로 결을 바꿈. 신체적 결판이 아니라 결을 떼어내는 결.
+    previous: [dc-citizen]
+    next: [dc-fork]
+    choices:
+      - id: citizen-attack-shake
+        label: 그를 떼어낸다
+        outcome:
+          statDelta:
+            mana: -1
+          enemyDamage: 5
+          nextNodeId: dc-fork
+      - id: citizen-attack-name
+        label: 그의 이름을 묻는다
+        outcome:
+          statDelta:
+            hp: -1
+          enemyDamage: 5
           knowledgeGain: [city-illusion]
           nextNodeId: dc-fork
 
@@ -215,10 +244,11 @@ nodes:
           nextNodeId: dc-king
 
   - id: dc-king
-    type: boss
-    beat: 잠든 왕 본체. 깨울지, 끝낼지, 떠날지 윤리적 분기. 클래스별 다른 결. narrator 가 그의 본질("적이 아님") / 도덕("어느 길도 가볍지 않음") / 너의 내면("상처가 안쪽에 남음") 직접 단언 X — 외부 동작(손이 팔걸이에 놓임, 발이 한 박자 멈춤, 칼이 손에서 떨어지지 않음) 으로만.
+    type: combat
+    enemyId: sleeping-king
+    beat: 잠든 왕 본체. 깨울지, 끝낼지, 떠날지 윤리적 분기. 클래스별 다른 결. narrator 가 그의 본질("적이 아님") / 도덕("어느 길도 가볍지 않음") / 너의 내면("상처가 안쪽에 남음") 직접 단언 X — 외부 동작(손이 팔걸이에 놓임, 발이 한 박자 멈춤, 칼이 손에서 떨어지지 않음) 으로만. W9 — 3턴 1페이즈 (sleeping-king hp 10, atTurn 3 깨어남의 가장자리/옥좌의 손).
     personas: [narrator, sleeping-king]
-    toneTarget: 보스전 정점이지만 전투 X — **윤리적 무게**. 깨우면 도시 무너짐, 안 깨우면 환영 영구. 어느 쪽이 옳은가. 잠든 왕 톤은 페르소나 가이드 따름 — narrator 는 그의 모름/꿈을 단언하지 않고 외부 결로 비춤.
+    toneTarget: 보스전 정점이지만 전투 X — **윤리적 무게**. 깨우면 도시 무너짐, 안 깨우면 환영 영구. 어느 쪽이 옳은가. 잠든 왕 톤은 페르소나 가이드 따름 — narrator 는 그의 모름/꿈을 단언하지 않고 외부 결로 비춤. 페이즈 전환은 enemy 예고로만 (페이즈 1 꿈의 한숨/시민의 조류/이름의 흐려짐 → 페이즈 2 깨어남의 가장자리/옥좌의 손).
     previous: [dc-throne]
     next: [dc-resolution]
     choices:
@@ -228,7 +258,8 @@ nodes:
           class: warrior
         outcome:
           statDelta:
-            hp: -2
+            hp: -1
+          enemyDamage: 4
           knowledgeGain: [ethical-weight, chose-end]
           nextNodeId: dc-resolution
       - id: king-mage
@@ -237,12 +268,14 @@ nodes:
           class: mage
         outcome:
           statDelta:
-            mana: -2
+            mana: -1
+          enemyDamage: 4
           knowledgeGain: [ethical-weight, chose-wake]
           nextNodeId: dc-resolution
       - id: king-leave
         label: 떠난다 (환영 그대로)
         outcome:
+          enemyDamage: 10
           knowledgeGain: [ethical-weight, chose-leave]
           nextNodeId: dc-resolution
 
