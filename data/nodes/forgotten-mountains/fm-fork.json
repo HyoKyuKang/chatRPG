@@ -19,6 +19,22 @@
         "text": "햇빛 쪽으로 걸음을 옮긴다. 발걸음이 점점 짧아진다.",
         "nextNodeId": "fm-front-fight"
       }
+    },
+    {
+      "id": "fork-shrine",
+      "text": "사당으로 향한다",
+      "outcome": {
+        "text": "발걸음이 길에서 한 발 비낀다. 첨탑 그늘 쪽으로 돌이 낮게 깔린다.",
+        "nextNodeId": "fm-rest-shrine"
+      }
+    },
+    {
+      "id": "fork-side-banner",
+      "text": "다른 길을 살핀다",
+      "outcome": {
+        "text": "샛길의 흙은 사람이 자주 다닌 결이 아니다. 비스듬히 꽂힌 자국이 멀리서 비친다.",
+        "nextNodeId": "fm-discovery-banner"
+      }
     }
   ]
 }

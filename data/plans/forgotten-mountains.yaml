@@ -78,11 +78,11 @@ nodes:
 
   - id: fm-fork
     type: encounter
-    beat: 갈림길. 무너진 거리 정면 vs 지하 통로 입구. 둘 다 광장으로 이어짐.
+    beat: 갈림길. 무너진 거리 정면 vs 지하 통로 입구. 둘 다 광장으로 이어짐. 가지 진입 (사당 / 샛길) 두 개 추가 — gate 없음.
     personas: [narrator]
-    toneTarget: 잠입 vs 정면. 둘 다 무게 있음. 선택이 곧 결판으로 가는 길의 결을 정함.
+    toneTarget: 잠입 vs 정면. 둘 다 무게 있음. 선택이 곧 결판으로 가는 길의 결을 정함. 가지 분기는 무게보다 호흡.
     previous: [fm-street]
-    next: [fm-tunnel, fm-front-fight]
+    next: [fm-tunnel, fm-front-fight, fm-rest-shrine, fm-discovery-banner]
     choices:
       - id: fork-tunnel
         label: 지하 통로로 들어간다
@@ -92,6 +92,14 @@ nodes:
         label: 거리로 정면 돌파
         outcome:
           nextNodeId: fm-front-fight
+      - id: fork-shrine
+        label: 사당으로 향한다
+        outcome:
+          nextNodeId: fm-rest-shrine
+      - id: fork-side-banner
+        label: 다른 길을 살핀다
+        outcome:
+          nextNodeId: fm-discovery-banner
 
   - id: fm-tunnel
     type: encounter
@@ -191,9 +199,9 @@ nodes:
 
   - id: fm-boss
     type: boss
-    beat: 그림자 사령관 보스전. 그가 칼을 든다. 분노가 아니라 의무로. 이방인 혼자, 사령관 단독.
+    beat: 그림자 사령관 보스전. 그가 칼을 든다. 행동(어깨 들썩임, 칼끝 흔들리지 않음)으로만 결을 보여줌. 이방인 혼자, 사령관 단독.
     personas: [narrator, shadow-commander]
-    toneTarget: 보스전 정점. 사령관 슬픔으로 칼 듦. 클래스별 출력 차별 — 전사에게 templar 단서 한 줄, 마법사에게 짧은 정중한 거절.
+    toneTarget: 보스전 정점. 사령관 결은 행동으로만 — narrator 가 "분노/의무" 같은 동기 단언 X. 클래스별 출력 차별은 사령관 대사에서만. 전사에게 templar 단서 한 줄, 마법사에게 짧은 정중한 거절.
     previous: [fm-square]
     next: [fm-resolution]
     choices:
@@ -240,3 +248,74 @@ nodes:
         text: |-
           아스트리드는 너를 동지로 보지 않았었다. 그녀의 침묵이 사령관의 침묵과 같은 결로 너에게 닿는다.
     choices: []
+
+  - id: fm-rest-shrine
+    type: rest
+    beat: 폐허 사당 휴식. 무너진 첨탑 그늘의 작은 사당. HP +1. 사당 뒤편에서 탈영자 인기척 — fm-shop-deserter 진입로.
+    personas: [narrator]
+    toneTarget: 차고 무거운 산맥 톤 안의 짧은 따뜻함. 기도문 자국, 한 박자 따뜻한 공기. narrator 외부 관찰만.
+    previous: [fm-fork]
+    next: [fm-fork, fm-shop-deserter]
+    choices:
+      - id: rest-pray
+        label: 사당 앞에 잠시 무릎을 꿇는다
+        outcome:
+          statDelta:
+            hp: 1
+          nextNodeId: fm-fork
+      - id: rest-back
+        label: 사당 뒤편의 인기척을 살핀다
+        outcome:
+          nextNodeId: fm-shop-deserter
+      - id: rest-leave
+        label: 그대로 길로 돌아간다
+        outcome:
+          nextNodeId: fm-fork
+
+  - id: fm-shop-deserter
+    type: shop
+    beat: 사당 뒤편의 탈영자 거래. 갑옷 표식이 칼로 긁힌 자. HP↔MP 양방향 거래 두 종 + 떠나기. heroEncounter=deserter.
+    personas: [narrator, deserter]
+    toneTarget: 마른 어조. 정중하지만 짧음. 본명 안 말함. 사령관 결과 차별 — 그는 자리 지키는 자, 탈영자는 자리 떠난 자.
+    previous: [fm-rest-shrine]
+    next: [fm-fork]
+    choices:
+      - id: deserter-trade-mp
+        label: 피로 길의 결을 산다 (HP -1, MP +2)
+        outcome:
+          statDelta:
+            hp: -1
+            mana: 2
+          heroEncounter: deserter
+          nextNodeId: fm-fork
+      - id: deserter-trade-hp
+        label: 주문 한 줄을 내주고 호흡을 산다 (MP -1, HP +2)
+        outcome:
+          statDelta:
+            mana: -1
+            hp: 2
+          heroEncounter: deserter
+          nextNodeId: fm-fork
+      - id: deserter-leave
+        label: 거래하지 않고 떠난다
+        outcome:
+          heroEncounter: deserter
+          nextNodeId: fm-fork
+
+  - id: fm-discovery-banner
+    type: event
+    beat: 샛길의 무너진 군세 깃대. 검은 천 + 붉은 표식. 누군가 의도적으로 부순 자국. shadow-banner knowledge.
+    personas: [narrator]
+    toneTarget: 잠식의 결과 함께 저항의 결도 읽힘. mawang-banner 와 차별 — 그건 거점 표시, shadow-banner 는 부서진 자국.
+    previous: [fm-fork]
+    next: [fm-fork]
+    choices:
+      - id: banner-touch
+        label: 깃대에 손을 댄다
+        outcome:
+          knowledgeGain: [shadow-banner]
+          nextNodeId: fm-fork
+      - id: banner-pass
+        label: 그대로 지나친다
+        outcome:
+          nextNodeId: fm-fork

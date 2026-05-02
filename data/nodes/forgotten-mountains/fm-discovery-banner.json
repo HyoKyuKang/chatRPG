@@ -1,0 +1,25 @@
+{
+  "id": "fm-discovery-banner",
+  "region": "forgotten-mountains",
+  "type": "event",
+  "description": "샛길 끝, 흙더미 사이로 깃대 한 자가 비스듬히 박혀 있다. 검은 천이 절반쯤 흙에 묻혔다.\n\n붉은 표식의 결이 흙 위로 또렷하다. 누군가 의도적으로 깃대를 꺾은 자국이 함께 남는다.",
+  "choices": [
+    {
+      "id": "banner-touch",
+      "text": "깃대에 손을 댄다",
+      "outcome": {
+        "text": "나무가 차다. 손바닥에 붉은 표식의 결이 잠깐 닿는다.",
+        "knowledgeGain": ["shadow-banner"],
+        "nextNodeId": "fm-fork"
+      }
+    },
+    {
+      "id": "banner-pass",
+      "text": "그대로 지나친다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 깃대는 너의 등 뒤에서 비스듬히 그대로 남는다.",
+        "nextNodeId": "fm-fork"
+      }
+    }
+  ]
+}
