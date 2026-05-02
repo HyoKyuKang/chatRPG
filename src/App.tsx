@@ -5,6 +5,7 @@ import { RegionHeader } from './components/RegionHeader'
 import { TitleScreen } from './components/TitleScreen'
 import { useGame, data } from './store'
 import { audio } from './lib/audio'
+import { installAppLifecycle } from './lib/lifecycle'
 
 function App() {
   const appView = useGame((s) => s.appView)
@@ -41,6 +42,10 @@ function App() {
       window.removeEventListener('pointerdown', unlock)
       window.removeEventListener('keydown', unlock)
     }
+  }, [])
+
+  useEffect(() => {
+    void installAppLifecycle()
   }, [])
 
   if (appView === 'title') return <TitleScreen />

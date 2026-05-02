@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { data, useGame, type HistoryEntry } from '../store'
 import type { Choice, Hero } from '../schemas'
 import { MetaUnlockScreen } from './MetaUnlockScreen'
+import { CombatView } from './CombatView'
 
 // ─── Choice condition ─────────────────────────────────────────────────────
 
@@ -151,6 +152,11 @@ export function NodeView() {
   const node = data.nodes.get(run.currentNodeId)
   const isEnding = run.endingReached || node?.type === 'ending'
   const isDead = run.dead
+  // Only route to CombatView when the node has an enemyId attached.
+  // Combat-typed nodes without enemyId fall through to the legacy chat UI
+  // (W9 will populate enemyId for these nodes).
+  const isCombat =
+    node?.type === 'combat' && !!node.enemyId && !isDead && !isEnding
 
   const currentRegion = node ? data.regions.get(node.region) : undefined
   const nextRegion =
@@ -349,6 +355,8 @@ export function NodeView() {
       />
     )
   }
+
+  if (isCombat) return <CombatView />
 
   return (
     <div className="flex flex-col h-full">

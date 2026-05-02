@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "lint:data": "tsx scripts/lint-data.ts",
     "qa:smoke": "tsx scripts/qa-smoke.ts",
+    "qa:combat-smoke": "tsx scripts/qa-combat-smoke.ts",
     "author": "tsx scripts/author-node.ts",
     "preview": "vite preview",
     "cap:sync": "npm run build && npx cap sync android",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^8.3.1",
+    "@capacitor/app": "^8.1.0",
     "@capacitor/core": "^8.3.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

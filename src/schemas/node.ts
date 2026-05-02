@@ -21,6 +21,7 @@ export const ChoiceOutcome = z
     classSet: ClassType.optional(),
     heroEncounter: z.string().optional(),
     nextNodeId: z.string().nullable(),
+    enemyDamage: z.number().int().min(0).optional(),
   })
   .strict()
 export type ChoiceOutcome = z.infer<typeof ChoiceOutcome>
@@ -51,6 +52,7 @@ export const Node = z
     description: z.string(),
     echoes: z.array(NodeEcho).optional(),
     choices: z.array(Choice),
+    enemyId: z.string().optional(),
   })
   .strict()
 export type Node = z.infer<typeof Node>

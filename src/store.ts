@@ -1,7 +1,16 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { loadGameData } from './lib/loader'
-import type { ChoiceCondition, ClassType, MetaState, Node, Stats } from './schemas'
+import { currentEnemyAction } from './lib/combat'
+import type {
+  ChoiceCondition,
+  ClassType,
+  MetaState,
+  Node,
+  Stats,
+} from './schemas'
+
+export { activeEnemyActions, currentEnemyAction } from './lib/combat'
 
 export const data = loadGameData()
 
@@ -18,6 +27,12 @@ export type HistoryEntry =
   | { kind: 'death'; text: string }
   | { kind: 'region-marker'; regionId: string; regionName: string }
 
+export interface CombatState {
+  enemyId: string
+  currentTurn: number
+  enemyHp: number
+}
+
 export interface RunState {
   currentNodeId: string
   classChosen: ClassType | null
@@ -28,6 +43,7 @@ export interface RunState {
   history: HistoryEntry[]
   dead: boolean
   endingReached: boolean
+  combat?: CombatState
 }
 
 export interface PersistedState {
@@ -51,6 +67,9 @@ interface Actions {
   setAppView: (view: AppView) => void
   setBgmEnabled: (enabled: boolean) => void
   setBgmVolume: (volume: number) => void
+  engageCombat: (enemyId: string) => void
+  combatChoice: (choiceId: string) => void
+  endCombat: (victory: boolean) => void
 }
 
 function applyUnlockEffects(
@@ -322,6 +341,245 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
             ...state.meta,
             memoryShards: state.meta.memoryShards - unlock.cost,
             unlockedBonusIds: [...state.meta.unlockedBonusIds, unlockId],
+          },
+        })
+      },
+
+      engageCombat: (enemyId) => {
+        const state = get()
+        const run = state.run
+        if (run.dead || run.endingReached) return
+        if (run.combat) return
+        const pattern = data.enemies.get(enemyId)
+        if (!pattern) {
+          console.error(`enemy "${enemyId}" not loaded`)
+          return
+        }
+        set({
+          run: {
+            ...run,
+            combat: {
+              enemyId,
+              currentTurn: 1,
+              enemyHp: pattern.hp,
+            },
+          },
+        })
+      },
+
+      combatChoice: (choiceId) => {
+        const state = get()
+        const run = state.run
+        const combat = run.combat
+        if (!combat) return
+        if (run.dead || run.endingReached) return
+        const node = data.nodes.get(run.currentNodeId)
+        if (!node || node.type !== 'combat') return
+        const pattern = data.enemies.get(combat.enemyId)
+        if (!pattern) return
+        const choice = node.choices.find((c) => c.id === choiceId)
+        if (!choice) return
+
+        // Apply player choice's stat delta
+        const delta = choice.outcome.statDelta
+        let stats: Stats = delta
+          ? {
+              hp: run.stats.hp + (delta.hp ?? 0),
+              mana: run.stats.mana + (delta.mana ?? 0),
+            }
+          : run.stats
+
+        // Damage enemy
+        const damage = choice.outcome.enemyDamage ?? 0
+        const enemyHp = combat.enemyHp - damage
+        const victory = enemyHp <= 0
+
+        // Apply enemy action's retaliation only if enemy survives
+        const enemyAction = currentEnemyAction(pattern, combat.currentTurn)
+        if (!victory && enemyAction.statDelta) {
+          stats = {
+            hp: stats.hp + (enemyAction.statDelta.hp ?? 0),
+            mana: stats.mana + (enemyAction.statDelta.mana ?? 0),
+          }
+        }
+
+        // Inventory / knowledge / etc.
+        let inventory = run.inventory
+        if (choice.outcome.itemAdd?.length)
+          inventory = [...inventory, ...choice.outcome.itemAdd]
+        if (choice.outcome.itemRemove?.length) {
+          const remove = new Set(choice.outcome.itemRemove)
+          inventory = inventory.filter((i) => !remove.has(i))
+        }
+        const knowledge = choice.outcome.knowledgeGain?.length
+          ? uniq(run.knowledge, choice.outcome.knowledgeGain)
+          : run.knowledge
+        const classChosen = choice.outcome.classSet ?? run.classChosen
+        const heroesEncountered = choice.outcome.heroEncounter
+          ? uniq(run.heroesEncountered, [choice.outcome.heroEncounter])
+          : run.heroesEncountered
+
+        const history: HistoryEntry[] = [
+          ...run.history,
+          { kind: 'choice', text: choice.text },
+          { kind: 'outcome', text: choice.outcome.text },
+        ]
+        if (!victory) {
+          history.push({ kind: 'outcome', text: enemyAction.executeText })
+        }
+
+        // Death check (player dies even if they killed the enemy this turn?
+        // No — victory short-circuits enemy retaliation, so player can't die
+        // on the killing blow unless their own choice cost killed them)
+        if (stats.hp <= 0) {
+          set({
+            run: {
+              ...run,
+              stats: { ...stats, hp: 0 },
+              inventory,
+              knowledge,
+              classChosen,
+              heroesEncountered,
+              history: [
+                ...history,
+                {
+                  kind: 'death',
+                  text: `당신은 여기서 쓰러진다. (기억의 조각 +${SHARDS_PER_DEATH})`,
+                },
+              ],
+              dead: true,
+              combat: undefined,
+            },
+            meta: {
+              ...state.meta,
+              memoryShards: state.meta.memoryShards + SHARDS_PER_DEATH,
+              totalDeaths: state.meta.totalDeaths + 1,
+              discoveredKnowledge: uniq(
+                state.meta.discoveredKnowledge,
+                knowledge,
+              ),
+            },
+          })
+          return
+        }
+
+        if (victory) {
+          // Transition to winning choice's nextNodeId, clear combat
+          const next = choice.outcome.nextNodeId
+          if (next === null) {
+            set({
+              run: {
+                ...run,
+                stats,
+                inventory,
+                knowledge,
+                classChosen,
+                heroesEncountered,
+                history,
+                combat: undefined,
+              },
+            })
+            return
+          }
+          const nextNode = data.nodes.get(next)
+          if (!nextNode) {
+            console.error(`next node "${next}" not loaded`)
+            set({
+              run: {
+                ...run,
+                stats,
+                inventory,
+                knowledge,
+                classChosen,
+                heroesEncountered,
+                history,
+                combat: undefined,
+              },
+            })
+            return
+          }
+          const reachedEnding = nextNode.type === 'ending'
+          const nextRun: RunState = {
+            ...run,
+            stats,
+            inventory,
+            knowledge,
+            classChosen,
+            heroesEncountered,
+            currentNodeId: next,
+            history,
+            endingReached: reachedEnding,
+            combat: undefined,
+          }
+          set({
+            run: {
+              ...nextRun,
+              history: [
+                ...history,
+                { kind: 'node', text: renderNodeText(nextNode, nextRun) },
+              ],
+            },
+            meta: reachedEnding
+              ? {
+                  ...state.meta,
+                  completedRuns: state.meta.completedRuns + 1,
+                  memoryShards: state.meta.memoryShards + SHARDS_PER_ENDING,
+                  discoveredKnowledge: uniq(
+                    state.meta.discoveredKnowledge,
+                    knowledge,
+                  ),
+                }
+              : state.meta,
+          })
+          return
+        }
+
+        // Continue combat: advance turn
+        set({
+          run: {
+            ...run,
+            stats,
+            inventory,
+            knowledge,
+            classChosen,
+            heroesEncountered,
+            history,
+            combat: {
+              ...combat,
+              currentTurn: combat.currentTurn + 1,
+              enemyHp,
+            },
+          },
+        })
+      },
+
+      endCombat: (victory) => {
+        const state = get()
+        const run = state.run
+        if (!run.combat) return
+        if (victory) {
+          set({ run: { ...run, combat: undefined } })
+          return
+        }
+        // Defeat — mark dead
+        set({
+          run: {
+            ...run,
+            stats: { ...run.stats, hp: 0 },
+            history: [
+              ...run.history,
+              {
+                kind: 'death',
+                text: `당신은 여기서 쓰러진다. (기억의 조각 +${SHARDS_PER_DEATH})`,
+              },
+            ],
+            dead: true,
+            combat: undefined,
+          },
+          meta: {
+            ...state.meta,
+            memoryShards: state.meta.memoryShards + SHARDS_PER_DEATH,
+            totalDeaths: state.meta.totalDeaths + 1,
           },
         })
       },
