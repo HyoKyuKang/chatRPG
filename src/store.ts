@@ -36,12 +36,19 @@ export interface PersistedState {
   run: RunState
 }
 
+export type AppView = 'title' | 'game'
+
+interface TransientState {
+  appView: AppView
+}
+
 interface Actions {
   choose: (choiceId: string) => void
   reset: () => void
   resetAll: () => void
   transitionToNextRegion: () => void
   applyUnlock: (unlockId: string) => void
+  setAppView: (view: AppView) => void
   setBgmEnabled: (enabled: boolean) => void
   setBgmVolume: (volume: number) => void
 }
@@ -139,12 +146,15 @@ function renderNodeText(node: Node, run: RunState): string {
   return [node.description, ...echoes].join('\n\n')
 }
 
-export const useGame = create<PersistedState & Actions>()(
+export const useGame = create<PersistedState & TransientState & Actions>()(
   persist(
     (set, get) => ({
       schemaVersion: 1,
       meta: freshMeta(),
       run: freshRun(freshMeta()),
+      appView: 'title',
+
+      setAppView: (view) => set({ appView: view }),
 
       choose: (choiceId) => {
         const state = get()

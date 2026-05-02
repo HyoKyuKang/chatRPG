@@ -2,10 +2,12 @@ import { useEffect } from 'react'
 import { StatBar } from './components/StatBar'
 import { NodeView } from './components/NodeView'
 import { RegionHeader } from './components/RegionHeader'
+import { TitleScreen } from './components/TitleScreen'
 import { useGame, data } from './store'
 import { audio } from './lib/audio'
 
 function App() {
+  const appView = useGame((s) => s.appView)
   const currentNodeId = useGame((s) => s.run.currentNodeId)
   const bgmEnabled = useGame((s) => s.meta.bgmEnabled)
   const bgmVolume = useGame((s) => s.meta.bgmVolume)
@@ -19,9 +21,13 @@ function App() {
   }, [bgmEnabled])
 
   useEffect(() => {
+    if (appView !== 'game') {
+      void audio.setRegion(null)
+      return
+    }
     const node = data.nodes.get(currentNodeId)
     if (node) void audio.setRegion(node.region)
-  }, [currentNodeId])
+  }, [appView, currentNodeId])
 
   useEffect(() => {
     const unlock = () => {
@@ -36,6 +42,8 @@ function App() {
       window.removeEventListener('keydown', unlock)
     }
   }, [])
+
+  if (appView === 'title') return <TitleScreen />
 
   return (
     <div className="flex flex-col h-full max-w-md mx-auto bg-ink-900/40 shadow-card">
