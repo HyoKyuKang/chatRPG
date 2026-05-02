@@ -200,7 +200,7 @@ nodes:
     type: event
     beat: 3 엔딩 분기점. 마왕 처치 / 배신 (마왕 합류) / 자기 희생 (회색의 자처럼 봉인). 마왕은 너를 막지 않는다.
     personas: [narrator, mawang, gray-one]
-    toneTarget: 가장 무거운 자리. 셋 중 어느 것도 가볍지 않음. 마왕은 결과를 안다 ("끝은 어차피 같다 — 형태만 다르다"). 회색의 자는 침묵.
+    toneTarget: 가장 무거운 자리. 무게는 마왕 대사 ("끝은 어차피 같다 — 형태만 다르다") 와 외부 결 (셋의 숨, 손의 한 박자 멈춤, 공기의 길어짐) 으로만. narrator 가 도덕적 단언 ("어느 쪽도 가볍지 않다") X — 외부 결로 무게 비춤.
     previous: [ds-mawang]
     next: [ds-ending-defeat, ds-ending-betrayal, ds-ending-sacrifice]
     choices:
@@ -222,27 +222,27 @@ nodes:
 
   - id: ds-ending-defeat
     type: ending
-    beat: 마왕 처치 엔딩. 영웅적 승리 — but 비극적. 다음 이방인이 또 올 것 (세계는 끝나지 않음).
+    beat: 마왕 처치 엔딩. 영웅적 승리 — but 비극적. 다음 이방인이 또 올 것 (세계는 끝나지 않음). 비극은 narrator 의 직접 단언 X — 외부 결 (탑이 그 자리에 그대로 남음, 발걸음만 멀어짐, 등 뒤 계단 소리) 로만.
     personas: [narrator, mawang]
-    toneTarget: 영웅적이지만 비극적. 마왕의 마지막 한 마디 ("...너도 자기 자리에 서게 된다."). 회색의 자 침묵 (그도 같은 자리에 섰던 자).
+    toneTarget: 영웅적이지만 비극적. 마왕의 마지막 한 마디 ("...너도 자기 자리에 서게 된다."). 회색의 자 침묵 — narrator 가 그의 과거/내면 ("같은 칼을 들었던 자의 침묵") 단언 X, 외부 자세 ("한 자세 그대로") 로만 비춤.
     previous: [ds-choice]
     next: []
     choices: []
 
   - id: ds-ending-betrayal
     type: ending
-    beat: 배신 엔딩. 마왕에 합류 — 너는 다음 마왕이 된다. 어둠의 길 / Renegade 결.
+    beat: 배신 엔딩. 마왕에 합류 — 너는 다음 마왕이 된다. 어둠의 길 / Renegade 결. narrator 가 마왕 감정 단언 ("분노 없이, 오래 기다린 자의 눈") 또는 너의 내면 단언 ("아무것도 느껴지지 않는다") X — 외부 결 ("한 박자도 흔들리지 않는다", "옥좌의 차가움이 어깨에 그대로 머문다") 로만.
     personas: [narrator, mawang]
-    toneTarget: 어둠의 길. 마왕의 짧은 안도 ("...너도 같은 길을 갔구나."). 옥좌가 너를 받아들임. 무감각.
+    toneTarget: 어둠의 길. 마왕의 짧은 안도는 그의 대사로만 직접 ("...너도 같은 길을 갔구나."). 옥좌가 너를 받아들이는 결은 외부 (차가운 돌, 그림자 길이) 로 비춤. 무감각의 결은 너의 단언 X — 옥좌 차가움이 어깨에 그대로 머무는 외부 감각으로.
     previous: [ds-choice]
     next: []
     choices: []
 
   - id: ds-ending-sacrifice
     type: ending
-    beat: 자기 희생 엔딩 (진엔딩 후보). 회색의 자처럼 너 자신을 봉인의 일부로 씀. 다음 이방인을 기다리게 된다.
+    beat: 자기 희생 엔딩 (진엔딩 후보). 회색의 자처럼 너 자신을 봉인의 일부로 씀. 다음 이방인을 기다리게 된다. narrator 가 회색의 자 감정 단언 ("안도가 아니라 슬픔") 또는 미래 단언 ("세계가 다시 끝나기 직전까지") X — 외부 결 ("목소리는 평탄하지 않다, 한 박자가 깊다", "지평선의 그림자가 한 발씩 가까워진다") 로만.
     personas: [narrator, mawang, gray-one]
-    toneTarget: 진엔딩 후보. 무게 + 안도 + 미래 이방인의 그림자. 마왕의 옛 시대 회상 한 줄. 회색의 자가 너에게 자리를 넘김.
+    toneTarget: 진엔딩 후보. 무게 + 미래 이방인의 그림자. 마왕의 옛 시대 회상 한 줄, 회색의 자의 짧은 한 마디 ("...같은 길을 갔구나.") — 둘 다 캐릭터 대사로만 직접. narrator 는 외부 결 (검 떨림, 윤곽 흩어짐, 봉인 빛 옮겨앉음, 지평선 그림자) 로 무게 비춤.
     previous: [ds-choice]
     next: []
     choices: []
