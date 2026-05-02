@@ -51,6 +51,16 @@ html, body, #root {
   text-rendering: optimizeLegibility;
 }
 
+/* Mobile safe-area (Android nav bar / iOS notch). viewport-fit=cover 가 index.html
+   에 있으니 env() 가 작동. body 자체에 padding 박지 말고 #root 에서 layout. */
+#root {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  box-sizing: border-box;
+}
+
 body {
   color: var(--color-ink-100);
   background:
