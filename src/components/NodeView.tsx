@@ -146,17 +146,21 @@ function pacingFor(item: RevealItem): { delay: number; typing: boolean } {
 export function NodeView() {
   const run = useGame((s) => s.run)
   const choose = useGame((s) => s.choose)
+  const engageCombatFromChoice = useGame((s) => s.engageCombatFromChoice)
   const reset = useGame((s) => s.reset)
   const transitionToNextRegion = useGame((s) => s.transitionToNextRegion)
 
   const node = data.nodes.get(run.currentNodeId)
   const isEnding = run.endingReached || node?.type === 'ending'
   const isDead = run.dead
-  // Only route to CombatView when the node has an enemyId attached.
-  // Combat-typed nodes without enemyId fall through to the legacy chat UI
-  // (W9 will populate enemyId for these nodes).
+  // CombatView only takes over once an engagement is active. Combat-typed
+  // nodes without run.combat render as a normal gateway: prose + gateway
+  // choices (engage / evade). Click on a startsCombat=true choice dispatches
+  // engageCombatFromChoice and CombatView mounts on the next render.
   const isCombat =
-    node?.type === 'combat' && !!node.enemyId && !isDead && !isEnding
+    node?.type === 'combat' && !!run.combat && !isDead && !isEnding
+  const isCombatGateway =
+    node?.type === 'combat' && !run.combat && !isDead && !isEnding
 
   const currentRegion = node ? data.regions.get(node.region) : undefined
   const nextRegion =
@@ -181,6 +185,7 @@ export function NodeView() {
   }, [])
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   // Sync history → reveal queue (region-scoped: only render entries after the
   // last region-marker; new region-marker wipes the chat log)
@@ -303,12 +308,30 @@ export function NodeView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pending])
 
-  // Auto-scroll to bottom on new content
+  // Auto-scroll to bottom on new content. Three things can shift the visible
+  // bottom out of view:
+  //   1. revealed.length grows  — new entry pushed below
+  //   2. typing toggles         — typing-dot row appears/disappears
+  //   3. footer height changes  — when revealComplete flips from false→true
+  //      the spinner row swaps for choice buttons, shrinking the scroll
+  //      container's clientHeight (D5 catch — page appeared "stuck near top"
+  //      because the new content was hidden behind the new footer)
+  // ResizeObserver on the scroll container catches all three uniformly:
+  // any layout change re-pegs the sentinel into view. Using behavior:'auto'
+  // (instant) instead of 'smooth' avoids interrupted-animation glitches on
+  // Android WebView when several reveals fire within a few hundred ms.
   useEffect(() => {
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: 'smooth',
-    })
+    const container = scrollRef.current
+    const sentinel = bottomRef.current
+    if (!container || !sentinel) return
+    const scrollToBottom = () => {
+      sentinel.scrollIntoView({ block: 'end', inline: 'nearest' })
+    }
+    scrollToBottom()
+    if (typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(() => scrollToBottom())
+    ro.observe(container)
+    return () => ro.disconnect()
   }, [revealed.length, typing])
 
   // Tap-to-skip
@@ -321,17 +344,27 @@ export function NodeView() {
 
   const revealComplete = pending.length === 0 && !typing
 
+  // Filter choices for the gateway/normal NodeView footer.
+  // On a combat node (gateway phase, !run.combat), only choices marked
+  // startsCombat (true=engage / false=evade) are pre-combat options. Combat
+  // actions (no startsCombat) belong to CombatView and are hidden here.
   const visibleChoices =
     !isDead && !isEnding && node && revealComplete
-      ? node.choices.filter((c) =>
-          isChoiceVisible(c, {
+      ? node.choices.filter((c) => {
+          if (isCombatGateway && c.startsCombat === undefined) return false
+          return isChoiceVisible(c, {
             classChosen: run.classChosen,
             knowledge: run.knowledge,
             inventory: run.inventory,
             stats: run.stats,
-          }),
-        )
+          })
+        })
       : []
+
+  const handleChoiceClick = (choice: Choice) => {
+    if (choice.startsCombat === true) engageCombatFromChoice(choice.id)
+    else choose(choice.id)
+  }
 
   // Group revealed items by parentIndex for entry-level styling
   const groups = useMemo(() => {
@@ -356,8 +389,6 @@ export function NodeView() {
     )
   }
 
-  if (isCombat) return <CombatView />
-
   return (
     <div className="flex flex-col h-full">
       <div
@@ -370,8 +401,15 @@ export function NodeView() {
         ))}
 
         {typing && <TypingIndicator />}
+        <div ref={bottomRef} aria-hidden className="h-px" />
       </div>
 
+      {/* Footer takeover: CombatView renders here once combat is engaged.
+          Chat log above keeps showing the gateway prose + the engage choice
+          (just-logged) and continues to grow with each combat turn's outcome. */}
+      {isCombat ? (
+        <CombatView />
+      ) : (
       <div className="border-t border-white/5 px-4 pt-3 pb-4 space-y-2 bg-ink-950/40 backdrop-blur-sm">
         {!revealComplete ? (
           <p className="text-ink-500 text-center py-4 text-[12px] tracking-widest uppercase select-none">
@@ -389,14 +427,15 @@ export function NodeView() {
           visibleChoices.map((c) => (
             <ChoiceButton
               key={c.id}
-              variant="default"
-              onClick={() => choose(c.id)}
+              variant={c.startsCombat === true ? 'death' : 'default'}
+              onClick={() => handleChoiceClick(c)}
             >
               {c.text}
             </ChoiceButton>
           ))
         )}
       </div>
+      )}
     </div>
   )
 }

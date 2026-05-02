@@ -86,6 +86,9 @@ async function main() {
   // 빠른 방법: warrior path → 검 휘두르기 4번 (HP -1 each, 시작 HP 5 → 0 죽음 → MetaUnlockScreen)
   await clickButton(page, '함께 가겠다')
   await page.waitForSelector('text=부패한 늑대')
+  // W10 gateway: regular fights need engage click before combat actions show.
+  await clickButton(page, '검을 뽑는다')
+  await page.waitForSelector('button:has-text("검을 휘두른다")')
   await clickButton(page, '검을 휘두른다')
   // fo-warrior-awaken
   await page.waitForSelector('text=처음이 아닌 거 같다')
@@ -93,6 +96,14 @@ async function main() {
   await page.waitForSelector('text=썩은 단 냄새')
   await clickButton(page, '곧장 전진한다')
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  // Boss gateway: engage-only.
+  await clickButton(page, '맞선다')
+  // ─── 4. CombatView 폴리싱 캡처 ──────────────────────────
+  // Engaged but not yet acted — HP bar, turn indicator, action prediction
+  // all visible. Pause a beat for the fade-in to settle.
+  await page.waitForSelector('button:has-text("검으로 뿌리를 베어낸다")')
+  await page.waitForTimeout(500)
+  await shoot(page, '04-combat')
   await clickButton(page, '검으로 뿌리를 베어낸다')
   await page.waitForSelector('text=다음은 산')
   await clickButton(page, '잊혀진 산맥으로 간다')

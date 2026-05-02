@@ -20,6 +20,15 @@
   ],
   "choices": [
     {
+      "id": "engage",
+      "text": "옥좌 앞에 선다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "별빛이 너의 어깨에 짧게 머문다. 마왕의 시선이 너에게 머문다.",
+        "nextNodeId": null
+      }
+    },
+    {
       "id": "mawang-meet",
       "text": "그를 마주본다",
       "outcome": {

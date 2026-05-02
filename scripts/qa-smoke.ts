@@ -62,11 +62,25 @@ async function main() {
 
   await page.getByRole('button', { name: '주변을 살피며 간다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
-  const bossBtns = await visibleButtons(page)
-  // fo-boss-tree is type='combat' — CombatView shows all choices unfiltered.
-  // The mage path's 룬을 던진다 must be present (engine wires enemyDamage=hp).
+  const gatewayBtns = await visibleButtons(page)
+  // W10 gateway B: combat-typed nodes render NodeView with gateway choices
+  // first. Boss = engage-only (no evade); the player must click [맞선다] before
+  // CombatView mounts and exposes the per-class action buttons.
   console.log(
-    '✓ fo-boss-tree (combat) — 룬을 던진다 available for mage:',
+    '✓ fo-boss-tree (gateway) — 맞선다 visible:',
+    gatewayBtns.some((b) => b.includes('맞선다')),
+  )
+  console.log(
+    '  combat actions hidden in gateway (룬을 던진다 not shown pre-engage):',
+    !gatewayBtns.some((b) => b.includes('룬을 던진다')),
+  )
+
+  await page.getByRole('button', { name: '맞선다' }).click()
+  // CombatView mounts; combat actions now visible.
+  await page.waitForSelector('button:has-text("룬을 던진다")')
+  const bossBtns = await visibleButtons(page)
+  console.log(
+    '✓ fo-boss-tree (engaged) — 룬을 던진다 available for mage:',
     bossBtns.some((b) => b.includes('룬을 던진다')),
   )
 
@@ -122,6 +136,15 @@ async function main() {
 
   await page.getByRole('button', { name: '함께 가겠다' }).click()
   await page.waitForSelector('text=부패한 늑대')
+  // Gateway: regular fight gets engage + evade. Click engage to enter combat.
+  const astridGate = await visibleButtons(page)
+  console.log(
+    '✓ fo-astrid-fight (gateway) — 검을 뽑는다 + 우회 둘 다 보임:',
+    astridGate.some((b) => b.includes('검을 뽑는다')) &&
+      astridGate.some((b) => b.includes('우회')),
+  )
+  await page.getByRole('button', { name: '검을 뽑는다' }).click()
+  await page.waitForSelector('button:has-text("검을 휘두른다")')
   await page.getByRole('button', { name: '검을 휘두른다' }).click()
   await page.waitForSelector('text=처음이 아닌 거 같다')
   console.log('✓ fo-warrior-awaken')
@@ -134,10 +157,12 @@ async function main() {
 
   await page.getByRole('button', { name: '곧장 전진한다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  // Gateway again — engage first, then per-class action becomes available.
+  await page.getByRole('button', { name: '맞선다' }).click()
+  await page.waitForSelector('button:has-text("검으로 뿌리를 베어낸다")')
   const bossBtnsW = await visibleButtons(page)
-  // CombatView shows all choices — verify warrior path's option is present.
   console.log(
-    '✓ fo-boss-tree (combat, warrior) — 검으로 뿌리를 베어낸다 available:',
+    '✓ fo-boss-tree (engaged, warrior) — 검으로 뿌리를 베어낸다 available:',
     bossBtnsW.some((b) => b.includes('검으로 뿌리를 베어낸다')),
   )
 

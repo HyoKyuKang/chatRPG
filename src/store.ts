@@ -68,6 +68,9 @@ interface Actions {
   setBgmEnabled: (enabled: boolean) => void
   setBgmVolume: (volume: number) => void
   engageCombat: (enemyId: string) => void
+  // Gateway click: log the choice as a history entry, then engage combat.
+  // Used by NodeView when a choice on a type='combat' node has startsCombat=true.
+  engageCombatFromChoice: (choiceId: string) => void
   combatChoice: (choiceId: string) => void
   endCombat: (victory: boolean) => void
 }
@@ -360,6 +363,41 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
             ...run,
             combat: {
               enemyId,
+              currentTurn: 1,
+              enemyHp: pattern.hp,
+            },
+          },
+        })
+      },
+
+      engageCombatFromChoice: (choiceId) => {
+        const state = get()
+        const run = state.run
+        if (run.dead || run.endingReached) return
+        if (run.combat) return
+        const node = data.nodes.get(run.currentNodeId)
+        if (!node || node.type !== 'combat' || !node.enemyId) return
+        const choice = node.choices.find((c) => c.id === choiceId)
+        if (!choice || choice.startsCombat !== true) return
+        const pattern = data.enemies.get(node.enemyId)
+        if (!pattern) {
+          console.error(`enemy "${node.enemyId}" not loaded`)
+          return
+        }
+        const newEntries: HistoryEntry[] = [
+          { kind: 'choice', text: choice.text },
+        ]
+        // outcome.text is optional flavor — chat log shows it as an outcome
+        // entry above the combat panel before the first turn ticks.
+        if (choice.outcome.text) {
+          newEntries.push({ kind: 'outcome', text: choice.outcome.text })
+        }
+        set({
+          run: {
+            ...run,
+            history: [...run.history, ...newEntries],
+            combat: {
+              enemyId: node.enemyId,
               currentTurn: 1,
               enemyHp: pattern.hp,
             },

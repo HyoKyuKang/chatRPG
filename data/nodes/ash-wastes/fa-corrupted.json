@@ -20,6 +20,15 @@
   ],
   "choices": [
     {
+      "id": "engage",
+      "text": "자세를 잡는다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "재가 너의 발끝에 닿는다. 잠식된 자의 검이 한 결 무거워진다.",
+        "nextNodeId": null
+      }
+    },
+    {
       "id": "corrupted-warrior",
       "text": "검으로 맞선다",
       "condition": { "class": "warrior" },

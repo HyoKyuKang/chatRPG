@@ -6,6 +6,24 @@
   "description": "발자국 소리가 무겁게 다가온다. 통로의 좁은 어둠에서 척후병 하나가 너를 마주친다.\n\n그의 단검이 횃불 빛 없이 짧게 번득인다. 그도 너를 예상하지 못한 결.\n\n둘 다 한 발 물러설 자리가 없다.",
   "choices": [
     {
+      "id": "engage",
+      "text": "단검을 마주본다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "통로의 어둠이 두 사람의 발을 한 박자 늦게 받아낸다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "한 발 물러서 그를 보낸다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 좁은 벽에 붙는다. 척후병이 너를 보지 못한 채 통로 너머로 사라진다.\n\n그의 발소리가 너의 호흡보다 빨리 멀어진다.",
+        "nextNodeId": "fm-tunnel-exit"
+      }
+    },
+    {
       "id": "tunnel-fight-strike",
       "text": "먼저 친다",
       "outcome": {

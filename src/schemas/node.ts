@@ -31,6 +31,11 @@ export const Choice = z
     id: z.string(),
     text: z.string(),
     condition: ChoiceCondition.optional(),
+    // Combat gateway: present only on type='combat' nodes.
+    //   true  → click engages combat (engageCombat(enemyId)); shown pre-combat.
+    //   false → click resolves as evade/diplomacy via outcome.nextNodeId; pre-combat.
+    //   undefined → in-combat action (combatChoice); shown only after engagement.
+    startsCombat: z.boolean().optional(),
     outcome: ChoiceOutcome,
   })
   .strict()

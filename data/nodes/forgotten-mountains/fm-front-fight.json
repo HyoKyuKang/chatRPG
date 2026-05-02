@@ -6,6 +6,25 @@
   "description": "거리에서 발소리. 군세 순찰병 둘이 길을 막는다.\n\n칼날 끝이 횃불 빛을 받아 짧게 번득인다. 그들의 시선이 너의 손, 너의 허리, 너의 목으로 미끄러진다.\n\n늑대의 눈과 다르다. 사람의 눈은 망설이고, 그래서 더 차갑다.",
   "choices": [
     {
+      "id": "engage",
+      "text": "맞선다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "둘의 시선이 너의 손, 너의 허리, 너의 목으로 차례로 미끄러진다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "돌 틈 사이로 빠져나간다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 좁은 돌 틈을 끼고 몸을 낮춘다. 그들의 횃불 빛이 너의 등 뒤로 한 박자 늦게 따라온다.\n\n발이 차고, 호흡이 짧다. 칼 소리는 멀어진다.",
+        "statDelta": { "mana": -1 },
+        "nextNodeId": "fm-front-tower"
+      }
+    },
+    {
       "id": "fight-engage",
       "text": "맞선다",
       "outcome": {

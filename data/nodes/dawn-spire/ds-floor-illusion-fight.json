@@ -6,6 +6,25 @@
   "description": "환영의 결이 한 칸 더 짙어진다. 푸른 불 사이에서 한 형상이 너에게 걸어 나온다 — 마왕 군세의 장수.\n\n그는 너를 본다. 옛 시대의 결이 묻은 갑옷 위로, 마왕의 칙령이 묻은 어둠이 흐른다.\n\n환영이지만, 칼끝의 무게는 환영이 아니다.",
   "choices": [
     {
+      "id": "engage",
+      "text": "환영을 마주한다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "푸른 불이 한 결 흔들린다. 그의 갑옷이 너의 발 앞에서 무게를 잡는다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "결을 따라 옆으로 빠진다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 환영의 결을 따라 한 걸음 비낀다. 장수의 칼이 너의 옆을 스치고 빠진다 — 그도 너를 끝까지 보지 못한다.\n\n푸른 불이 그의 등 뒤에 머문다.",
+        "statDelta": { "hp": -1 },
+        "nextNodeId": "ds-floor-strangers"
+      }
+    },
+    {
       "id": "illusion-fight-cut",
       "text": "환영을 가른다",
       "outcome": {

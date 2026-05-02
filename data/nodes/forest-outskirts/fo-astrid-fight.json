@@ -6,6 +6,24 @@
   "description": "키 큰 풀이 갈라진다. 부패한 늑대가 으르렁댄다. 가죽 아래로 검은 액체가 비친다. 썩은 단내가 코를 찌른다.\n\n아스트리드가 검을 든 채 한 걸음 앞으로 나선다.\n\n아스트리드: \"내가 막을게. 너는 옆에서 쳐.\"",
   "choices": [
     {
+      "id": "engage",
+      "text": "검을 뽑는다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "아스트리드가 한 박자 먼저 자세를 낮춘다. 늑대가 너의 발을 본다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "물러나며 우회한다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 풀숲을 따라 한 걸음 물러난다. 아스트리드가 한 박자 늦게 너의 자리를 본다.\n\n늑대는 너를 보지 않는다. 그저 자신의 자리에서 으르렁거린다, 작아지는 소리로.\n\n아스트리드: \"...뒤로 빠지는 것도 결정이다.\"",
+        "nextNodeId": "fo-warrior-awaken"
+      }
+    },
+    {
       "id": "fight-swing",
       "text": "검을 휘두른다",
       "condition": { "item": "rusted-sword" },

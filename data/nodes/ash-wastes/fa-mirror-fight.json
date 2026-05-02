@@ -6,6 +6,25 @@
   "description": "흑요석 거울 면이 한 결 떨린다. 거울 속의 너가 한 걸음을 먼저 내딛는다.\n\n같은 자세, 같은 망토. 다만 이름의 자리가 비어 있다.\n\n그가 거울에서 빠져나온다 — 광기 부대의 짧은 음절을 흥얼거리며.",
   "choices": [
     {
+      "id": "engage",
+      "text": "그를 마주본다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "흑요석 거울의 결이 한 박자 더 어두워진다. 너의 자세와 그의 자세가 같다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "거울에서 시선을 거둔다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 거울에서 시선을 거둔다. 거울 속의 자가 한 결 흔들린다 — 그러나 사라지지 않는다. 너의 등 뒤로 따라온다, 한 박자 늦게.",
+        "statDelta": { "mana": -1 },
+        "nextNodeId": "fa-converge"
+      }
+    },
+    {
       "id": "mirror-fight-self",
       "text": "거울 속의 자를 친다",
       "outcome": {

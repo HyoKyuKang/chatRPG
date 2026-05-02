@@ -6,6 +6,15 @@
   "description": "그림자 사령관이 천천히 칼을 뽑는다. 칼날에 어둠이 묻어 흐른다.\n\n그림자 사령관: \"...왔는가. 이 길은 더 가지 않으셨어도 되었을 텐데.\"\n\n그가 자세를 낮춘다. 칼끝이 흔들리지 않는다. 어깨가 한 번 무겁게 들썩인다.\n\n광장의 잿빛 공기가 두 사람 사이에서 멎는다.",
   "choices": [
     {
+      "id": "engage",
+      "text": "한 발 다가선다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "광장의 잿빛 공기가 두 발 사이에서 갈라진다. 그가 너의 발을 본다.",
+        "nextNodeId": null
+      }
+    },
+    {
       "id": "boss-warrior",
       "text": "검으로 맞선다",
       "condition": { "class": "warrior" },

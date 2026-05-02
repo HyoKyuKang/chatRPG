@@ -6,6 +6,25 @@
   "description": "시민이 한 박자 늦게 같은 인사를 다시 시작한다. 그러나 그의 미소가 이번엔 풀리지 않는다.\n\n그의 손이 너의 옷자락에 닿는다 — 가볍게, 그러나 떨어지지 않는다. 그의 시선이 너의 너머에서 너의 안쪽으로 한 칸 들어온다.\n\n환영이 너에게 달라붙기 시작한다.",
   "choices": [
     {
+      "id": "engage",
+      "text": "그를 떼어낸다",
+      "startsCombat": true,
+      "outcome": {
+        "text": "환영이 너의 옷자락에서 한 결 더 깊어진다.",
+        "nextNodeId": null
+      }
+    },
+    {
+      "id": "evade",
+      "text": "한 박자 늦게 그를 흘려보낸다",
+      "startsCombat": false,
+      "outcome": {
+        "text": "너는 그의 미소에 한 박자 늦게 같은 미소로 답한다. 환영이 너의 옷자락에서 풀려난다 — 천천히, 그러나 풀려난다.\n\n거리는 그대로 흐른다. 너의 안쪽 한 칸이 비어 있다.",
+        "statDelta": { "mana": -1 },
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
       "id": "citizen-attack-shake",
       "text": "그를 떼어낸다",
       "outcome": {
