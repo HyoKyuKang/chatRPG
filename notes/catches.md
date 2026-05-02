@@ -20,13 +20,11 @@
 
 ## 트랙 B — UI 폴리싱 (인터랙션 / 시각)
 
-### B-1. 선택지 누르면 맨 위 대화부터 스크롤 (2026-05-02) — ⏳ W10 처리 중
+### B-1. 선택지 누르면 맨 위 대화부터 스크롤 (2026-05-02) — ✅ RESOLVED (W10, 997c9f1)
 
 **Found:** D5 폰 검증 (W9 머지 후 `/tmp/chatrpg.apk` 5.3MB). 새 history entry 추가 시 chat log 가 scroll-to-bottom 안 되거나 잘못 trigger (맨 위로 이동).
 
-**Hypothesis (W10 worker 점검 영역):** `src/components/NodeView.tsx` 의 useEffect / scrollIntoView / ref forwarding. staged reveal timing 과 충돌 가능. scrollIntoView 가 'start' block 으로 호출되는 경우.
-
-**Status:** W10 worker prompt 에 명시, 진행 중.
+**Resolved (W10):** 원인 = footer 높이 변동에 따른 clientHeight 축소로 새 컨텐츠가 footer 뒤로 밀린 결. `behavior:'smooth'` 가 잦은 re-trigger 로 Android WebView 에서 끊기는 문제도 같이. Fix = bottom sentinel + `scrollIntoView({block:'end'})` + ResizeObserver (footer size shift 시 sentinel 재맞춤) + `behavior:'auto'`.
 
 ### B-2. 글이 많아서 시각 부담 (2026-05-02) — V1.0 갈래 B + V1.1 갈래 A
 
@@ -80,21 +78,17 @@
 
 ## 트랙 E — Combat (V2 SCOPE EXPANSION 결과)
 
-### E-1. Combat 진입 gateway 부재 (2026-05-02) — ⏳ W10 처리 중
+### E-1. Combat 진입 gateway 부재 (2026-05-02) — ✅ RESOLVED (W10, 997c9f1)
 
 **Found:** D5 폰 검증. 사용자 = "전투가 들어갈 때 갑자기 들어가게 되니까 이상해 — 전투를 시작한다 라던지 상황을 설명하고 그다음에 선택지를 누른다음 전투에 들어가게". commitment 결정 없이 화면 swap.
 
-**Resolution (CEO 결정):** **갈래 B (인프라 + 데이터)**. type='combat' 노드 자체가 prose + choices 가짐. Choice 에 `startsCombat?: boolean` 필드 추가 — true 면 클릭 시 CombatView. 다른 choices = 회피/외교 nextNodeId 분기. 13 combat 노드 prose + choices 추가 필요.
+**Resolved (W10, 갈래 B 인프라+데이터):** type='combat' 노드 자체가 prose + choices 가짐. Choice 에 `startsCombat?: boolean` 추가 (true=engage / false=evade(diplomacy) / undefined=in-combat action). store 의 `engageCombatFromChoice(choiceId)` 액션 — choice text 를 chat log 에 'choice' 엔트리 + outcome.text 가 있으면 'outcome' 엔트리도 박은 후 engageCombat 실행. NodeView 의 `isCombat` = `run.combat` 존재일 때만 true (gateway 단계에선 startsCombat 정의된 choice 만 visible). 12 combat 노드 prose+choices: 보스 5 = engage-only, 일반 7 = engage+evade. 회피는 같은 nextNodeId 로 흘러가되 outcome.text 로 회피 결을 narrator 톤으로 묘사.
 
-**Status:** W10 worker prompt 의 영역 1.
-
-### E-2. Combat UI raw (2026-05-02) — ⏳ W10 처리 중
+### E-2. Combat UI raw (2026-05-02) — ✅ RESOLVED (W10, 997c9f1)
 
 **Found:** D5 폰 검증. CombatView 의 hp bar / turn indicator / 행동 예고 / 페이즈 전환 시각 일관성 부족 (W8 인프라 + W9 데이터 = polish X).
 
-**Resolution:** W10 worker 의 원래 영역 (Combat UI 폴리싱).
-
-**Status:** W10 영역 3.
+**Resolved (W10):** footer takeover 전제로 재작성. 적 HP bar = pip 패턴 (StatBar 결, blood 톤), HP > 10 보스는 continuous bar fallback (consumed-one 14, mawang 16). 턴 indicator = 골드 액센트 / tabular-nums. 페이즈 indicator = N/M + 페이즈 전환 턴 narrator italic 단락 ("결이 한 칸 어긋난다"). 적 행동 예고 = italic narrator 톤 dim + 라벨 가벼운 uppercase. HP 변화 시 stat-shake (V2 HOUR 4 결). qa:combat-smoke 19/19 + `notes/store-assets/04-combat.png` 캡처.
 
 ### E-3. 사운드 X (2026-05-02) — ⏳ W1 (BGM) + W11 (SFX) 트랙
 
