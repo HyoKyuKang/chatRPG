@@ -42,6 +42,8 @@ interface Actions {
   resetAll: () => void
   transitionToNextRegion: () => void
   applyUnlock: (unlockId: string) => void
+  setBgmEnabled: (enabled: boolean) => void
+  setBgmVolume: (volume: number) => void
 }
 
 function applyUnlockEffects(
@@ -103,6 +105,8 @@ function freshMeta(): MetaState {
     completedRuns: 0,
     endingsReached: [],
     totalDeaths: 0,
+    bgmEnabled: true,
+    bgmVolume: 0.6,
   }
 }
 
@@ -285,6 +289,17 @@ export const useGame = create<PersistedState & Actions>()(
       reset: () => set({ run: freshRun(get().meta) }),
 
       resetAll: () => set({ run: freshRun(freshMeta()), meta: freshMeta() }),
+
+      setBgmEnabled: (enabled) =>
+        set((state) => ({ meta: { ...state.meta, bgmEnabled: enabled } })),
+
+      setBgmVolume: (volume) =>
+        set((state) => ({
+          meta: {
+            ...state.meta,
+            bgmVolume: Math.max(0, Math.min(1, volume)),
+          },
+        })),
 
       applyUnlock: (unlockId) => {
         const state = get()

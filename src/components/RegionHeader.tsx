@@ -16,6 +16,8 @@ const REGION_ORDER: string[] = (() => {
 export function RegionHeader() {
   const currentNodeId = useGame((s) => s.run.currentNodeId)
   const resetAll = useGame((s) => s.resetAll)
+  const bgmEnabled = useGame((s) => s.meta.bgmEnabled)
+  const setBgmEnabled = useGame((s) => s.setBgmEnabled)
   const node = data.nodes.get(currentNodeId)
   const region = node ? data.regions.get(node.region) : undefined
 
@@ -51,6 +53,16 @@ export function RegionHeader() {
         >
           {display}
         </span>
+        <button
+          type="button"
+          onClick={() => setBgmEnabled(!bgmEnabled)}
+          className="text-[12px] text-ink-400 hover:text-gold-300 px-1.5 py-0.5 border border-ink-600/40 hover:border-gold-500/50 rounded-sm transition leading-none"
+          title={bgmEnabled ? 'BGM 끄기' : 'BGM 켜기'}
+          aria-label={bgmEnabled ? 'BGM 끄기' : 'BGM 켜기'}
+          aria-pressed={bgmEnabled}
+        >
+          {bgmEnabled ? '♪' : '♪̸'}
+        </button>
         {import.meta.env.DEV && (
           <button
             type="button"

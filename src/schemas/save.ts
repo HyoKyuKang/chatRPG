@@ -23,6 +23,8 @@ export const MetaState = z
     completedRuns: z.number(),
     endingsReached: z.array(EndingId),
     totalDeaths: z.number(),
+    bgmEnabled: z.boolean(),
+    bgmVolume: z.number().min(0).max(1),
   })
   .strict()
 export type MetaState = z.infer<typeof MetaState>
