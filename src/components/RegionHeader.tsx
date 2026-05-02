@@ -1,13 +1,14 @@
 import { data, useGame } from '../store'
+import type { RegionId } from '../schemas'
 
 const REGION_ORDER: string[] = (() => {
   const order: string[] = []
-  let cur: string | undefined = 'forest-outskirts'
+  let cur: RegionId | undefined = 'forest-outskirts'
   while (cur) {
     order.push(cur)
     const r = data.regions.get(cur)
     if (!r?.nextRegion) break
-    cur = r.nextRegion
+    cur = r.nextRegion as RegionId
   }
   return order
 })()

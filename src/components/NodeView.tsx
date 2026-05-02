@@ -59,7 +59,12 @@ type RevealItem =
       parentIndex: number
       paragraph: ParsedParagraph
     }
-  | { kind: 'hero-card'; parentIndex: number; heroId: string }
+  | {
+      kind: 'hero-card'
+      parentKind: HistoryKind
+      parentIndex: number
+      heroId: string
+    }
   | { kind: 'simple'; parentKind: HistoryKind; parentIndex: number; body: string }
 
 const heroByName = new Map<string, Hero>()
@@ -90,7 +95,12 @@ function entryToReveal(
     if (p.kind === 'speech' && p.speaker) {
       const hero = heroByName.get(p.speaker)
       if (hero && !alreadyEncountered.has(hero.id)) {
-        items.push({ kind: 'hero-card', parentIndex: index, heroId: hero.id })
+        items.push({
+          kind: 'hero-card',
+          parentKind: entry.kind,
+          parentIndex: index,
+          heroId: hero.id,
+        })
         alreadyEncountered.add(hero.id)
       }
     }
