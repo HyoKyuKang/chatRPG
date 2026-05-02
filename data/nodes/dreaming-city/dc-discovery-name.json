@@ -1,0 +1,25 @@
+{
+  "id": "dc-discovery-name",
+  "region": "dreaming-city",
+  "type": "event",
+  "description": "옛 거리의 균열 사이로, 작은 명패 하나가 박혀 있다. 환영의 색이 그 자리에는 닿지 않는다.\n\n글자는 닳았지만 결은 또렷하다. 시민들이 잠들기 전 누군가가 이 자리에 새긴 자국이다.",
+  "choices": [
+    {
+      "id": "name-trace",
+      "text": "결을 따라 손을 올린다",
+      "outcome": {
+        "text": "손바닥에 글자의 결이 잠깐 닿는다. 광장의 미소가 등 뒤에서 한 박자 늦게 멎는다.",
+        "knowledgeGain": ["buried-name"],
+        "nextNodeId": "dc-fork"
+      }
+    },
+    {
+      "id": "name-pass",
+      "text": "그대로 지나친다",
+      "outcome": {
+        "text": "발걸음을 돌린다. 명패는 균열 사이에서 그대로 빛을 내지 않는다.",
+        "nextNodeId": "dc-fork"
+      }
+    }
+  ]
+}

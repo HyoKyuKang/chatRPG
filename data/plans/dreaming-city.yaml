@@ -78,11 +78,11 @@ nodes:
 
   - id: dc-fork
     type: encounter
-    beat: 갈림길. 시장(번화한 환영의 중심) vs 옛 거리(균열 있는 곳, 진실 가까이). 이방인 혼자.
+    beat: 갈림길. 시장(번화한 환영의 중심) vs 옛 거리(균열 있는 곳, 진실 가까이). 가지 진입 (분수 골목 / 옛 명패 결) 두 개 추가 — gate 없음. 이방인 혼자.
     personas: [narrator]
-    toneTarget: 두 길의 무게 — 환영의 화려함 vs 진실의 균열. 둘 다 왕궁으로 이어짐.
+    toneTarget: 두 길의 무게 — 환영의 화려함 vs 진실의 균열. 둘 다 왕궁으로 이어짐. 가지 분기는 무게보다 호흡 — 환영 가장자리로 잠깐 비껴남.
     previous: [dc-citizen]
-    next: [dc-market, dc-old]
+    next: [dc-market, dc-old, dc-rest-fountain, dc-discovery-name]
     choices:
       - id: fork-market
         label: 시장 쪽으로 간다
@@ -92,6 +92,14 @@ nodes:
         label: 옛 거리 쪽으로 간다
         outcome:
           nextNodeId: dc-old
+      - id: fork-fountain
+        label: 골목 안쪽 분수의 결을 따라간다
+        outcome:
+          nextNodeId: dc-rest-fountain
+      - id: fork-side-name
+        label: 옛 명패의 결을 살핀다
+        outcome:
+          nextNodeId: dc-discovery-name
 
   - id: dc-market
     type: encounter
@@ -208,9 +216,9 @@ nodes:
 
   - id: dc-king
     type: boss
-    beat: 잠든 왕 본체. 깨울지, 끝낼지, 떠날지 윤리적 분기. 클래스별 다른 결.
+    beat: 잠든 왕 본체. 깨울지, 끝낼지, 떠날지 윤리적 분기. 클래스별 다른 결. narrator 가 그의 본질("적이 아님") / 도덕("어느 길도 가볍지 않음") / 너의 내면("상처가 안쪽에 남음") 직접 단언 X — 외부 동작(손이 팔걸이에 놓임, 발이 한 박자 멈춤, 칼이 손에서 떨어지지 않음) 으로만.
     personas: [narrator, sleeping-king]
-    toneTarget: 보스전 정점이지만 전투 X — **윤리적 무게**. 깨우면 도시 무너짐, 안 깨우면 환영 영구. 어느 쪽이 옳은가. 잠든 왕은 적이 아님.
+    toneTarget: 보스전 정점이지만 전투 X — **윤리적 무게**. 깨우면 도시 무너짐, 안 깨우면 환영 영구. 어느 쪽이 옳은가. 잠든 왕 톤은 페르소나 가이드 따름 — narrator 는 그의 모름/꿈을 단언하지 않고 외부 결로 비춤.
     previous: [dc-throne]
     next: [dc-resolution]
     choices:
@@ -263,3 +271,74 @@ nodes:
         text: |-
           베일런의 룬이 이 도시에선 다른 무게로 닿았다. 그가 보았으면 무엇이라 했을까. 네가 모를 것이다.
     choices: []
+
+  - id: dc-rest-fountain
+    type: rest
+    beat: 골목 안쪽 옛 분수. 환영 색이 한 겹 옅어진 자리. HP +1. 분수 너머 좁은 문으로 깨어 있는 자(dc-shop-keeper) 진입.
+    personas: [narrator]
+    toneTarget: 환영의 가장자리 — 평화의 색이 옅어지는 곳. 차고 깨끗한 물. 광장 소리가 등 뒤에서 한 박자 늦게 도착하는 결.
+    previous: [dc-fork]
+    next: [dc-fork, dc-shop-keeper]
+    choices:
+      - id: fountain-drink
+        label: 분수의 물을 마신다
+        outcome:
+          statDelta:
+            hp: 1
+          nextNodeId: dc-fork
+      - id: fountain-shop
+        label: 골목 안쪽 작은 가게를 살핀다
+        outcome:
+          nextNodeId: dc-shop-keeper
+      - id: fountain-leave
+        label: 그대로 길로 돌아간다
+        outcome:
+          nextNodeId: dc-fork
+
+  - id: dc-shop-keeper
+    type: shop
+    beat: 환영 가장자리의 작은 가게. 깨어 있는 자 — 광장 시민과 다른 결. HP↔MP 양방향 거래 두 종 + 떠나기. heroEncounter=awake-one. dc-vendor(환영 안 의식 파편) 와 차별 — 이쪽은 환영 바깥의 자.
+    personas: [narrator, awake-one]
+    toneTarget: 작은 목소리, 짧은 어조. dc-vendor(환영 안 의식 파편이 잠깐 올라옴) 와 결정적으로 다른 결 — 깨어 있는 자는 도시가 잠든 줄 안다. "...깨어 있으시오." 결.
+    previous: [dc-rest-fountain]
+    next: [dc-fork]
+    choices:
+      - id: keeper-trade-mp
+        label: 피로 한 호흡을 산다 (HP -1, MP +2)
+        outcome:
+          statDelta:
+            hp: -1
+            mana: 2
+          heroEncounter: awake-one
+          nextNodeId: dc-fork
+      - id: keeper-trade-hp
+        label: 주문 한 줄을 내주고 호흡을 산다 (MP -1, HP +2)
+        outcome:
+          statDelta:
+            mana: -1
+            hp: 2
+          heroEncounter: awake-one
+          nextNodeId: dc-fork
+      - id: keeper-leave
+        label: 거래하지 않고 떠난다
+        outcome:
+          heroEncounter: awake-one
+          nextNodeId: dc-fork
+
+  - id: dc-discovery-name
+    type: event
+    beat: 옛 거리 균열의 작은 명패. 시민들이 잠들기 전 누군가가 새긴 이름의 결. buried-name knowledge. 잠식된 자의 잊은 이름 / 잠든 시민의 잊혀진 이름 대비.
+    personas: [narrator]
+    toneTarget: 환영이 닿지 않는 좁은 자리. 글자는 닳았지만 결은 또렷한 호흡. 광장의 미소가 등 뒤에서 한 박자 늦게 멎는 결.
+    previous: [dc-fork]
+    next: [dc-fork]
+    choices:
+      - id: name-trace
+        label: 결을 따라 손을 올린다
+        outcome:
+          knowledgeGain: [buried-name]
+          nextNodeId: dc-fork
+      - id: name-pass
+        label: 그대로 지나친다
+        outcome:
+          nextNodeId: dc-fork
