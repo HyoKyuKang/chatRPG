@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Keystore — NEVER commit (lost = app永远 못 update)
+*.keystore
+*.jks
+keystore.properties
+.chat-rpg-keystore-pass
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
