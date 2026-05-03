@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "awaken-mage",
-      "text": "룬을 부르는 자로 살겠다",
+      "text": "룬을 다시 입에 올린다",
       "outcome": {
         "text": "품 안의 양피지가 한 번 더 따뜻해진다, 짧게. 이름 하나가 너에게 자리 잡는다 — 룬을 부르는 자.",
         "knowledgeGain": [

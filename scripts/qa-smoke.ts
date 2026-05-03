@@ -35,8 +35,10 @@ async function main() {
   await page.waitForSelector('text=안개 속에서 깨어난다')
   console.log('✓ fo-arrive (fresh state)')
 
-  await page.getByRole('button', { name: '주위를 둘러본다' }).click()
-  await page.getByRole('button', { name: '너를 믿겠다' }).click()
+  await page.getByRole('button', { name: '안개 너머를 살핀다' }).click()
+  await page
+    .getByRole('button', { name: '새벽의 첨탑... 거기로 가면 되나?' })
+    .click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtns = await visibleButtons(page)
   console.log(
@@ -44,47 +46,47 @@ async function main() {
     forkBtns.some((b) => b.includes('양피지')),
   )
 
-  await page.getByRole('button', { name: '낡은 양피지를 펼친다' }).click()
+  await page.getByRole('button', { name: '낡은 양피지를 조심스레 펼친다' }).click()
   await page.waitForSelector('text=흰 머리의 노인')
   console.log('✓ fo-bayren-meet')
 
-  await page.getByRole('button', { name: '이게 무슨 글인지 알려달라' }).click()
+  await page.getByRole('button', { name: '이 글자, 읽을 수 있나?' }).click()
   await page.waitForSelector('text=딱 한 번 외워봐')
-  await page.getByRole('button', { name: '긴 호흡을 하고 외운다' }).click()
+  await page.getByRole('button', { name: '숨을 고르고 따라 읽는다' }).click()
   await page.waitForSelector('text=외운 건 외운 거다')
   console.log('✓ fo-mage-awaken')
 
-  await page.getByRole('button', { name: '룬을 부르는 자로 살겠다' }).click()
+  await page.getByRole('button', { name: '룬을 다시 입에 올린다' }).click()
   await page.waitForSelector('text=썩은 단 냄새')
   let body = await bodyText(page)
   console.log('  class displayed as 마법사:', /마법사/.test(body))
   console.log('  MP=2 (rune cost):', /MP\s*2/.test(body))
 
-  await page.getByRole('button', { name: '주변을 살피며 간다' }).click()
+  await page.getByRole('button', { name: '뿌리 사이를 살피며 간다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
   const gatewayBtns = await visibleButtons(page)
   // W10 gateway B: combat-typed nodes render NodeView with gateway choices
-  // first. Boss = engage-only (no evade); the player must click [맞선다] before
+  // first. Boss = engage-only (no evade); the player must click [물러서지 않는다] before
   // CombatView mounts and exposes the per-class action buttons.
   console.log(
-    '✓ fo-boss-tree (gateway) — 맞선다 visible:',
-    gatewayBtns.some((b) => b.includes('맞선다')),
+    '✓ fo-boss-tree (gateway) — 물러서지 않는다 visible:',
+    gatewayBtns.some((b) => b.includes('물러서지 않는다')),
   )
   console.log(
-    '  combat actions hidden in gateway (룬을 던진다 not shown pre-engage):',
-    !gatewayBtns.some((b) => b.includes('룬을 던진다')),
+    '  combat actions hidden in gateway (룬 action not shown pre-engage):',
+    !gatewayBtns.some((b) => b.includes('룬을 뿌리에')),
   )
 
-  await page.getByRole('button', { name: '맞선다' }).click()
+  await page.getByRole('button', { name: '물러서지 않는다' }).click()
   // CombatView mounts; combat actions now visible.
-  await page.waitForSelector('button:has-text("룬을 던진다")')
+  await page.waitForSelector('button:has-text("룬을 뿌리에 박아 넣는다")')
   const bossBtns = await visibleButtons(page)
   console.log(
-    '✓ fo-boss-tree (engaged) — 룬을 던진다 available for mage:',
-    bossBtns.some((b) => b.includes('룬을 던진다')),
+    '✓ fo-boss-tree (engaged) — 룬을 뿌리에 박아 넣는다 available for mage:',
+    bossBtns.some((b) => b.includes('룬을 뿌리에')),
   )
 
-  await page.getByRole('button', { name: '룬을 던진다' }).click()
+  await page.getByRole('button', { name: '룬을 뿌리에 박아 넣는다' }).click()
   await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
   console.log('✓ fo-resolution (ending) reached')
@@ -120,8 +122,10 @@ async function main() {
   body = await bodyText(page)
   console.log('✓ wipe + reload → fresh run, meta cleared:', !/출정/.test(body))
 
-  await page.getByRole('button', { name: '그냥 일어선다' }).click()
-  await page.getByRole('button', { name: '관심 없다' }).click()
+  await page.getByRole('button', { name: '몸을 일으킨다' }).click()
+  await page
+    .getByRole('button', { name: '잠깐. 난 아직 아무것도 모른다' })
+    .click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtnsAlt = await visibleButtons(page)
   console.log(
@@ -130,43 +134,43 @@ async function main() {
       forkBtnsAlt.some((b) => b.includes('녹슨 검')),
   )
 
-  await page.getByRole('button', { name: '녹슨 검을 잡는다' }).click()
+  await page.getByRole('button', { name: '녹슨 검 쪽으로 손을 뻗는다' }).click()
   await page.waitForSelector('text=신참 템플러')
   console.log('✓ fo-astrid-meet')
 
-  await page.getByRole('button', { name: '함께 가겠다' }).click()
+  await page.getByRole('button', { name: '혼자보단 낫겠지' }).click()
   await page.waitForSelector('text=부패한 늑대')
   // Gateway: regular fight gets engage + evade. Click engage to enter combat.
   const astridGate = await visibleButtons(page)
   console.log(
-    '✓ fo-astrid-fight (gateway) — 검을 뽑는다 + 우회 둘 다 보임:',
+    '✓ fo-astrid-fight (gateway) — 허리의 검을 뽑는다 + 풀숲 쪽으로 물러난다 둘 다 보임:',
     astridGate.some((b) => b.includes('검을 뽑는다')) &&
-      astridGate.some((b) => b.includes('우회')),
+      astridGate.some((b) => b.includes('풀숲 쪽으로')),
   )
-  await page.getByRole('button', { name: '검을 뽑는다' }).click()
-  await page.waitForSelector('button:has-text("검을 휘두른다")')
-  await page.getByRole('button', { name: '검을 휘두른다' }).click()
+  await page.getByRole('button', { name: '허리의 검을 뽑는다' }).click()
+  await page.waitForSelector('button:has-text("늑대의 옆구리를 노린다")')
+  await page.getByRole('button', { name: '늑대의 옆구리를 노린다' }).click()
   await page.waitForSelector('text=처음 잡는 사람 같지 않아')
   console.log('✓ fo-warrior-awaken')
 
-  await page.getByRole('button', { name: '검을 든 자로 살겠다' }).click()
+  await page.getByRole('button', { name: '검을 놓지 않는다' }).click()
   await page.waitForSelector('text=썩은 단 냄새')
   body = await bodyText(page)
   console.log('  class displayed as 전사:', /전사/.test(body))
   console.log('  HP=4 (sword swing -1):', /HP\s*4/.test(body))
 
-  await page.getByRole('button', { name: '곧장 전진한다' }).click()
+  await page.getByRole('button', { name: '검게 시든 길을 따라간다' }).click()
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
   // Gateway again — engage first, then per-class action becomes available.
-  await page.getByRole('button', { name: '맞선다' }).click()
-  await page.waitForSelector('button:has-text("검으로 뿌리를 베어낸다")')
+  await page.getByRole('button', { name: '물러서지 않는다' }).click()
+  await page.waitForSelector('button:has-text("뿌리 깊은 곳을 벤다")')
   const bossBtnsW = await visibleButtons(page)
   console.log(
-    '✓ fo-boss-tree (engaged, warrior) — 검으로 뿌리를 베어낸다 available:',
-    bossBtnsW.some((b) => b.includes('검으로 뿌리를 베어낸다')),
+    '✓ fo-boss-tree (engaged, warrior) — 뿌리 깊은 곳을 벤다 available:',
+    bossBtnsW.some((b) => b.includes('뿌리 깊은 곳을 벤다')),
   )
 
-  await page.getByRole('button', { name: '검으로 뿌리를 베어낸다' }).click()
+  await page.getByRole('button', { name: '뿌리 깊은 곳을 벤다' }).click()
   await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
   console.log('✓ fo-resolution (warrior ending)')

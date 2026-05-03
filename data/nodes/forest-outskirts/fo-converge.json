@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "conv-march",
-      "text": "곧장 전진한다",
+      "text": "검게 시든 길을 따라간다",
       "outcome": {
         "text": "발걸음을 늦추지 않는다. 검은 풀이 신발 밑에서 부서진다. 앞쪽에서 거대한 그림자 하나가 가지를 늘어뜨린다.",
         "nextNodeId": "fo-boss-tree"
@@ -14,7 +14,7 @@
     },
     {
       "id": "conv-watch",
-      "text": "주변을 살피며 간다",
+      "text": "뿌리 사이를 살피며 간다",
       "outcome": {
         "text": "뿌리 사이로 검은 액체가 흐른다. 마왕의 그을음 — 그것이 흙 깊숙이까지 닿아 있다. 너는 그것을 본 채로 더 깊이 들어간다.",
         "knowledgeGain": ["corruption-witnessed"],

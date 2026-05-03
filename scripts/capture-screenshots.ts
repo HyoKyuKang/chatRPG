@@ -71,10 +71,10 @@ async function main() {
   await shoot(page, '01-prologue-fo-arrive')
 
   // ─── 2. fo-astrid-meet (warrior path) ───────────────────
-  await clickButton(page, '그냥 일어선다')
-  await clickButton(page, '관심 없다')
+  await clickButton(page, '몸을 일으킨다')
+  await clickButton(page, '잠깐. 난 아직 아무것도 모른다')
   await page.waitForSelector('text=두 가지가 놓여 있다')
-  await clickButton(page, '녹슨 검을 잡는다')
+  await clickButton(page, '녹슨 검 쪽으로 손을 뻗는다')
   await page.waitForSelector('text=신참 템플러')
   await page.waitForTimeout(700)
   await shoot(page, '02-hero-card-astrid')
@@ -83,27 +83,27 @@ async function main() {
   // 1지역 끝까지 가서 ds-style 메타 화면 도달은 5지역 가야. 단축:
   // 1지역 fo-resolution → "잊혀진 산맥으로 간다" 안 누르고 죽음 시나리오.
   // 빠른 방법: warrior path → 검 휘두르기 4번 (HP -1 each, 시작 HP 5 → 0 죽음 → MetaUnlockScreen)
-  await clickButton(page, '함께 가겠다')
+  await clickButton(page, '혼자보단 낫겠지')
   await page.waitForSelector('text=부패한 늑대')
   // W10 gateway: regular fights need engage click before combat actions show.
-  await clickButton(page, '검을 뽑는다')
-  await page.waitForSelector('button:has-text("검을 휘두른다")')
-  await clickButton(page, '검을 휘두른다')
+  await clickButton(page, '허리의 검을 뽑는다')
+  await page.waitForSelector('button:has-text("늑대의 옆구리를 노린다")')
+  await clickButton(page, '늑대의 옆구리를 노린다')
   // fo-warrior-awaken
   await page.waitForSelector('text=처음 잡는 사람 같지 않아')
-  await clickButton(page, '검을 든 자로 살겠다')
+  await clickButton(page, '검을 놓지 않는다')
   await page.waitForSelector('text=썩은 단 냄새')
-  await clickButton(page, '곧장 전진한다')
+  await clickButton(page, '검게 시든 길을 따라간다')
   await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
   // Boss gateway: engage-only.
-  await clickButton(page, '맞선다')
+  await clickButton(page, '물러서지 않는다')
   // ─── 4. CombatView 폴리싱 캡처 ──────────────────────────
   // Engaged but not yet acted — HP bar, turn indicator, action prediction
   // all visible. Pause a beat for the fade-in to settle.
-  await page.waitForSelector('button:has-text("검으로 뿌리를 베어낸다")')
+  await page.waitForSelector('button:has-text("뿌리 깊은 곳을 벤다")')
   await page.waitForTimeout(500)
   await shoot(page, '04-combat')
-  await clickButton(page, '검으로 뿌리를 베어낸다')
+  await clickButton(page, '뿌리 깊은 곳을 벤다')
   await page.waitForSelector('text=다음은 산')
   await clickButton(page, '잊혀진 산맥으로 간다')
   // 2지역 진입. fm-arrive 도달 후 2지역 보스에 일부러 죽음 — 첫 메타 화면 진입.
@@ -123,7 +123,7 @@ async function main() {
 
   // ─── 4. 메타 화면 (DEV reset 후 일부러 죽음) ────────────
   await clearStorage(page)
-  // 빠른 죽음 path: 1지역 fo-arrive → fo-stranger → fo-fork → fo-astrid-meet → fo-astrid-fight 검 휘두르기 → fo-warrior-awaken → fo-converge → fo-boss-tree → 검으로 뿌리 베어내기 → fo-resolution → 잊혀진 산맥 → 2지역 보스 일부러 죽음
+  // 빠른 죽음 path: 1지역 fo-arrive → fo-stranger → fo-fork → fo-astrid-meet → fo-astrid-fight → fo-warrior-awaken → fo-converge → fo-boss-tree → fo-resolution → 잊혀진 산맥 → 2지역 보스 일부러 죽음
   // 이건 시간 큼. 단순화: 5지역까지 가는 게 진짜 메타 화면 (final ending).
   // 아니면 첫 출정 후 일부러 죽으면 됨.
   //

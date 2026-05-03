@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "rest-drink",
-      "text": "샘에서 물을 마신다",
+      "text": "두 손으로 물을 마신다",
       "outcome": {
         "text": "물이 차다. 차가움이 가슴까지 닿고, 숨이 한 박자 길어진다.",
         "statDelta": { "hp": 1 },
@@ -15,7 +15,7 @@
     },
     {
       "id": "rest-tent",
-      "text": "샘 너머의 천막을 살핀다",
+      "text": "천막 쪽으로 다가간다",
       "outcome": {
         "text": "안개 사이로 천 한 자락이 비친다. 누군가 머문 자리가 있다.",
         "nextNodeId": "fo-shop-traveler"
@@ -23,7 +23,7 @@
     },
     {
       "id": "rest-leave",
-      "text": "그대로 길로 돌아간다",
+      "text": "길로 돌아간다",
       "outcome": {
         "text": "발걸음을 돌린다. 동심원은 너의 등 뒤에서도 계속 번진다.",
         "nextNodeId": "fo-fork"

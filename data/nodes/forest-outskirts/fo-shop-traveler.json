@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "shop-trade-mp",
-      "text": "피로 맑은 한 모금을 산다 (HP -1, MP +2)",
+      "text": "한 모금 마신다",
       "condition": { "statGte": { "name": "hp", "value": 2 } },
       "outcome": {
         "text": "단이 작은 단지를 내민다. 한 모금. 머리가 맑아지고, 손끝이 시린다.",
@@ -17,7 +17,7 @@
     },
     {
       "id": "shop-buy-herb",
-      "text": "마른 약초를 우려 마신다 (MP -1, HP +1)",
+      "text": "약초를 우려 달라 한다",
       "condition": { "statGte": { "name": "mana", "value": 1 } },
       "outcome": {
         "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 물 위에 잎이 가라앉자 숨이 조금 깊어진다.",
@@ -28,7 +28,7 @@
     },
     {
       "id": "shop-leave",
-      "text": "거래하지 않고 떠난다",
+      "text": "천막을 나온다",
       "outcome": {
         "text": "단이 고개를 한 번 끄덕인다. 천막은 어느새 너의 등 뒤에서 비어 있다.\n\n행객 단: \"다음에 보지.\"",
         "heroEncounter": "wanderer-dan",

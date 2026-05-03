@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "relic-open",
-      "text": "상자를 연다",
+      "text": "돌상자의 뚜껑을 민다",
       "outcome": {
         "text": "뚜껑이 가볍게 들린다. 안에는 빈자리. 한때 무언가를 품었던 눌린 자국만 남는다.",
         "knowledgeGain": ["forgotten-relic"],
@@ -15,7 +15,7 @@
     },
     {
       "id": "relic-bury",
-      "text": "다시 흙을 덮는다",
+      "text": "흙을 다시 덮는다",
       "outcome": {
         "text": "흙이 모서리를 다시 가린다. 손바닥에는 오래된 홈의 감각이 잠깐 남는다.",
         "nextNodeId": "fo-fork"

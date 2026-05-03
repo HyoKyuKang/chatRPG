@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "arrive-look",
-      "text": "주위를 둘러본다",
+      "text": "안개 너머를 살핀다",
       "outcome": {
         "text": "안개가 잠깐 얇아진다. 형체는 없다. 무늬만 있다.",
         "knowledgeGain": [
@@ -17,7 +17,7 @@
     },
     {
       "id": "arrive-stand",
-      "text": "그냥 일어선다",
+      "text": "몸을 일으킨다",
       "outcome": {
         "text": "무릎이 펴진다. 앞으로 가야 한다는 생각만 남는다.",
         "nextNodeId": "fo-stranger"

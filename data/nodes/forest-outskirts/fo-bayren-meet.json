@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "bayren-ask",
-      "text": "이게 무슨 글인지 알려달라",
+      "text": "이 글자, 읽을 수 있나?",
       "outcome": {
         "text": "노인이 턱으로 모닥불 옆 자리를 가리킨다. 그 자리의 흙은 아직 따뜻하다.",
         "heroEncounter": "bayren-rosa",
@@ -15,7 +15,7 @@
     },
     {
       "id": "bayren-greet",
-      "text": "그저 인사만 한다",
+      "text": "길을 묻고 싶다",
       "outcome": {
         "text": "노인이 길게 한숨을 쉰다.\n\n베일런: \"앉아.\"",
         "heroEncounter": "bayren-rosa",

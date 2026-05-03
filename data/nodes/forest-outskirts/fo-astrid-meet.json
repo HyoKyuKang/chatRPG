@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "astrid-join",
-      "text": "함께 가겠다",
+      "text": "혼자보단 낫겠지",
       "outcome": {
         "text": "아스트리드의 어깨가 조금 내려온다. 숨이 길어진다. 검을 고쳐 잡고 너의 옆에 선다.",
         "heroEncounter": "astrid",
@@ -15,7 +15,7 @@
     },
     {
       "id": "astrid-follow",
-      "text": "잠시 보고 따라간다",
+      "text": "말없이 그녀의 뒤를 따른다",
       "outcome": {
         "text": "아스트리드는 말이 없다. 너를 한 번 보고, 두 걸음 앞으로 걸어간다. 발걸음이 너를 기다리는 속도다.",
         "heroEncounter": "astrid",

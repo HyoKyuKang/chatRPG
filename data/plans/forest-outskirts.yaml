@@ -15,12 +15,12 @@ nodes:
     next: [fo-stranger]
     choices:
       - id: arrive-look
-        label: 주위를 둘러본다
+        label: 안개 너머를 살핀다
         outcome:
           knowledgeGain: [glimpse-of-mist]
           nextNodeId: fo-stranger
       - id: arrive-stand
-        label: 그냥 일어선다
+        label: 몸을 일으킨다
         outcome:
           nextNodeId: fo-stranger
 
@@ -33,16 +33,16 @@ nodes:
     next: [fo-fork]
     choices:
       - id: str-who
-        label: 당신은 누구인가
+        label: 여긴 어디지. 넌 누구야?
         outcome:
           nextNodeId: fo-fork
       - id: str-trust
-        label: 너를 믿겠다
+        label: 새벽의 첨탑... 거기로 가면 되나?
         outcome:
           knowledgeGain: [trusted-stranger]
           nextNodeId: fo-fork
       - id: str-reject
-        label: 관심 없다
+        label: 잠깐. 난 아직 아무것도 모른다
         outcome:
           knowledgeGain: [rejected-stranger]
           nextNodeId: fo-fork
@@ -56,12 +56,12 @@ nodes:
     next: [fo-astrid-meet, fo-bayren-meet]
     choices:
       - id: fork-sword
-        label: 녹슨 검을 잡는다
+        label: 녹슨 검 쪽으로 손을 뻗는다
         outcome:
           itemAdd: [rusted-sword]
           nextNodeId: fo-astrid-meet
       - id: fork-scroll
-        label: 낡은 양피지를 펼친다
+        label: 낡은 양피지를 조심스레 펼친다
         outcome:
           itemAdd: [old-scroll]
           knowledgeGain: [mist-meaning]
@@ -76,12 +76,12 @@ nodes:
     next: [fo-astrid-fight]
     choices:
       - id: astrid-join
-        label: 함께 가겠다
+        label: 혼자보단 낫겠지
         outcome:
           heroEncounter: astrid
           nextNodeId: fo-astrid-fight
       - id: astrid-follow
-        label: 잠시 보고 따라간다
+        label: 말없이 그녀의 뒤를 따른다
         outcome:
           heroEncounter: astrid
           nextNodeId: fo-astrid-fight
@@ -96,7 +96,7 @@ nodes:
     next: [fo-warrior-awaken]
     choices:
       - id: fight-swing
-        label: 검을 휘두른다
+        label: 늑대의 옆구리를 노린다
         condition:
           item: rusted-sword
         outcome:
@@ -106,7 +106,7 @@ nodes:
           knowledgeGain: [templar-creed, astrid-respect]
           nextNodeId: fo-warrior-awaken
       - id: fight-cover
-        label: 그녀 뒤에 선다
+        label: 아스트리드 뒤로 물러선다
         outcome:
           enemyDamage: 5
           knowledgeGain: [astrid-doubt]
@@ -121,7 +121,7 @@ nodes:
     next: [fo-converge]
     choices:
       - id: awaken-warrior
-        label: 검을 든 자로 살겠다
+        label: 검을 놓지 않는다
         outcome:
           classSet: warrior
           knowledgeGain: [warrior-awakened]
@@ -136,12 +136,12 @@ nodes:
     next: [fo-bayren-rune]
     choices:
       - id: bayren-ask
-        label: 이게 무슨 글인지 알려달라
+        label: 이 글자, 읽을 수 있나?
         outcome:
           heroEncounter: bayren-rosa
           nextNodeId: fo-bayren-rune
       - id: bayren-greet
-        label: 그저 인사만 한다
+        label: 길을 묻고 싶다
         outcome:
           heroEncounter: bayren-rosa
           nextNodeId: fo-bayren-rune
@@ -155,14 +155,14 @@ nodes:
     next: [fo-mage-awaken]
     choices:
       - id: rune-recite
-        label: 긴 호흡을 하고 외운다
+        label: 숨을 고르고 따라 읽는다
         outcome:
           statDelta:
             mana: -1
           knowledgeGain: [rune-fundamentals, bayren-respect]
           nextNodeId: fo-mage-awaken
       - id: rune-falter
-        label: 주저하다 외운다
+        label: 첫 음절에서 멈칫한다
         outcome:
           statDelta:
             mana: -1
@@ -177,7 +177,7 @@ nodes:
     next: [fo-converge]
     choices:
       - id: awaken-mage
-        label: 룬을 부르는 자로 살겠다
+        label: 룬을 다시 입에 올린다
         outcome:
           classSet: mage
           knowledgeGain: [mage-awakened]
@@ -192,11 +192,11 @@ nodes:
     next: [fo-boss-tree]
     choices:
       - id: conv-march
-        label: 곧장 전진한다
+        label: 검게 시든 길을 따라간다
         outcome:
           nextNodeId: fo-boss-tree
       - id: conv-watch
-        label: 주변을 살피며 간다
+        label: 뿌리 사이를 살피며 간다
         outcome:
           knowledgeGain: [corruption-witnessed]
           nextNodeId: fo-boss-tree
@@ -211,7 +211,7 @@ nodes:
     next: [fo-resolution]
     choices:
       - id: boss-sword
-        label: 검으로 뿌리를 베어낸다
+        label: 뿌리 깊은 곳을 벤다
         condition:
           class: warrior
           item: rusted-sword
@@ -221,7 +221,7 @@ nodes:
           enemyDamage: 8
           nextNodeId: fo-resolution
       - id: boss-rune
-        label: 룬을 던진다
+        label: 룬을 뿌리에 박아 넣는다
         condition:
           class: mage
           item: old-scroll
@@ -232,7 +232,7 @@ nodes:
           itemRemove: [old-scroll]
           nextNodeId: fo-resolution
       - id: boss-flee
-        label: 도망친다
+        label: 뒤돌아 달린다
         outcome:
           enemyDamage: 8
           knowledgeGain: [fled-tree]
