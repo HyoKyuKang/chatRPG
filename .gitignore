@@ -28,3 +28,6 @@ keystore.properties
 *.njsproj
 *.sln
 *.sw?
+
+# Dev editor auto-backups
+scripts/dev-editor/backups/

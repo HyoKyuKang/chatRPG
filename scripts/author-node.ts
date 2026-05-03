@@ -33,6 +33,7 @@ const OutcomeEffectSchema = z
     classSet: z.enum(['warrior', 'mage']).optional(),
     heroEncounter: z.string().optional(),
     nextNodeId: z.string().nullable(),
+    enemyDamage: z.number().int().min(0).optional(),
   })
   .strict()
 
@@ -41,6 +42,7 @@ const ChoicePlanSchema = z
     id: z.string(),
     label: z.string(),
     condition: ConditionSchema.optional(),
+    startsCombat: z.boolean().optional(),
     outcome: OutcomeEffectSchema,
   })
   .strict()
@@ -73,6 +75,7 @@ const NodePlanSchema = z
     next: z.array(z.string()).default([]),
     echoes: z.array(NodeEchoPlanSchema).optional(),
     choices: z.array(ChoicePlanSchema),
+    enemyId: z.string().optional(),
   })
   .strict()
 

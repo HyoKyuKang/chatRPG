@@ -17,7 +17,8 @@
     "cap:sync": "npm run build && npx cap sync android",
     "cap:apk:debug": "npm run cap:sync && cd android && ./gradlew assembleDebug",
     "cap:apk:release": "npm run cap:sync && cd android && ./gradlew bundleRelease",
-    "store:screenshots": "tsx scripts/capture-screenshots.ts"
+    "store:screenshots": "tsx scripts/capture-screenshots.ts",
+    "dev:editor": "node scripts/dev-editor/server.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.1",
