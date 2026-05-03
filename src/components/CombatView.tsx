@@ -1,12 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { data, useGame } from '../store'
 import { activeEnemyActions, currentEnemyAction } from '../lib/combat'
-import type { EnemyPattern } from '../schemas'
+import type { Choice, EnemyPattern } from '../schemas'
 
 // Pips above this threshold get cluttered on mobile width — fall back to a
 // continuous bar. Bosses (shadow-commander 12, consumed-one 14, mawang 16)
 // land in the bar branch; regular enemies (5–10 hp) stay on pips.
 const HP_PIP_MAX = 10
+
+function isChoiceVisible(choice: Choice, run: ReturnType<typeof useGame.getState>['run']) {
+  const c = choice.condition
+  if (!c) return true
+  if (c.class && c.class !== run.classChosen) return false
+  if (c.knowledge && !run.knowledge.includes(c.knowledge)) return false
+  if (c.item && !run.inventory.includes(c.item)) return false
+  if (c.statGte && run.stats[c.statGte.name] < c.statGte.value) return false
+  return true
+}
 
 // Combat panel: occupies the footer slot (where choice buttons usually live)
 // while NodeView keeps showing the chat log above. Engagement is gateway-
@@ -32,7 +42,7 @@ export function CombatView() {
   const phaseInfo = getPhaseInfo(pattern, run.combat.currentTurn)
 
   const visibleChoices = node.choices.filter(
-    (c) => c.startsCombat === undefined,
+    (c) => c.startsCombat === undefined && isChoiceVisible(c, run),
   )
 
   return (

@@ -81,7 +81,7 @@ function applyUnlockEffects(
   meta: MetaState,
 ): { stats: Stats; inventory: string[] } {
   let stats: Stats = { ...baseStats }
-  let inventory = [...baseInventory]
+  const inventory = [...baseInventory]
   for (const id of meta.unlockedBonusIds) {
     const unlock = data.unlocks.get(id)
     if (!unlock) continue
@@ -417,6 +417,7 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
         if (!pattern) return
         const choice = node.choices.find((c) => c.id === choiceId)
         if (!choice) return
+        if (!matchesCondition(choice.condition, run)) return
 
         // Apply player choice's stat delta
         const delta = choice.outcome.statDelta

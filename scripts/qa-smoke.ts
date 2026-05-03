@@ -32,15 +32,15 @@ async function main() {
   await page.reload({ waitUntil: 'networkidle' })
 
   // ─── Mage path → ending ────────────────────────────────────────────
-  await page.waitForSelector('text=안개 속에서 깨어났다')
+  await page.waitForSelector('text=안개 속에서 깨어난다')
   console.log('✓ fo-arrive (fresh state)')
 
   await page.getByRole('button', { name: '주위를 둘러본다' }).click()
-  await page.getByRole('button', { name: '당신을 믿겠다' }).click()
+  await page.getByRole('button', { name: '너를 믿겠다' }).click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtns = await visibleButtons(page)
   console.log(
-    '✓ fo-fork — 양피지 visible (glimpse-of-mist gate):',
+    '✓ fo-fork — 양피지 visible:',
     forkBtns.some((b) => b.includes('양피지')),
   )
 
@@ -116,7 +116,7 @@ async function main() {
   // ─── Wipe localStorage → fresh start for warrior path ───────────────
   await page.evaluate((k) => localStorage.removeItem(k), STORAGE_KEY)
   await page.reload({ waitUntil: 'networkidle' })
-  await page.waitForSelector('text=안개 속에서 깨어났다')
+  await page.waitForSelector('text=안개 속에서 깨어난다')
   body = await bodyText(page)
   console.log('✓ wipe + reload → fresh run, meta cleared:', !/출정/.test(body))
 
@@ -125,8 +125,8 @@ async function main() {
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtnsAlt = await visibleButtons(page)
   console.log(
-    '✓ fo-fork (no glimpse) — 양피지 hidden:',
-    !forkBtnsAlt.some((b) => b.includes('양피지')) &&
+    '✓ fo-fork (no glimpse) — both class choices visible:',
+    forkBtnsAlt.some((b) => b.includes('양피지')) &&
       forkBtnsAlt.some((b) => b.includes('녹슨 검')),
   )
 
@@ -146,7 +146,7 @@ async function main() {
   await page.getByRole('button', { name: '검을 뽑는다' }).click()
   await page.waitForSelector('button:has-text("검을 휘두른다")')
   await page.getByRole('button', { name: '검을 휘두른다' }).click()
-  await page.waitForSelector('text=처음이 아닌 거 같다')
+  await page.waitForSelector('text=처음 잡는 사람 같지 않아')
   console.log('✓ fo-warrior-awaken')
 
   await page.getByRole('button', { name: '검을 든 자로 살겠다' }).click()

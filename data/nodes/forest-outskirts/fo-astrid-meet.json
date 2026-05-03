@@ -8,7 +8,7 @@
       "id": "astrid-join",
       "text": "함께 가겠다",
       "outcome": {
-        "text": "아스트리드의 어깨가 내려온다. 들키지 않으려 한 안도가 들킨다. 검을 고쳐 잡고 너의 옆에 선다.",
+        "text": "아스트리드의 어깨가 조금 내려온다. 숨이 길어진다. 검을 고쳐 잡고 너의 옆에 선다.",
         "heroEncounter": "astrid",
         "nextNodeId": "fo-astrid-fight"
       }

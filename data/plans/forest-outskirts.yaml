@@ -26,9 +26,9 @@ nodes:
 
   - id: fo-stranger
     type: event
-    beat: 첫 캐릭터 등장 — 회색의 자가 안개 사이에서 모습 드러내고 첫 대사 ("드디어 왔구나").
+    beat: 첫 캐릭터 등장 — 회색의 자가 안개 사이에서 모습 드러내고 첫 대사 ("드디어 왔구나"). 여기서 게임의 기본 약속을 짧게 명시한다. 너는 이 순환의 이방인이고, 새벽의 첨탑까지 가야 하며, 마왕의 손이 이미 숲까지 닿았다.
     personas: [narrator, gray-one]
-    toneTarget: 정체 모를 동맹의 첫 등장. 미스터리 + 약간의 권위. 환영보다는 인정. 회색의 자는 자기 정체 안 흘리고 옆으로 비킨다.
+    toneTarget: 정체 모를 동맹의 첫 등장. 미스터리 + 약간의 권위. 환영보다는 인정. 회색의 자는 자기 정체를 숨기되, 플레이어의 목표와 위험은 숨기지 않는다. 설명은 길게 풀지 말고 3~4줄의 대사로 stakes를 박는다.
     previous: [fo-arrive]
     next: [fo-fork]
     choices:
@@ -37,7 +37,7 @@ nodes:
         outcome:
           nextNodeId: fo-fork
       - id: str-trust
-        label: 당신을 믿겠다
+        label: 너를 믿겠다
         outcome:
           knowledgeGain: [trusted-stranger]
           nextNodeId: fo-fork
@@ -62,8 +62,6 @@ nodes:
           nextNodeId: fo-astrid-meet
       - id: fork-scroll
         label: 낡은 양피지를 펼친다
-        condition:
-          knowledge: glimpse-of-mist
         outcome:
           itemAdd: [old-scroll]
           knowledgeGain: [mist-meaning]

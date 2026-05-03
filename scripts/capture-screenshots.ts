@@ -19,7 +19,6 @@ const OUT_DIR = 'notes/store-assets'
 
 // Pixel 7 dimension은 Play Store 권장 1080×1920 와 거의 일치
 const VIEWPORT = { width: 412, height: 915 } // CSS pixels (DPR=2.625 → 1080×~2400)
-const CAPTURE_SIZE = { width: 1080, height: 1920 } // Final capture (cropped)
 
 async function clearStorage(page: Page) {
   await page.evaluate((k) => localStorage.removeItem(k), STORAGE_KEY)
@@ -67,7 +66,7 @@ async function main() {
 
   // ─── 1. fo-arrive prologue ───────────────────────────────
   await clearStorage(page)
-  await page.waitForSelector('text=안개 속에서 깨어났다')
+  await page.waitForSelector('text=안개 속에서 깨어난다')
   await page.waitForTimeout(500)
   await shoot(page, '01-prologue-fo-arrive')
 
@@ -91,7 +90,7 @@ async function main() {
   await page.waitForSelector('button:has-text("검을 휘두른다")')
   await clickButton(page, '검을 휘두른다')
   // fo-warrior-awaken
-  await page.waitForSelector('text=처음이 아닌 거 같다')
+  await page.waitForSelector('text=처음 잡는 사람 같지 않아')
   await clickButton(page, '검을 든 자로 살겠다')
   await page.waitForSelector('text=썩은 단 냄새')
   await clickButton(page, '곧장 전진한다')

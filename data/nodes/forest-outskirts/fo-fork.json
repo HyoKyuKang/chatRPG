@@ -16,7 +16,6 @@
     {
       "id": "fork-scroll",
       "text": "낡은 양피지를 펼친다",
-      "condition": { "knowledge": "glimpse-of-mist" },
       "outcome": {
         "text": "양피지가 갈라지는 소리 없이 펼쳐진다. 룬이 새겨져 있다. 글자의 홈마다 안개가 얇게 고인다.",
         "itemAdd": ["old-scroll"],
