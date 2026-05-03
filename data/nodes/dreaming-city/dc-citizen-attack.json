@@ -10,7 +10,7 @@
       "text": "그를 떼어낸다",
       "startsCombat": true,
       "outcome": {
-        "text": "환영이 너의 옷자락에서 한 결 더 깊어진다.",
+        "text": "환영이 너의 옷자락 안쪽으로 더 깊이 스며든다.",
         "nextNodeId": null
       }
     },
@@ -38,7 +38,7 @@
       "id": "citizen-attack-name",
       "text": "그의 이름을 묻는다",
       "outcome": {
-        "text": "너는 그의 이름을 묻는다. 그의 입이 한 결 떨리고 — 자리에 빈 결만 남는다. 환영이 무너지듯 흩어진다.",
+        "text": "너는 그의 이름을 묻는다. 그의 입이 잠깐 떨리고 — 있던 자리에 빈 윤곽만 남는다. 환영이 무너지듯 흩어진다.",
         "statDelta": { "hp": -1 },
         "enemyDamage": 5,
         "knowledgeGain": ["city-illusion"],

@@ -8,7 +8,7 @@
       "id": "old-look",
       "text": "균열을 자세히 본다",
       "outcome": {
-        "text": "너는 벽 가까이 다가선다. 균열의 결이 손끝에서 떨린다. 환영의 살갗이 얇다.",
+        "text": "너는 벽 가까이 다가선다. 균열이 손끝에서 떨린다. 환영의 살갗이 얇다.",
         "knowledgeGain": [
           "broken-illusion"
         ],

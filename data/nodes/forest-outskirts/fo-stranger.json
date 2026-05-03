@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "str-who",
-      "text": "당신은 누구인가",
+      "text": "너는 누구인가",
       "outcome": {
         "text": "회색의 자는 한 박자 늦게 입을 연다.\n\n회색의 자: \"그건 중요하지 않다. 지금은.\"\n\n답이 아닌 다른 말이 흘러나온다.",
         "nextNodeId": "fo-fork"
@@ -14,7 +14,7 @@
     },
     {
       "id": "str-trust",
-      "text": "당신을 믿겠다",
+      "text": "너를 믿겠다",
       "outcome": {
         "text": "말이 입에서 나오자 안개가 잠깐 얕아진다. 회색의 자는 고개를 한 번 끄덕인다.",
         "knowledgeGain": [

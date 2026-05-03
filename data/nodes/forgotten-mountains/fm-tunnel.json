@@ -2,7 +2,7 @@
   "id": "fm-tunnel",
   "region": "forgotten-mountains",
   "type": "encounter",
-  "description": "통로는 좁다. 어깨가 양쪽 벽을 스친다.\n\n빛이 없다. 손끝으로 돌의 결을 읽으며 나아간다.\n\n위쪽 어딘가에서 발자국 소리. 멀고, 무겁고, 여럿이다.",
+  "description": "통로는 좁다. 어깨가 양쪽 벽을 스친다.\n\n빛이 없다. 손끝으로 거친 돌벽을 더듬으며 나아간다.\n\n위쪽 어딘가에서 발자국 소리. 멀고, 무겁고, 여럿이다.",
   "choices": [
     {
       "id": "tunnel-quiet",

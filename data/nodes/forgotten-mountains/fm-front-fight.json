@@ -28,7 +28,7 @@
       "id": "fight-engage",
       "text": "맞선다",
       "outcome": {
-        "text": "쇠가 쇠에 부딪히고, 살이 갈라진다. 어깨에 뜨거운 줄 하나가 그어진다. 첫 사람의 피는 너의 것이다.",
+        "text": "쇠가 쇠에 부딪히고, 살이 갈라진다. 어깨에 뜨거운 줄 하나가 그어진다. 늑대가 아니다. 사람을 상대로 흘린 첫 피다.",
         "statDelta": { "hp": -2 },
         "enemyDamage": 6,
         "nextNodeId": "fm-front-tower"

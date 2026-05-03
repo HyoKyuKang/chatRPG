@@ -8,7 +8,7 @@
       "id": "market-blend",
       "text": "군중에 섞인다",
       "outcome": {
-        "text": "환영의 결에 너의 정신이 한 겹 닳는다.",
+        "text": "환영의 빛에 정신이 얇게 닳는다.",
         "statDelta": {
           "mana": -1
         },

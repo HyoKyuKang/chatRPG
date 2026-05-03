@@ -6,7 +6,7 @@
   "choices": [
     {
       "id": "shop-trade-mp",
-      "text": "피로 마음의 결을 산다 (HP -1, MP +2)",
+      "text": "피로 맑은 한 모금을 산다 (HP -1, MP +2)",
       "outcome": {
         "text": "단이 작은 단지를 내민다. 한 모금. 머리가 맑아지고, 손끝이 시린다.",
         "statDelta": { "hp": -1, "mana": 2 },
@@ -18,7 +18,7 @@
       "id": "shop-buy-herb",
       "text": "마른 약초를 산다 (MP -1)",
       "outcome": {
-        "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 손바닥에 닿는 결이 가볍다.",
+        "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 손바닥에 닿는 감촉이 가볍다.",
         "statDelta": { "mana": -1 },
         "itemAdd": ["dried-herb"],
         "heroEncounter": "wanderer-dan",

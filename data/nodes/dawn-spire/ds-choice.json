@@ -28,7 +28,7 @@
     },
     {
       "id": "choice-sacrifice",
-      "text": "자기 자신을 봉인한다",
+      "text": "스스로를 봉인한다",
       "outcome": {
         "text": "너는 두 손을 가슴에 모은다. 빛이 안에서 무너지기 시작한다.",
         "knowledgeGain": [

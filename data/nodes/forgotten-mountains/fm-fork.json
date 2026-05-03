@@ -32,7 +32,7 @@
       "id": "fork-side-banner",
       "text": "다른 길을 살핀다",
       "outcome": {
-        "text": "샛길의 흙은 사람이 자주 다닌 결이 아니다. 비스듬히 꽂힌 자국이 멀리서 비친다.",
+        "text": "샛길의 흙에는 발자국이 거의 없다. 비스듬히 꽂힌 자국이 멀리서 비친다.",
         "nextNodeId": "fm-discovery-banner"
       }
     }

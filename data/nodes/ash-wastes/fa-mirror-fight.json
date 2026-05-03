@@ -3,14 +3,14 @@
   "region": "ash-wastes",
   "type": "combat",
   "enemyId": "consumed-fanatic",
-  "description": "흑요석 거울 면이 한 결 떨린다. 거울 속의 너가 한 걸음을 먼저 내딛는다.\n\n같은 자세, 같은 망토. 다만 이름의 자리가 비어 있다.\n\n그가 거울에서 빠져나온다 — 광기 부대의 짧은 음절을 흥얼거리며.",
+  "description": "흑요석 거울 면이 얕게 떨린다. 거울 속의 네가 한 걸음을 먼저 내딛는다.\n\n같은 자세, 같은 망토. 다만 이름의 자리가 비어 있다.\n\n그가 거울에서 빠져나온다 — 광기 부대의 짧은 음절을 흥얼거리며.",
   "choices": [
     {
       "id": "engage",
       "text": "그를 마주본다",
       "startsCombat": true,
       "outcome": {
-        "text": "흑요석 거울의 결이 한 박자 더 어두워진다. 너의 자세와 그의 자세가 같다.",
+        "text": "흑요석 거울이 한 박자 더 어두워진다. 너의 자세와 그의 자세가 같다.",
         "nextNodeId": null
       }
     },
@@ -19,7 +19,7 @@
       "text": "거울에서 시선을 거둔다",
       "startsCombat": false,
       "outcome": {
-        "text": "너는 거울에서 시선을 거둔다. 거울 속의 자가 한 결 흔들린다 — 그러나 사라지지 않는다. 너의 등 뒤로 따라온다, 한 박자 늦게.",
+        "text": "너는 거울에서 시선을 거둔다. 거울 속의 자가 잠깐 흔들린다 — 그러나 사라지지 않는다. 너의 등 뒤로 따라온다, 한 박자 늦게.",
         "statDelta": { "mana": -1 },
         "nextNodeId": "fa-converge"
       }
@@ -28,7 +28,7 @@
       "id": "mirror-fight-self",
       "text": "거울 속의 자를 친다",
       "outcome": {
-        "text": "너는 너 자신을 친다. 검은 결이 흩어지며, 그의 입에서 마지막 음절이 끊긴다. 거울 면이 한 결 더 어두워진다.",
+        "text": "너는 너와 같은 얼굴을 친다. 검은 빛이 흩어지고, 그의 입에서 마지막 음절이 끊긴다. 거울 면이 조금 더 어두워진다.",
         "statDelta": { "mana": -1 },
         "enemyDamage": 7,
         "knowledgeGain": ["mirror-self"],
@@ -39,7 +39,7 @@
       "id": "mirror-fight-name",
       "text": "너의 이름을 부른다",
       "outcome": {
-        "text": "너는 너의 이름을 짧게 부른다. 거울 속의 자가 한 결 흔들린다 — 그 자리에서 흩어진다. 너의 머릿속 한 칸이 너의 것으로 돌아온다.",
+        "text": "너는 너의 이름을 짧게 부른다. 거울 속의 자가 잠깐 흔들린다 — 그 자리에서 흩어진다. 머릿속 빈칸 하나가 다시 네 쪽으로 돌아온다.",
         "statDelta": { "mana": -2 },
         "enemyDamage": 7,
         "knowledgeGain": ["mirror-self"],
