@@ -72,7 +72,7 @@ async function main() {
 
   // ─── 2. fo-astrid-meet (warrior path) ───────────────────
   await clickButton(page, '몸을 일으킨다')
-  await clickButton(page, '잠깐. 난 아직 아무것도 모른다')
+  await clickButton(page, '잠깐. 난 아직 아무것도 몰라')
   await page.waitForSelector('text=두 가지가 놓여 있다')
   await clickButton(page, '녹슨 검 쪽으로 손을 뻗는다')
   await page.waitForSelector('text=신참 템플러')

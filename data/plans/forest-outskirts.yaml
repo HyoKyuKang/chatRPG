@@ -42,7 +42,7 @@ nodes:
           knowledgeGain: [trusted-stranger]
           nextNodeId: fo-fork
       - id: str-reject
-        label: 잠깐. 난 아직 아무것도 모른다
+        label: 잠깐. 난 아직 아무것도 몰라
         outcome:
           knowledgeGain: [rejected-stranger]
           nextNodeId: fo-fork
@@ -141,7 +141,7 @@ nodes:
           heroEncounter: bayren-rosa
           nextNodeId: fo-bayren-rune
       - id: bayren-greet
-        label: 길을 묻고 싶다
+        label: 여긴 어디로 가는 길이야?
         outcome:
           heroEncounter: bayren-rosa
           nextNodeId: fo-bayren-rune

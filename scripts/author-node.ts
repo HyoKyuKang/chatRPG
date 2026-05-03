@@ -127,6 +127,10 @@ async function loadPersona(id: string): Promise<string> {
   return readFile(join('personas', `${id}.md`), 'utf8')
 }
 
+async function loadChoiceVoiceGuide(): Promise<string> {
+  return readFile(join('personas', '_choice-voice.md'), 'utf8')
+}
+
 function findNode(plan: RegionPlan, nodeId: string): NodePlan {
   const node = plan.nodes.find((n) => n.id === nodeId)
   if (!node) throw new Error(`Node "${nodeId}" not found in plan ${plan.region}`)
@@ -143,6 +147,7 @@ async function buildBrief(planPath: string, nodeId: string): Promise<string> {
       return `# 페르소나: ${id}\n\n${text.trim()}`
     }),
   )
+  const choiceVoiceGuide = await loadChoiceVoiceGuide()
 
   const choicesSection =
     node.choices.length === 0
@@ -194,6 +199,10 @@ ${node.choices
 
 ${personaContents.join('\n\n')}
 
+# 공통 선택지 voice 룰
+
+${choiceVoiceGuide.trim()}
+
 # 노드 brief: ${node.id}
 
 ## 메타
@@ -221,6 +230,7 @@ ${outputSchema}
 
 규칙:
 - choice text는 입력 라벨 verbatim. 변경 금지.
+- 새 선택지 라벨을 설계할 때는 반드시 공통 선택지 voice 룰을 따른다. 여기서는 이미 정해진 label을 그대로 반환한다.
 - description은 narrator voice. 캐릭터 대사는 별도 단락 ("화자명: \\"...\\"" 형식, 대괄호 X).
 - outcome_text는 narrator voice. 캐릭터 짧은 반응 인용 가능.
 - 출력은 JSON 한 객체만. 코드펜스 금지, 설명 금지.`
@@ -326,6 +336,7 @@ async function buildReviewBrief(
       return `# 페르소나: ${id}\n\n${text.trim()}`
     }),
   )
+  const choiceVoiceGuide = await loadChoiceVoiceGuide()
 
   const prose = await loadExistingProse(plan.region, nodeId)
 
@@ -342,6 +353,10 @@ async function buildReviewBrief(
   return `한국어 텍스트 RPG "이 세계는 끝날 거야" 노드 1개의 prose를 평가. 첨부된 페르소나 voice와 톤 타겟에 얼마나 일치하는지 채점.
 
 ${personaContents.join('\n\n')}
+
+# 공통 선택지 voice 룰
+
+${choiceVoiceGuide.trim()}
 
 # 평가 대상 노드: ${node.id}
 
@@ -367,6 +382,7 @@ ${outcomesSection}
 1. **voiceMatch (0~5)** — 페르소나 voice와의 일치도
    - narrator: 2인칭 "너", 현재형, 단문, 비유 절제. "당신" / "...였다" / "느꼈다" 금지.
    - 캐릭터: 해당 페르소나 MD의 화법.
+   - choice text: 공통 선택지 voice 룰과 일치해야 함. 메뉴 라벨이 아니라 이방인의 즉각적 반응/행동이어야 함.
    - 5 = 완전 일치, 4 = 작은 흠집, 3 = 명백한 깨짐 1~2 곳, 2↓ = 다른 voice.
 
 2. **toneMatch (0~5)** — 톤 타겟의 정서/긴장과 일치도

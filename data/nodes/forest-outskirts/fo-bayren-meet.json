@@ -15,7 +15,7 @@
     },
     {
       "id": "bayren-greet",
-      "text": "길을 묻고 싶다",
+      "text": "여긴 어디로 가는 길이야?",
       "outcome": {
         "text": "노인이 길게 한숨을 쉰다.\n\n베일런: \"앉아.\"",
         "heroEncounter": "bayren-rosa",

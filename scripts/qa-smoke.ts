@@ -124,7 +124,7 @@ async function main() {
 
   await page.getByRole('button', { name: '몸을 일으킨다' }).click()
   await page
-    .getByRole('button', { name: '잠깐. 난 아직 아무것도 모른다' })
+    .getByRole('button', { name: '잠깐. 난 아직 아무것도 몰라' })
     .click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtnsAlt = await visibleButtons(page)

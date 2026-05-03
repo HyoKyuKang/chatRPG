@@ -17,7 +17,7 @@
     },
     {
       "id": "shop-buy-herb",
-      "text": "약초를 우려 달라 한다",
+      "text": "약초가 있나",
       "condition": { "statGte": { "name": "mana", "value": 1 } },
       "outcome": {
         "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 물 위에 잎이 가라앉자 숨이 조금 깊어진다.",
