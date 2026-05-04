@@ -16,6 +16,22 @@
     {
       "condition": { "knowledge": "chose-wake" },
       "text": "마왕: \"...도시를 깨운 자로구나. 시민들의 비명이 너의 등 뒤에서 따라왔겠지.\""
+    },
+    {
+      "condition": { "knowledge": "fled-corrupted" },
+      "text": "광기 부대의 짧은 음절이 옥좌실 끝에서 한 박자 늦게 따라온다. 마왕은 그 음절을 알아듣는 얼굴이다."
+    },
+    {
+      "condition": { "knowledge": "mirror-self" },
+      "text": "흑요석 거울 속에서 한 걸음 짧던 네 모습이 옥좌의 검은 돌에 다시 비친다."
+    },
+    {
+      "condition": { "knowledge": "astrid-respect" },
+      "text": "아스트리드의 신조 한 줄이 칼끝에 남아 있다. 단순해서, 아직 무너지지 않은 말."
+    },
+    {
+      "condition": { "knowledge": "bayren-respect" },
+      "text": "베일런 노사가 흙바닥에 그어 준 룬 세 줄이 손끝에서 다시 차갑게 선다."
     }
   ],
   "choices": [

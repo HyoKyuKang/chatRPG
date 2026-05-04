@@ -11,7 +11,7 @@
         "text": "탈영자가 작은 단지를 내민다. 한 모금. 머리가 차고, 손끝이 시린다.",
         "statDelta": { "hp": -1, "mana": 2 },
         "heroEncounter": "deserter",
-        "nextNodeId": "fm-fork"
+        "nextNodeId": "fm-front-fight"
       }
     },
     {
@@ -21,7 +21,7 @@
         "text": "탈영자가 너의 손바닥에 마른 잎 한 줌을 올린다. 짙게 우려 마시자 가슴이 따뜻하게 풀린다.",
         "statDelta": { "mana": -1, "hp": 2 },
         "heroEncounter": "deserter",
-        "nextNodeId": "fm-fork"
+        "nextNodeId": "fm-front-fight"
       }
     },
     {

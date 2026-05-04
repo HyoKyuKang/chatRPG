@@ -136,7 +136,7 @@ async function main() {
     const f = `${DATA}/regions/${region.id}.json`
     if (!nodes.has(region.entryNodeId))
       err(f, `entryNodeId "${region.entryNodeId}" not found`)
-    if (!nodes.has(region.bossNodeId))
+    if (region.bossNodeId && !nodes.has(region.bossNodeId))
       err(f, `bossNodeId "${region.bossNodeId}" not found`)
     for (const nid of region.nodeIds)
       if (!nodes.has(nid)) err(f, `nodeIds: "${nid}" not found`)

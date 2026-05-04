@@ -1,0 +1,42 @@
+{
+  "id": "fo-side-paths",
+  "region": "forest-outskirts",
+  "type": "encounter",
+  "description": "회색의 자가 앞장선다. 등은 흔들리지 않는다.\n\n길이 한 번 갈라진다. 한쪽에서 물소리가 낮게 들린다. 다른 한쪽에는 발자국 없는 샛길이 나무 사이로 굽는다.\n\n회색의 자가 멈추지 않는다. 잠깐 망설일 자리가 너에게 있다.",
+  "echoes": [
+    {
+      "condition": { "knowledge": "waking-touch" },
+      "text": "발 밑의 흙은 깨어난 자리의 흙과 같은 결이다."
+    },
+    {
+      "condition": { "knowledge": "glimpse-of-mist" },
+      "text": "안개 너머에서 본 솟은 끝의 방향은, 두 갈래 모두 아니다."
+    }
+  ],
+  "choices": [
+    {
+      "id": "side-spring",
+      "text": "물소리 쪽으로 한 발.",
+      "outcome": {
+        "text": "회색의 자가 잠깐 멈춘다. 돌아보지 않는다. 다시 한 발 앞선다.",
+        "nextNodeId": "fo-rest-spring"
+      }
+    },
+    {
+      "id": "side-relic",
+      "text": "발자국 없는 샛길로.",
+      "outcome": {
+        "text": "샛길에는 발자국이 거의 없다. 그런데도 발이 그쪽으로 간다.",
+        "nextNodeId": "fo-discovery-relic"
+      }
+    },
+    {
+      "id": "side-follow",
+      "text": "회색의 자를 따라간다.",
+      "outcome": {
+        "text": "회색의 자의 등을 본다. 발걸음을 맞춘다.",
+        "nextNodeId": "fo-fork"
+      }
+    }
+  ]
+}

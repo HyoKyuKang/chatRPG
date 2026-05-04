@@ -5,6 +5,11 @@
     "description": "안개가 그저 안개가 아니라는 것을 잠깐 느꼈다."
   },
   {
+    "id": "waking-touch",
+    "name": "깨어난 자리의 흙",
+    "description": "안개 속에서 처음 손에 닿은 흙의 결. 이름보다 손이 먼저 기억하는 자리."
+  },
+  {
     "id": "trusted-stranger",
     "name": "회색의 자에게 응답함",
     "description": "정체 모를 자의 말을 일단 따르기로 했다."

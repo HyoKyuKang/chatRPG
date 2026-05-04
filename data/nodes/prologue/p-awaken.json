@@ -1,0 +1,16 @@
+{
+  "id": "p-awaken",
+  "region": "prologue",
+  "type": "event",
+  "description": "한 이방인. 이름을 잃은 채.\n\n안개에 실려 풀밭에 닿았다. 숨이 붙어 있었다.\n\n안개가 흔들렸다.",
+  "choices": [
+    {
+      "id": "p-awaken-next",
+      "text": "...",
+      "outcome": {
+        "text": "이방인이 눈을 뜬다.",
+        "nextNodeId": "fo-arrive"
+      }
+    }
+  ]
+}

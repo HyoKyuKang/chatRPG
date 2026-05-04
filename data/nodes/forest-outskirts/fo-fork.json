@@ -2,11 +2,17 @@
   "id": "fo-fork",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "죽은 나무 앞에서 발이 멈춘다. 가지는 검고 잎은 없다.\n\n뿌리 사이에 두 가지가 놓여 있다. 녹슨 검 하나. 낡은 양피지 하나. 둘 다 오래전부터 여기 있던 물건처럼 조용하다.\n\n멀리서 목소리가 들린다.\n\n회색의 자: \"손이 가는 쪽으로 가라.\"",
+  "description": "죽은 나무 앞에서 발이 멈춘다. 가지는 검고 잎은 없다.\n\n뿌리 사이에 두 가지가 놓여 있다. 녹슨 검 하나. 낡은 양피지 하나. 둘 다 오래전부터 여기 있던 물건처럼 조용하다.\n\n회색의 자: \"손이 가는 쪽으로 가라.\"",
+  "echoes": [
+    {
+      "condition": { "knowledge": "waking-touch" },
+      "text": "조금 전 흙을 짚었던 손바닥이 잠깐 떨린다."
+    }
+  ],
   "choices": [
     {
       "id": "fork-sword",
-      "text": "녹슨 검 쪽으로 손을 뻗는다",
+      "text": "녹슨 검 쪽으로 손을 뻗는다.",
       "outcome": {
         "text": "자루가 손에 들어온다. 무겁다. 손바닥이 패인 자리를 찾아 눌린다. 처음 잡는 물건 같지 않다.",
         "itemAdd": ["rusted-sword"],
@@ -15,28 +21,12 @@
     },
     {
       "id": "fork-scroll",
-      "text": "낡은 양피지를 조심스레 펼친다",
+      "text": "낡은 양피지를 조심스레 펼친다.",
       "outcome": {
         "text": "양피지를 펼친다. 종이는 낡았지만 찢어지지 않는다. 흐릿한 룬 사이로 안개가 얇게 고인다.",
         "itemAdd": ["old-scroll"],
         "knowledgeGain": ["mist-meaning"],
         "nextNodeId": "fo-bayren-meet"
-      }
-    },
-    {
-      "id": "fork-spring",
-      "text": "물소리 나는 쪽으로 가본다",
-      "outcome": {
-        "text": "길에서 한 발 비켜선다. 풀잎이 물소리 나는 쪽으로 누워 있다.",
-        "nextNodeId": "fo-rest-spring"
-      }
-    },
-    {
-      "id": "fork-side-path",
-      "text": "발자국 없는 샛길을 본다",
-      "outcome": {
-        "text": "샛길에는 발자국이 거의 없다. 그런데도 이상하게 눈이 간다.",
-        "nextNodeId": "fo-discovery-relic"
       }
     }
   ]

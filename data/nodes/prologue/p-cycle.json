@@ -1,0 +1,16 @@
+{
+  "id": "p-cycle",
+  "region": "prologue",
+  "type": "event",
+  "description": "안개는 사람을 삼켰다. 한참 뒤에, 사람을 데려왔다.\n\n어디서 왔는지 모르는 자들. 이름을 말하지 못했고, 가야 할 곳만 알았다.\n\n이방인이라 불렀다. 가는 곳은 새벽의 첨탑.",
+  "choices": [
+    {
+      "id": "p-cycle-next",
+      "text": "...누가 보냈는가.",
+      "outcome": {
+        "text": "아무도 몰랐다. 안개가 답하지 않았다.",
+        "nextNodeId": "p-walkers"
+      }
+    }
+  ]
+}

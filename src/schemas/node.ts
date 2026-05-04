@@ -55,6 +55,7 @@ export const Node = z
     region: RegionId,
     type: NodeType,
     description: z.string(),
+    image: z.string().optional(),
     echoes: z.array(NodeEcho).optional(),
     choices: z.array(Choice),
     enemyId: z.string().optional(),

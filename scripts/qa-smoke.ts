@@ -14,6 +14,19 @@ async function bodyText(page: Page) {
   return (await page.locator('body').textContent()) ?? ''
 }
 
+async function advancePrologue(page: Page) {
+  await page.waitForSelector('text=옛날, 이 땅에는 안개가 없었다')
+  await page.getByRole('button', { name: '첨탑의 빛이 꺼진 이후...' }).click()
+  await page.getByRole('button', { name: '...누가 보냈는가.' }).click()
+  await page.getByRole('button', { name: '...셋은 무엇을 보았는가.' }).click()
+  await page
+    .getByRole('button', { name: '...그 후 세상은 어찌 되었는가.' })
+    .click()
+  await page.getByRole('button', { name: '...누가 올 것인가.' }).click()
+  await page.getByRole('button', { name: '...' }).click()
+  await page.waitForSelector('text=안개 속에서 깨어난다')
+}
+
 async function main() {
   const browser = await chromium.launch({
     executablePath: CHROME,
@@ -32,13 +45,12 @@ async function main() {
   await page.reload({ waitUntil: 'networkidle' })
 
   // ─── Mage path → ending ────────────────────────────────────────────
-  await page.waitForSelector('text=안개 속에서 깨어난다')
-  console.log('✓ fo-arrive (fresh state)')
+  await advancePrologue(page)
+  console.log('✓ prologue → fo-arrive (fresh state)')
 
-  await page.getByRole('button', { name: '안개 너머를 살핀다' }).click()
-  await page
-    .getByRole('button', { name: '새벽의 첨탑... 거기로 가면 되나?' })
-    .click()
+  await page.getByRole('button', { name: '안개 너머를 본다.' }).click()
+  await page.getByRole('button', { name: '어디로 가?' }).click()
+  await page.getByRole('button', { name: '회색의 자를 따라간다.' }).click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtns = await visibleButtons(page)
   console.log(
@@ -46,7 +58,7 @@ async function main() {
     forkBtns.some((b) => b.includes('양피지')),
   )
 
-  await page.getByRole('button', { name: '낡은 양피지를 조심스레 펼친다' }).click()
+  await page.getByRole('button', { name: '낡은 양피지를 조심스레 펼친다.' }).click()
   await page.waitForSelector('text=흰 머리의 노인')
   console.log('✓ fo-bayren-meet')
 
@@ -120,14 +132,16 @@ async function main() {
   // ─── Wipe localStorage → fresh start for warrior path ───────────────
   await page.evaluate((k) => localStorage.removeItem(k), STORAGE_KEY)
   await page.reload({ waitUntil: 'networkidle' })
-  await page.waitForSelector('text=안개 속에서 깨어난다')
+  await advancePrologue(page)
   body = await bodyText(page)
-  console.log('✓ wipe + reload → fresh run, meta cleared:', !/출정/.test(body))
+  console.log(
+    '✓ wipe + reload → fresh prologue run, meta cleared:',
+    !/출정/.test(body),
+  )
 
-  await page.getByRole('button', { name: '몸을 일으킨다' }).click()
-  await page
-    .getByRole('button', { name: '잠깐. 난 아직 아무것도 몰라' })
-    .click()
+  await page.getByRole('button', { name: '손바닥으로 흙을 짚는다.' }).click()
+  await page.getByRole('button', { name: '...본다.' }).click()
+  await page.getByRole('button', { name: '회색의 자를 따라간다.' }).click()
   await page.waitForSelector('text=두 가지가 놓여 있다')
   const forkBtnsAlt = await visibleButtons(page)
   console.log(
@@ -136,7 +150,7 @@ async function main() {
       forkBtnsAlt.some((b) => b.includes('녹슨 검')),
   )
 
-  await page.getByRole('button', { name: '녹슨 검 쪽으로 손을 뻗는다' }).click()
+  await page.getByRole('button', { name: '녹슨 검 쪽으로 손을 뻗는다.' }).click()
   await page.waitForSelector('text=신참 템플러')
   console.log('✓ fo-astrid-meet')
 

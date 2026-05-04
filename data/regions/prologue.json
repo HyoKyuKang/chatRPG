@@ -1,0 +1,15 @@
+{
+  "id": "prologue",
+  "name": "프롤로그",
+  "description": "이방인이 깨어나기 전. 안개와 첨탑, 그리고 먼저 걸어간 자들의 이야기.",
+  "entryNodeId": "p-genesis",
+  "nextRegion": "forest-outskirts",
+  "nodeIds": [
+    "p-genesis",
+    "p-cycle",
+    "p-walkers",
+    "p-betrayal",
+    "p-now",
+    "p-awaken"
+  ]
+}

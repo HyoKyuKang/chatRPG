@@ -1,0 +1,16 @@
+{
+  "id": "p-betrayal",
+  "region": "prologue",
+  "type": "event",
+  "description": "가장 멀리 간 자.\n\n봉인을 보았다. 봉인이 자기 살을 원한다는 것을 알았다.\n\n봉인 대신 봉인을 풀었다.\n\n사람들은 그 자를 마왕이라 불렀다.",
+  "choices": [
+    {
+      "id": "p-betrayal-next",
+      "text": "...그 후 세상은 어찌 되었는가.",
+      "outcome": {
+        "text": "마왕의 손이 봉인의 균열에서 다시 뻗어 나왔다. 안개는 깊어졌다.",
+        "nextNodeId": "p-now"
+      }
+    }
+  ]
+}

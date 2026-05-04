@@ -1,0 +1,16 @@
+{
+  "id": "p-walkers",
+  "region": "prologue",
+  "type": "event",
+  "description": "한 명이 갔다. 또 한 명이 갔다.\n\n어떤 자는 산을 넘다 잠들었다. 어떤 자는 잿빛 황야에서 자기 그림자에게 졌다. 어떤 자는 꿈꾸는 도시에서 자기 이름을 잃었다.\n\n첨탑까지 닿은 자는 셋.",
+  "choices": [
+    {
+      "id": "p-walkers-next",
+      "text": "...셋은 무엇을 보았는가.",
+      "outcome": {
+        "text": "꼭대기에 봉인이 있었다. 봉인은 한 사람의 살을 원했다.",
+        "nextNodeId": "p-betrayal"
+      }
+    }
+  ]
+}

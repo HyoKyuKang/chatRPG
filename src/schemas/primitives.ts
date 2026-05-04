@@ -23,6 +23,7 @@ export const StatDelta = z
 export type StatDelta = z.infer<typeof StatDelta>
 
 export const RegionId = z.enum([
+  'prologue',
   'forest-outskirts',
   'forgotten-mountains',
   'ash-wastes',

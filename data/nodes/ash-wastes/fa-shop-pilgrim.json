@@ -11,7 +11,7 @@
         "text": "순례자가 작은 단지를 내민다. 한 모금. 머리가 맑아지고, 손끝이 시리다.\n\n순례자: \"...값은 받았네. 이름은 담보로 걸지 마시오.\"",
         "statDelta": { "hp": -1, "mana": 2 },
         "heroEncounter": "pilgrim",
-        "nextNodeId": "fa-fork"
+        "nextNodeId": "fa-dune"
       }
     },
     {
@@ -21,7 +21,7 @@
         "text": "순례자가 너의 손바닥에 마른 잎 한 줌을 올린다. 짙게 우려 마시자 가슴이 느리게 풀린다.\n\n순례자: \"...잠은 빚이 아니네. 갚으려 들지 마시오.\"",
         "statDelta": { "mana": -1, "hp": 2 },
         "heroEncounter": "pilgrim",
-        "nextNodeId": "fa-fork"
+        "nextNodeId": "fa-dune"
       }
     },
     {

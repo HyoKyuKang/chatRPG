@@ -3,6 +3,28 @@
   "region": "dawn-spire",
   "type": "event",
   "description": "탑의 정점. 바람은 멈춰 있다.\n\n마왕은 옥좌에 앉아 너를 본다. 막지 않는다. 손끝에 검은 불꽃이 졸고 있다.\n\n회색의 자는 한 걸음 뒤에 선다. 입을 열지 않는다. 그의 눈은 너의 손끝을 따라간다.\n\n마왕: \"끝은 어차피 같다. 형태만 다르다.\"\n\n셋의 숨이 같은 공기를 나눈다. 너의 손이 한 박자 멈춘다. 옥좌실의 공기가 그 한 박자만큼 길어진다.",
+  "echoes": [
+    {
+      "condition": { "knowledge": "chose-end" },
+      "text": "잠든 왕의 마지막 숨이 네 손에 남아 있다. 끊는 일은 이미 한 번 네 손을 지나갔다."
+    },
+    {
+      "condition": { "knowledge": "chose-leave" },
+      "text": "닫힌 옥좌실 문 하나가 기억 안쪽에서 다시 닫힌다. 그대로 두고 떠난 도시가 네 등 뒤에 있다."
+    },
+    {
+      "condition": { "knowledge": "ethical-weight" },
+      "text": "왕의 꿈 앞에서 고르지 못한 깨끗함이 여기에도 없다. 셋 다 손을 더럽히는 길이다."
+    },
+    {
+      "condition": { "knowledge": "fled-shadow" },
+      "text": "사령관 앞에서 돌렸던 등이 한 박자 무겁다. 이번에도 물러날 수 있는 자리가 보인다."
+    },
+    {
+      "condition": { "knowledge": "fled-tree" },
+      "text": "숲의 거대한 나무에게서 돌아섰던 첫 걸음이 계단 아래에서 다시 올라온다."
+    }
+  ],
   "choices": [
     {
       "id": "choice-defeat",

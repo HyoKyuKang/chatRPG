@@ -14,14 +14,14 @@ export { activeEnemyActions, currentEnemyAction } from './lib/combat'
 
 export const data = loadGameData()
 
-const STARTING_REGION = 'forest-outskirts' as const
+const STARTING_REGION = 'prologue' as const
 const STARTING_STATS: Stats = { hp: 5, mana: 3 }
 const SHARDS_PER_DEATH = 1
 const SHARDS_PER_ENDING = 3
 const STORAGE_KEY = 'chat-rpg/save-v1'
 
 export type HistoryEntry =
-  | { kind: 'node'; text: string }
+  | { kind: 'node'; text: string; nodeId?: string }
   | { kind: 'choice'; text: string }
   | { kind: 'outcome'; text: string }
   | { kind: 'death'; text: string }
@@ -67,6 +67,8 @@ interface Actions {
   setAppView: (view: AppView) => void
   setBgmEnabled: (enabled: boolean) => void
   setBgmVolume: (volume: number) => void
+  setSfxEnabled: (enabled: boolean) => void
+  setSfxVolume: (volume: number) => void
   engageCombat: (enemyId: string) => void
   // Gateway click: log the choice as a history entry, then engage combat.
   // Used by NodeView when a choice on a type='combat' node has startsCombat=true.
@@ -120,7 +122,7 @@ function freshRun(meta: MetaState): RunState {
     ...run,
     history: [
       { kind: 'region-marker', regionId: region.id, regionName: region.name },
-      { kind: 'node', text: renderNodeText(entry, run) },
+      { kind: 'node', text: renderNodeText(entry, run), nodeId: entry.id },
     ],
   }
 }
@@ -136,6 +138,8 @@ function freshMeta(): MetaState {
     totalDeaths: 0,
     bgmEnabled: true,
     bgmVolume: 0.6,
+    sfxEnabled: true,
+    sfxVolume: 0.65,
   }
 }
 
@@ -301,7 +305,7 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
             ...nextRun,
             history: [
               ...baseHistory,
-              { kind: 'node', text: renderNodeText(nextNode, nextRun) },
+              { kind: 'node', text: renderNodeText(nextNode, nextRun), nodeId: nextNode.id },
             ],
           },
           meta: reachedEnding
@@ -330,6 +334,17 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
           meta: {
             ...state.meta,
             bgmVolume: Math.max(0, Math.min(1, volume)),
+          },
+        })),
+
+      setSfxEnabled: (enabled) =>
+        set((state) => ({ meta: { ...state.meta, sfxEnabled: enabled } })),
+
+      setSfxVolume: (volume) =>
+        set((state) => ({
+          meta: {
+            ...state.meta,
+            sfxVolume: Math.max(0, Math.min(1, volume)),
           },
         })),
 
@@ -555,7 +570,7 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
               ...nextRun,
               history: [
                 ...history,
-                { kind: 'node', text: renderNodeText(nextNode, nextRun) },
+                { kind: 'node', text: renderNodeText(nextNode, nextRun), nodeId: nextNode.id },
               ],
             },
             meta: reachedEnding
@@ -650,7 +665,7 @@ export const useGame = create<PersistedState & TransientState & Actions>()(
                 regionId: nextRegion.id,
                 regionName: nextRegion.name,
               },
-              { kind: 'node', text: renderNodeText(entryNode, nextRun) },
+              { kind: 'node', text: renderNodeText(entryNode, nextRun), nodeId: entryNode.id },
             ],
           },
         })

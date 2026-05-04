@@ -9,8 +9,8 @@
       "text": "한 모금 마신다",
       "condition": { "statGte": { "name": "hp", "value": 2 } },
       "outcome": {
-        "text": "단이 작은 단지를 내민다. 한 모금 마시자 머리가 맑아지고 손끝이 시리다.",
-        "statDelta": { "hp": -1, "mana": 2 },
+        "text": "단이 작은 단지를 내민다. 한 모금 마시자 손끝이 시리다. 머리는 맑아지지만, 힘으로 남지는 않는다.",
+        "statDelta": { "hp": -1 },
         "heroEncounter": "wanderer-dan",
         "nextNodeId": "fo-fork"
       }
@@ -22,7 +22,6 @@
       "outcome": {
         "text": "단이 가죽 주머니에서 마른 잎 한 줌을 꺼낸다. 손바닥 위에서 잎이 바스러질 듯 가볍다.\n\n행객 단: \"지금 말고, 정말 필요할 때 씹으시오.\"",
         "statDelta": { "mana": -1 },
-        "itemAdd": ["dried-herb"],
         "heroEncounter": "wanderer-dan",
         "nextNodeId": "fo-fork"
       }

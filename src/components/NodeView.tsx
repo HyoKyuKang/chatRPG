@@ -3,6 +3,7 @@ import { data, useGame, type HistoryEntry } from '../store'
 import type { Choice, Hero } from '../schemas'
 import { MetaUnlockScreen } from './MetaUnlockScreen'
 import { CombatView } from './CombatView'
+import { audio } from '../lib/audio'
 
 // ─── Choice condition ─────────────────────────────────────────────────────
 
@@ -58,15 +59,30 @@ type RevealItem =
       kind: 'paragraph'
       parentKind: HistoryKind
       parentIndex: number
+      parentRegion?: string
       paragraph: ParsedParagraph
     }
   | {
       kind: 'hero-card'
       parentKind: HistoryKind
       parentIndex: number
+      parentRegion?: string
       heroId: string
     }
-  | { kind: 'simple'; parentKind: HistoryKind; parentIndex: number; body: string }
+  | {
+      kind: 'node-image'
+      parentKind: HistoryKind
+      parentIndex: number
+      parentRegion?: string
+      src: string
+    }
+  | {
+      kind: 'simple'
+      parentKind: HistoryKind
+      parentIndex: number
+      parentRegion?: string
+      body: string
+    }
 
 const heroByName = new Map<string, Hero>()
 data.heroes.forEach((h) => heroByName.set(h.name, h))
@@ -75,6 +91,7 @@ function entryToReveal(
   entry: HistoryEntry,
   index: number,
   alreadyEncountered: Set<string>,
+  parentRegion?: string,
 ): RevealItem[] {
   // Region marker is a boundary signal only — never rendered
   if (entry.kind === 'region-marker') return []
@@ -85,6 +102,7 @@ function entryToReveal(
         kind: 'simple',
         parentKind: entry.kind,
         parentIndex: index,
+        parentRegion,
         body: entry.text,
       },
     ]
@@ -92,6 +110,19 @@ function entryToReveal(
   // 'node' or 'outcome' — split into paragraphs and inject hero cards
   const paragraphs = splitParagraphs(entry.text)
   const items: RevealItem[] = []
+  // For 'node' entries with a known nodeId + image, prepend a node-image item.
+  if (entry.kind === 'node' && entry.nodeId) {
+    const node = data.nodes.get(entry.nodeId)
+    if (node?.image) {
+      items.push({
+        kind: 'node-image',
+        parentKind: entry.kind,
+        parentIndex: index,
+        parentRegion,
+        src: node.image,
+      })
+    }
+  }
   paragraphs.forEach((p) => {
     if (p.kind === 'speech' && p.speaker) {
       const hero = heroByName.get(p.speaker)
@@ -100,6 +131,7 @@ function entryToReveal(
           kind: 'hero-card',
           parentKind: entry.kind,
           parentIndex: index,
+          parentRegion,
           heroId: hero.id,
         })
         alreadyEncountered.add(hero.id)
@@ -109,10 +141,26 @@ function entryToReveal(
       kind: 'paragraph',
       parentKind: entry.kind,
       parentIndex: index,
+      parentRegion,
       paragraph: p,
     })
   })
   return items
+}
+
+// Compute the active region for each history index. Region is determined by
+// the most recent region-marker, with 'node' entries (which always belong to
+// their region) used as fallback for legacy histories without markers.
+function computeRegions(history: HistoryEntry[]): (string | undefined)[] {
+  let cur: string | undefined
+  return history.map((e) => {
+    if (e.kind === 'region-marker') cur = e.regionId
+    else if (e.kind === 'node' && e.nodeId) {
+      const node = data.nodes.get(e.nodeId)
+      if (node) cur = node.region
+    }
+    return cur
+  })
 }
 
 // Find the index of the most recent region-marker in history.
@@ -134,6 +182,7 @@ function pacingFor(item: RevealItem): { delay: number; typing: boolean } {
     return { delay: 220, typing: false } // death — slight emphasis
   }
   if (item.kind === 'hero-card') return { delay: 280, typing: false }
+  if (item.kind === 'node-image') return { delay: 0, typing: false }
   // paragraph
   const isSpeech = item.paragraph.kind === 'speech'
   if (isSpeech) return { delay: 700, typing: true }
@@ -195,13 +244,15 @@ export function NodeView() {
     const activeStart = lastMarker + 1
     const last = lastSnapshotRef.current
 
+    const regions = computeRegions(history)
+
     // ─── First mount / hydrate from persist ────────────────────
     if (!hydratedRef.current) {
       if (history.length === 0) return
       const activeEntries = history.slice(activeStart)
       const encountered = new Set(run.heroesEncountered)
       const items = activeEntries.flatMap((h, di) =>
-        entryToReveal(h, activeStart + di, encountered),
+        entryToReveal(h, activeStart + di, encountered, regions[activeStart + di]),
       )
       setRevealed(items)
       setPending([])
@@ -216,7 +267,7 @@ export function NodeView() {
       const fresh = new Set<string>()
       const activeEntries = history.slice(activeStart)
       const items = activeEntries.flatMap((h, di) =>
-        entryToReveal(h, activeStart + di, fresh),
+        entryToReveal(h, activeStart + di, fresh, regions[activeStart + di]),
       )
       if (reducedMotion) {
         setRevealed(items)
@@ -235,7 +286,7 @@ export function NodeView() {
       const newEntries = history.slice(activeStart)
       const fresh = new Set<string>()
       const items = newEntries.flatMap((h, di) =>
-        entryToReveal(h, activeStart + di, fresh),
+        entryToReveal(h, activeStart + di, fresh, regions[activeStart + di]),
       )
       if (reducedMotion) {
         setRevealed(items)
@@ -258,7 +309,7 @@ export function NodeView() {
         if (it.kind === 'hero-card') encountered.add(it.heroId)
       })
       const newItems = newEntries.flatMap((h, di) =>
-        entryToReveal(h, startIdx + di, encountered),
+        entryToReveal(h, startIdx + di, encountered, regions[startIdx + di]),
       )
       if (reducedMotion) {
         setRevealed((prev) => [...prev, ...newItems])
@@ -362,6 +413,9 @@ export function NodeView() {
       : []
 
   const handleChoiceClick = (choice: Choice) => {
+    void audio.playSfx(
+      choice.startsCombat === true ? 'combat-engage' : 'choice-tap',
+    )
     if (choice.startsCombat === true) engageCombatFromChoice(choice.id)
     else choose(choice.id)
   }
@@ -380,6 +434,17 @@ export function NodeView() {
   // entire view to MetaUnlockScreen (공허). Region transitions stay in chat log.
   const isFinalEnding = isEnding && !nextRegion
   const showMetaScreen = revealComplete && (isDead || isFinalEnding)
+  const metaSfxKeyRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (!showMetaScreen) {
+      metaSfxKeyRef.current = null
+      return
+    }
+    const key = isDead ? 'death' : run.currentNodeId
+    if (metaSfxKeyRef.current === key) return
+    metaSfxKeyRef.current = key
+    void audio.playSfx(isDead ? 'death' : 'ending-reveal')
+  }, [showMetaScreen, isDead, run.currentNodeId])
   if (showMetaScreen) {
     return (
       <MetaUnlockScreen
@@ -416,7 +481,13 @@ export function NodeView() {
             화면을 누르면 빨리감기
           </p>
         ) : isEnding && nextRegion ? (
-          <ChoiceButton variant="advance" onClick={transitionToNextRegion}>
+          <ChoiceButton
+            variant="advance"
+            onClick={() => {
+              void audio.playSfx('choice-tap')
+              transitionToNextRegion()
+            }}
+          >
             {nextRegion.name}으로 간다
           </ChoiceButton>
         ) : visibleChoices.length === 0 ? (
@@ -467,13 +538,45 @@ function RevealedGroup({ items }: { items: RevealItem[] }) {
 
   // 'node' or 'outcome' — paragraphs + hero cards
   const isOutcome = head.parentKind === 'outcome'
-  const wrapperClass = isOutcome
-    ? 'space-y-2 pl-3 border-l border-ink-700/50'
-    : 'space-y-3'
+  // Prologue outcomes read as continuous saga prose, not "[your action's
+  // consequence]" — render them with the same plain narrator styling as
+  // descriptions (no italic, no left border).
+  const isPrologueOutcome = isOutcome && head.parentRegion === 'prologue'
+  const wrapperClass =
+    isOutcome && !isPrologueOutcome
+      ? 'space-y-2 pl-3 border-l border-ink-700/50'
+      : 'space-y-3'
 
   return (
     <div className={wrapperClass}>
       {items.map((it, i) => {
+        if (it.kind === 'node-image') {
+          return (
+            <figure
+              key={i}
+              className="relative -mx-5 mb-2 overflow-hidden border-y border-white/5 bg-ink-950 fade-in-up"
+            >
+              <img
+                src={it.src}
+                alt=""
+                aria-hidden
+                className="block w-full aspect-[4/3] object-cover opacity-90"
+                loading="lazy"
+                onError={(e) => {
+                  // If image missing, hide quietly — no broken icon
+                  const fig = (e.currentTarget as HTMLImageElement).closest(
+                    'figure',
+                  )
+                  if (fig) (fig as HTMLElement).style.display = 'none'
+                }}
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink-950/60"
+              />
+            </figure>
+          )
+        }
         if (it.kind === 'hero-card') {
           const hero = data.heroes.get(it.heroId)
           if (!hero) return null
@@ -487,7 +590,7 @@ function RevealedGroup({ items }: { items: RevealItem[] }) {
                 key={i}
                 speaker={p.speaker}
                 body={p.body}
-                muted={isOutcome}
+                muted={isOutcome && !isPrologueOutcome}
               />
             )
           }
@@ -495,7 +598,9 @@ function RevealedGroup({ items }: { items: RevealItem[] }) {
             <p
               key={i}
               className={`prose-ko whitespace-pre-line fade-in-up ${
-                isOutcome ? 'text-ink-200 italic' : 'text-ink-100'
+                isOutcome && !isPrologueOutcome
+                  ? 'text-ink-200 italic'
+                  : 'text-ink-100'
               }`}
             >
               {p.body}

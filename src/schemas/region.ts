@@ -6,8 +6,9 @@ export const Region = z
     id: RegionId,
     name: z.string(),
     description: z.string().optional(),
+    headerImage: z.string().optional(),
     entryNodeId: z.string(),
-    bossNodeId: z.string(),
+    bossNodeId: z.string().optional(),
     nodeIds: z.array(z.string()),
     nextRegion: RegionId.optional(),
   })

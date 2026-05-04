@@ -10,7 +10,7 @@
       "outcome": {
         "text": "물이 차고 무겁다. 한 모금이 가슴까지 닿는다. 호흡이 한 박자 길어진다.",
         "statDelta": { "hp": 1 },
-        "nextNodeId": "fa-fork"
+        "nextNodeId": "fa-dune"
       }
     },
     {

@@ -11,7 +11,7 @@
         "text": "그가 작은 단지를 카운터 위로 밀어놓는다. 한 모금. 머리가 차고, 손끝이 시린다.",
         "statDelta": { "hp": -1, "mana": 2 },
         "heroEncounter": "awake-one",
-        "nextNodeId": "dc-fork"
+        "nextNodeId": "dc-market"
       }
     },
     {
@@ -21,7 +21,7 @@
         "text": "그가 마른 잎 한 줌을 카운터 위에 올린다. 짙게 우려 마시자 가슴이 풀린다.",
         "statDelta": { "mana": -1, "hp": 2 },
         "heroEncounter": "awake-one",
-        "nextNodeId": "dc-fork"
+        "nextNodeId": "dc-market"
       }
     },
     {

@@ -25,6 +25,8 @@ export const MetaState = z
     totalDeaths: z.number(),
     bgmEnabled: z.boolean(),
     bgmVolume: z.number().min(0).max(1),
+    sfxEnabled: z.boolean(),
+    sfxVolume: z.number().min(0).max(1),
   })
   .strict()
 export type MetaState = z.infer<typeof MetaState>

@@ -10,7 +10,7 @@
       "outcome": {
         "text": "무릎이 차다. 차가움이 가슴까지 닿고, 호흡이 한 박자 길어진다.",
         "statDelta": { "hp": 1 },
-        "nextNodeId": "fm-fork"
+        "nextNodeId": "fm-front-fight"
       }
     },
     {

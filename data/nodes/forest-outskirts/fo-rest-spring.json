@@ -14,8 +14,7 @@
       "id": "rest-drink",
       "text": "두 손으로 물을 마신다",
       "outcome": {
-        "text": "물이 차다. 가슴까지 차가움이 내려가고 숨이 조금 편해진다.",
-        "statDelta": { "hp": 1 },
+        "text": "물이 차다. 가슴까지 차가움이 내려가고 숨이 한 박자 가라앉는다.",
         "nextNodeId": "fo-fork"
       }
     },

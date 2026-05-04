@@ -10,7 +10,7 @@
       "outcome": {
         "text": "물이 차다. 차가움이 가슴까지 닿는다. 환영의 두께가 한 겹 옅어진다.",
         "statDelta": { "hp": 1 },
-        "nextNodeId": "dc-fork"
+        "nextNodeId": "dc-market"
       }
     },
     {

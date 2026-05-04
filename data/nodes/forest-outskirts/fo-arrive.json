@@ -2,24 +2,23 @@
   "id": "fo-arrive",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "안개 속에서 깨어난다.\n\n차가운 흙냄새가 먼저 난다. 손끝에 풀잎이 걸리고, 멀리서 물 흐르는 소리가 낮게 들린다.\n\n손가락을 움직여 본다. 움직인다. 숨도 붙어 있다. 그런데 몸이 낯설다.\n\n여기가 어딘지, 왜 여기 누워 있는지 기억나지 않는다.\n\n안개 너머로 흐릿한 사람이 서 있다.",
+  "description": "안개 속에서 깨어난다.\n\n차가운 흙냄새가 먼저 난다. 멀리서 물 흐르는 소리가 낮게 들린다.\n\n몸이 낯설다. 여기가 어딘지, 왜 여기 누워 있는지 기억나지 않는다.\n\n안개 너머에 흐릿한 사람이 서 있다.",
   "choices": [
     {
-      "id": "arrive-look",
-      "text": "안개 너머를 살핀다",
+      "id": "arrive-touch",
+      "text": "손바닥으로 흙을 짚는다.",
       "outcome": {
-        "text": "안개가 잠깐 얇아진다. 사람은 보이지 않는다. 발자국 같은 무늬만 남아 있다.",
-        "knowledgeGain": [
-          "glimpse-of-mist"
-        ],
+        "text": "흙은 차고 축축하다. 풀잎의 결, 뿌리의 단단함, 작은 돌의 모서리. 이름은 잊었지만 손은 안다.",
+        "knowledgeGain": ["waking-touch"],
         "nextNodeId": "fo-stranger"
       }
     },
     {
-      "id": "arrive-stand",
-      "text": "몸을 일으킨다",
+      "id": "arrive-look",
+      "text": "안개 너머를 본다.",
       "outcome": {
-        "text": "무릎에 힘을 준다. 몸이 비틀리지만 선다. 가야 할 곳이 있다는 생각만 남는다.",
+        "text": "안개가 잠깐 얇아진다. 흐릿한 사람의 형체. 그 너머, 잠깐, 무언가 솟은 끝. 다시 안개가 덮는다.",
+        "knowledgeGain": ["glimpse-of-mist"],
         "nextNodeId": "fo-stranger"
       }
     }

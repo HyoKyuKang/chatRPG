@@ -1,0 +1,16 @@
+{
+  "id": "p-now",
+  "region": "prologue",
+  "type": "event",
+  "description": "이제 안개는 도시를 다 잠갔다. 별은 보이지 않은 지 오래다.\n\n회색의 자는 안개의 가장자리에 섰다. 다음 이방인을 기다렸다.\n\n누군가 와야 했다. 그렇지 않으면 안개만 남을 자리.",
+  "choices": [
+    {
+      "id": "p-now-next",
+      "text": "...누가 올 것인가.",
+      "outcome": {
+        "text": "안개가 한 이방인을 풀밭에 두었다. 이름을 잃은 채로.",
+        "nextNodeId": "p-awaken"
+      }
+    }
+  ]
+}
