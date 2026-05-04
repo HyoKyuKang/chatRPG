@@ -1,4 +1,4 @@
-# 베타 피드백 폼 — 이 세계는 끝날 거야
+# 베타 피드백 폼 — 아스트렌
 
 V2 HOUR 5 / Step 5c. 친구 5명이 작성. KakaoTalk 또는 Google Form 으로 수집.
 

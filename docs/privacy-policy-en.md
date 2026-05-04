@@ -1,4 +1,4 @@
-# Privacy Policy — This World Will End (이 세계는 끝날 거야)
+# Privacy Policy — Astren (아스트렌)
 
 **Effective:** May 2026 (V1.0 release)
 **Last updated:** May 2026
@@ -7,7 +7,7 @@
 
 ## 1. Overview
 
-"**This World Will End**" (Korean: 이 세계는 끝날 거야, hereinafter "the App") is a
+"**Astren**" (Korean: 아스트렌, hereinafter "the App") is a
 Korean text-based role-playing game made by an independent solo developer. **The App
 collects no personal information from users.**
 
@@ -82,7 +82,7 @@ Since no data is collected, there are no retention or deletion procedures.
 
 To delete game progress (localStorage):
 - In-app "reset" button (DEV builds only)
-- Or Android Settings → Apps → This World Will End → Storage → Clear data
+- Or Android Settings → Apps → Astren → Storage → Clear data
 - Or uninstall the app
 
 ---

@@ -7,7 +7,7 @@ V2 HOUR 5 / Step 5d 의 description copy. 한국어 메인 + English 부.
 ## 한국어 (메인)
 
 ### 앱 이름
-**이 세계는 끝날 거야**
+**아스트렌**
 
 ### 짧은 설명 (Short description, 80자 이내)
 > 선택이 종말을 결정한다 — 매 출정마다 다른 결말이 기다리는 한국 인디 텍스트 RPG.
@@ -17,9 +17,9 @@ V2 HOUR 5 / Step 5d 의 description copy. 한국어 메인 + English 부.
 ### 긴 설명 (Long description, 4000자 이내)
 
 ```
-🌫️ 안개 속에서 깨어나면, 이 세계는 너의 것이 아니다.
+🌫️ 안개 속에서 깨어나면, 아스트렌은 너의 것이 아니다.
 
-"이 세계는 끝날 거야" 는 한국 인디 솔로 개발자가 만든 짧은 텍스트 RPG 입니다.
+"아스트렌" 은 한국 인디 솔로 개발자가 만든 짧은 텍스트 RPG 입니다. *이 세계는 끝날 거야*.
 이방인이 되어 마왕에 의해 끝나가는 판타지 세계로 떨어지고, 매 출정마다
 다른 영웅과 함께 다른 길을 걷고, 다른 결말을 마주합니다.
 
@@ -79,7 +79,7 @@ https://hyokyukang.github.io/chatRPG/privacy-policy
 ## English (보조)
 
 ### App name
-**This World Will End** (이 세계는 끝날 거야)
+**Astren** (아스트렌)
 
 ### Short description (80 chars)
 > Korean indie text RPG — your choice ends this world, run after run.
@@ -89,9 +89,9 @@ https://hyokyukang.github.io/chatRPG/privacy-policy
 ### Long description
 
 ```
-🌫️ When you wake in the mist, this world is not yours.
+🌫️ When you wake in the mist, Astren is not yours.
 
-"This World Will End" is a short Korean text-based RPG by a solo indie developer.
+"Astren" is a short Korean text-based RPG by a solo indie developer. *This world will end*.
 You play a stranger fallen into a fantasy world ending under the Demon King's
 shadow. Each run, you walk a different path with a different hero — and meet a
 different ending.

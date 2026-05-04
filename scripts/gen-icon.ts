@@ -10,7 +10,7 @@ if (!KEY) {
   process.exit(1)
 }
 
-const PROMPT = `Mobile game app icon for a Korean indie text RPG titled "이 세계는 끝날 거야" (This World Will End). Centered symmetric composition. Dark fantasy seal or sigil motif — a circular emblem evoking endings, mist, and a single stranger figure. Hand-painted digital illustration, painterly brushstrokes, Studio Ghibli meets Dark Souls aesthetic. Rich deep black-purple background with subtle warm gold accents. Korean indie game art style, weighty and literary. No text, no logo, no watermark, no signature.`
+const PROMPT = `Mobile game app icon for a Korean indie text RPG titled "아스트렌" (Astren). Centered symmetric composition. Dark fantasy seal or sigil motif — a circular emblem evoking endings, mist, and a single stranger figure. Hand-painted digital illustration, painterly brushstrokes, Studio Ghibli meets Dark Souls aesthetic. Rich deep black-purple background with subtle warm gold accents. Korean indie game art style, weighty and literary. No text, no logo, no watermark, no signature.`
 
 async function main() {
   console.log('→ generating app icon (DALL-E 3 standard 1024×1024)...')

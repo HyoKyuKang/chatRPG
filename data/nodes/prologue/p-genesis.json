@@ -3,7 +3,7 @@
   "region": "prologue",
   "type": "event",
   "image": "/scenes/prologue/p-genesis.webp",
-  "description": "옛날, 이 땅에는 안개가 없었다.\n\n사람들은 별을 보고 길을 갔다. 새벽이면 첨탑의 빛이 다음 길을 가리켰다.\n\n어느 밤, 첨탑의 빛이 꺼졌다.",
+  "description": "옛날, 아스트렌에는 안개가 없었다.\n\n사람들은 별을 보고 길을 갔다. 새벽이면 첨탑의 빛이 다음 길을 가리켰다.\n\n어느 밤, 첨탑의 빛이 꺼졌다.",
   "choices": [
     {
       "id": "p-genesis-next",

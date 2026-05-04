@@ -40,15 +40,13 @@ export function TitleScreen() {
             텍스트 RPG
           </div>
           <h1
-            className="text-gold-300 text-3xl font-semibold leading-tight"
-            style={{ letterSpacing: '0.06em' }}
+            className="text-gold-300 text-4xl font-semibold leading-tight"
+            style={{ letterSpacing: '0.12em' }}
           >
-            이 세계는
-            <br />
-            끝날 거야
+            아스트렌
           </h1>
           <p className="prose-ko text-ink-300 text-sm px-4">
-            선택이 종말을 결정한다 — 텍스트 RPG
+            이 세계는 끝날 거야 — 텍스트 RPG
           </p>
         </div>
 

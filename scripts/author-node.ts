@@ -195,7 +195,7 @@ ${node.choices
   ]
 }`
 
-  return `한국어 텍스트 RPG "이 세계는 끝날 거야" 노드 1개의 prose만 작성. 선택지 라벨은 입력 그대로 verbatim 반환 (변경 금지).
+  return `한국어 텍스트 RPG "아스트렌 (Astren)" 노드 1개의 prose만 작성. 선택지 라벨은 입력 그대로 verbatim 반환 (변경 금지).
 
 ${personaContents.join('\n\n')}
 
@@ -350,7 +350,7 @@ async function buildReviewBrief(
           )
           .join('\n\n')
 
-  return `한국어 텍스트 RPG "이 세계는 끝날 거야" 노드 1개의 prose를 평가. 첨부된 페르소나 voice와 톤 타겟에 얼마나 일치하는지 채점.
+  return `한국어 텍스트 RPG "아스트렌 (Astren)" 노드 1개의 prose를 평가. 첨부된 페르소나 voice와 톤 타겟에 얼마나 일치하는지 채점.
 
 ${personaContents.join('\n\n')}
 
