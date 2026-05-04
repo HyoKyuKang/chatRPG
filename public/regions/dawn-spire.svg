@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-label="새벽의 첨탑">
+  <rect width="640" height="180" fill="#100e18"/>
+  <path d="M0 126 C120 102 224 124 334 92 C454 58 540 90 640 62 L640 180 L0 180 Z" fill="#2b2430"/>
+  <path d="M316 18 L356 156 H276 Z" fill="#090811"/>
+  <path d="M330 0 L342 54 H318 Z" fill="#07060d"/>
+  <path d="M0 82 C150 72 250 90 364 74 C470 60 548 68 640 52" fill="none" stroke="#d7b765" stroke-opacity=".2" stroke-width="18"/>
+  <circle cx="450" cy="44" r="34" fill="#d2a94f" opacity=".16"/>
+</svg>

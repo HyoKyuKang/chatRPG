@@ -2,6 +2,7 @@
   "id": "forgotten-mountains",
   "name": "잊혀진 산맥",
   "description": "본래 마왕에 맞서 싸우던 사람들의 거점이었던 폐허 도시. 마왕 4 장수 중 하나가 점령하고 있다.",
+  "headerImage": "/regions/forgotten-mountains.svg",
   "entryNodeId": "fm-arrive",
   "bossNodeId": "fm-boss",
   "nextRegion": "ash-wastes",

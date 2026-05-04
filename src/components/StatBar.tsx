@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { data, useGame } from '../store'
+import { audio } from '../lib/audio'
 
 const CLASS_LABEL: Record<'warrior' | 'mage', string> = {
   warrior: '전사',
@@ -64,10 +65,12 @@ export function StatBar() {
     if (dHp !== 0) {
       setHpFlash(dHp > 0 ? 'gain' : 'loss')
       setHpDelta(dHp)
+      void audio.playSfx(dHp > 0 ? 'stat-gain' : 'stat-loss')
     }
     if (dMp !== 0) {
       setMpFlash(dMp > 0 ? 'gain' : 'loss')
       setMpDelta(dMp)
+      void audio.playSfx(dMp > 0 ? 'stat-gain' : 'stat-loss', 0.75)
     }
     prevStatsRef.current = stats
     prevHistoryLenRef.current = historyLen

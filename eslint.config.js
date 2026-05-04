@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'android/app/build']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -17,6 +17,11 @@ export default defineConfig([
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+    rules: {
+      // The chat reveal queue intentionally stages local UI state from effects.
+      // Keep this off until the reveal engine is refactored around reducers.
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ])

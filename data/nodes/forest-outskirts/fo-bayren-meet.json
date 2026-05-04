@@ -3,6 +3,12 @@
   "region": "forest-outskirts",
   "type": "encounter",
   "description": "부서진 마차 옆에서 작은 모닥불이 탄다. 흰 머리의 노인이 보라색 옷자락을 무릎에 모으고 앉아 있다.\n\n노인이 너를 보고 한숨을 쉰다.\n\n베일런: \"또 이방인이군.\"\n\n시선이 네 손의 양피지에 멎는다. 눈썹이 아주 짧게 올라간다.",
+  "echoes": [
+    {
+      "condition": { "knowledge": "glimpse-of-mist" },
+      "text": "베일런의 시선이 양피지에서 잠깐 떠나, 네 눈을 잠깐 본다. 안개 너머를 본 자의 결을 그도 안다."
+    }
+  ],
   "choices": [
     {
       "id": "bayren-ask",

@@ -12,6 +12,8 @@ function App() {
   const currentNodeId = useGame((s) => s.run.currentNodeId)
   const bgmEnabled = useGame((s) => s.meta.bgmEnabled)
   const bgmVolume = useGame((s) => s.meta.bgmVolume)
+  const sfxEnabled = useGame((s) => s.meta.sfxEnabled)
+  const sfxVolume = useGame((s) => s.meta.sfxVolume)
 
   useEffect(() => {
     audio.setVolume(bgmVolume)
@@ -20,6 +22,14 @@ function App() {
   useEffect(() => {
     audio.setEnabled(bgmEnabled)
   }, [bgmEnabled])
+
+  useEffect(() => {
+    audio.setSfxVolume(sfxVolume)
+  }, [sfxVolume])
+
+  useEffect(() => {
+    audio.setSfxEnabled(sfxEnabled)
+  }, [sfxEnabled])
 
   useEffect(() => {
     if (appView !== 'game') {

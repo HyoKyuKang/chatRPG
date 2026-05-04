@@ -1,4 +1,5 @@
 import { data, useGame } from '../store'
+import { audio } from '../lib/audio'
 
 interface Props {
   reason: 'death' | 'ending'
@@ -53,7 +54,10 @@ export function MetaUnlockScreen({ reason, onContinue }: Props) {
               key={u.id}
               type="button"
               disabled={disabled}
-              onClick={() => applyUnlock(u.id)}
+              onClick={() => {
+                void audio.playSfx('meta-unlock')
+                applyUnlock(u.id)
+              }}
               className={`w-full text-left p-3 rounded-md border transition-all duration-150 ${
                 owned
                   ? 'border-emerald-500/40 bg-emerald-700/10 text-emerald-300/90 cursor-default'
@@ -80,7 +84,10 @@ export function MetaUnlockScreen({ reason, onContinue }: Props) {
       <div className="px-4 pt-2 pb-4 border-t border-white/5 bg-ink-950/40">
         <button
           type="button"
-          onClick={onContinue}
+          onClick={() => {
+            void audio.playSfx('choice-tap')
+            onContinue()
+          }}
           className="w-full px-4 py-3.5 text-[14px] rounded-md border border-rune-500/50 bg-gradient-to-b from-rune-700/25 to-rune-700/5 hover:from-rune-700/40 hover:border-rune-300/70 text-rune-300 active:bg-rune-500/30 active:border-rune-300 active:scale-[0.97] transition-all duration-150"
         >
           <span className="opacity-70 mr-2">✦</span>

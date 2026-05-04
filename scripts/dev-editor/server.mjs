@@ -12,6 +12,7 @@ const backupDir = join(projectRoot, 'scripts', 'dev-editor', 'backups')
 const reviewsDir = '/tmp'
 
 const REGIONS = [
+  'prologue',
   'forest-outskirts',
   'forgotten-mountains',
   'ash-wastes',
@@ -20,6 +21,7 @@ const REGIONS = [
 ]
 
 const REGION_LABELS = {
+  'prologue': '0. 프롤로그',
   'forest-outskirts': '1. 숲의 외곽',
   'forgotten-mountains': '2. 잊혀진 산맥',
   'ash-wastes': '3. 재의 황무지',

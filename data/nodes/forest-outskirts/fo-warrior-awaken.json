@@ -11,6 +11,10 @@
     {
       "condition": { "knowledge": "astrid-doubt" },
       "text": "아스트리드는 검을 닦지 않는다. 뭔가 묻고 싶은 얼굴이지만 끝내 입을 열지 않는다."
+    },
+    {
+      "condition": { "knowledge": "waking-touch" },
+      "text": "처음 흙을 짚었던 손바닥이 이제 자루의 패인 자리를 안다. 같은 손이 다른 결을 알아간다."
     }
   ],
   "choices": [

@@ -2,6 +2,7 @@
   "id": "dreaming-city",
   "name": "꿈꾸는 도시",
   "description": "마왕의 환각 마법이 도시 전체를 환영 속 평화에 가둔 곳. 잠든 왕의 꿈이 환영을 유지한다.",
+  "headerImage": "/regions/dreaming-city.svg",
   "entryNodeId": "dc-arrive",
   "bossNodeId": "dc-king",
   "nextRegion": "dawn-spire",

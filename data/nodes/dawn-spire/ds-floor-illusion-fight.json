@@ -3,14 +3,14 @@
   "region": "dawn-spire",
   "type": "combat",
   "enemyId": "demon-king-lieutenant",
-  "description": "환영이 한 칸 더 짙어진다. 푸른 불 사이에서 한 형상이 너에게 걸어 나온다 — 마왕 군세의 장수.\n\n그는 너를 본다. 옛 시대의 갑옷 위로, 마왕의 칙령이 묻은 어둠이 흐른다.\n\n환영이지만, 칼끝의 무게는 환영이 아니다.",
+  "description": "환영이 더 짙어진다. 푸른 불 사이에서 마왕 군세의 장수 하나가 걸어 나온다.\n\n낡은 갑옷에는 검은 명령의 흔적이 말라붙어 있다. 투구 안쪽의 눈이 너를 붙든다.\n\n환영이어도 칼끝은 무겁다.",
   "choices": [
     {
       "id": "engage",
       "text": "환영을 마주한다",
       "startsCombat": true,
       "outcome": {
-        "text": "푸른 불이 흔들린다. 그의 갑옷이 너의 발 앞에서 무게를 잡는다.",
+        "text": "푸른 불이 흔들린다. 장수의 갑옷이 네 발 앞에서 무게를 잡는다.",
         "nextNodeId": null
       }
     },
@@ -19,7 +19,7 @@
       "text": "옆으로 빠진다",
       "startsCombat": false,
       "outcome": {
-        "text": "너는 환영의 틈으로 한 걸음 비낀다. 장수의 칼이 너의 옆을 스치고 빠진다 — 그도 너를 끝까지 보지 못한다.\n\n푸른 불이 그의 등 뒤에 머문다.",
+        "text": "환영의 틈으로 한 걸음 비낀다. 장수의 칼이 옆구리를 스치고 빠진다. 투구 안쪽의 눈도 너를 끝까지 붙잡지 못한다.\n\n푸른 불이 장수의 등 뒤에 머문다.",
         "statDelta": { "hp": -1 },
         "nextNodeId": "ds-floor-strangers"
       }
@@ -28,7 +28,7 @@
       "id": "illusion-fight-cut",
       "text": "환영을 가른다",
       "outcome": {
-        "text": "너의 검이 그의 갑옷에 박힌다. 환영이 흩어지지 않는다 — 그 자리에서 무게로 무너진다. 푸른 불이 조금 더 흐려진다.",
+        "text": "검이 갑옷에 박힌다. 환영은 흩어지지 않는다. 그 자리에서 무게를 잃고 무너진다. 푸른 불이 조금 흐려진다.",
         "statDelta": { "hp": -2 },
         "enemyDamage": 8,
         "nextNodeId": "ds-floor-strangers"
@@ -38,7 +38,7 @@
       "id": "illusion-fight-rune",
       "text": "룬으로 환영을 끊는다",
       "outcome": {
-        "text": "너는 룬을 그린다. 환영이 한 칸 어긋나고, 장수의 형상이 비껴 선다. 그의 칼이 헛돌고, 그가 무너진다 — 푸른 불 안으로.",
+        "text": "룬을 그린다. 환영의 윤곽이 흔들리고, 장수의 몸이 옆으로 밀린다. 칼은 허공을 가르고, 갑옷은 푸른 불 안으로 주저앉는다.",
         "statDelta": { "mana": -2 },
         "enemyDamage": 8,
         "knowledgeGain": ["old-ages"],

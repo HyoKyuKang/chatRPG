@@ -1,19 +1,35 @@
-# BGM 음원 자리
+# BGM / SFX 음원 자리
 
-V1.1 BGM 시스템이 5 region 별 ambient loop 를 여기서 로드한다.
+V1.1 BGM 시스템이 5 region 별 ambient loop 를 여기서 로드한다. 현재
+베이스라인은 `scripts/generate-audio-assets.ts` 로 만든 절차 생성 WAV다.
+추후 CC0 / 외주 음원으로 같은 파일명만 교체하면 된다.
 
 ## 필수 파일 (5 개)
 
 ```
-public/audio/forest-outskirts.ogg
-public/audio/forgotten-mountains.ogg
-public/audio/ash-wastes.ogg
-public/audio/dreaming-city.ogg
-public/audio/dawn-spire.ogg
+public/audio/forest-outskirts.wav
+public/audio/forgotten-mountains.wav
+public/audio/ash-wastes.wav
+public/audio/dreaming-city.wav
+public/audio/dawn-spire.wav
 ```
 
-**포맷 권장 (autoplan Eng 결과):** Mono ogg-vorbis @ 64kbps, ~60-90초 loop.
-파일당 <800KB 목표, 총 <4MB. APK 크기 영향 최소화.
+**최종 포맷 권장 (autoplan Eng 결과):** Mono ogg-vorbis @ 64kbps,
+~60-90초 loop. 파일당 <800KB 목표, 총 <4MB. 현재 WAV는 외부 codec 도구
+없이 생성 가능한 출시 전 baseline 이다.
+
+## 필수 SFX 파일 (8 개)
+
+```
+public/audio/sfx/choice-tap.wav
+public/audio/sfx/stat-loss.wav
+public/audio/sfx/stat-gain.wav
+public/audio/sfx/meta-unlock.wav
+public/audio/sfx/death.wav
+public/audio/sfx/ending-reveal.wav
+public/audio/sfx/combat-engage.wav
+public/audio/sfx/combat-victory.wav
+```
 
 ## CC0 / 무료 음원 출처 후보
 
@@ -72,6 +88,9 @@ BGM 만 안 나옴. 즉 5 파일 다 채우지 못해도 점진적으로 추가 
 
 CC BY 음원 사용 시 게임 내 credit 화면 (또는 README) 에 출처 표기:
 - 곡명, 작곡자, 라이센스, URL
+
+현재 절차 생성 WAV baseline 은 repo-local generated asset 이며 외부 저작물
+출처가 없다. 파일 교체 시 `public/audio/CREDITS.md` 를 갱신한다.
 
 ## 외주 (V1.2+ 검토)
 

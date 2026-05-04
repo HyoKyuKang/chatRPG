@@ -2,11 +2,17 @@
   "id": "fo-astrid-meet",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "죽은 나무 너머에서 갑옷 부딪히는 소리가 난다.\n\n여자가 가지를 헤치고 나온다. 어려 보인다. 검은 곧게 들려 있다. 너를 보자 숨을 삼킨다.\n\n아스트리드: \"...너도 여기 떨어졌어?\"\n\n아스트리드: \"아스트리드야. 정의의 빛을 섬기는 신참 템플러.\"",
+  "description": "죽은 나무 너머에서 갑옷 부딪히는 소리가 난다.\n\n한 사람이 가지를 헤치고 나온다. 어려 보인다. 검은 곧게 들려 있다. 너를 보자 숨을 삼킨다.\n\n아스트리드: \"...너도 여기 떨어졌어?\"\n\n아스트리드: \"아스트리드야. 정의의 빛을 섬기는 신참 템플러.\"",
+  "echoes": [
+    {
+      "condition": { "knowledge": "waking-touch" },
+      "text": "처음 흙을 짚었을 때의 결이 아직 손바닥에 남아 있다. 검의 무게는 그 결과 다른 무게다."
+    }
+  ],
   "choices": [
     {
       "id": "astrid-join",
-      "text": "혼자보단 낫겠지",
+      "text": "혼자보단 낫겠지.",
       "outcome": {
         "text": "아스트리드의 어깨가 조금 풀린다. 검을 고쳐 잡고 네 옆에 선다.",
         "heroEncounter": "astrid",
@@ -15,9 +21,9 @@
     },
     {
       "id": "astrid-follow",
-      "text": "말없이 그녀의 뒤를 따른다",
+      "text": "말없이 뒤를 따른다.",
       "outcome": {
-        "text": "아스트리드는 말없이 앞장선다. 그래도 너무 빨리 걷지는 않는다.",
+        "text": "아스트리드가 말없이 앞장선다. 너무 빨리 걷지는 않는다.",
         "heroEncounter": "astrid",
         "nextNodeId": "fo-astrid-fight"
       }

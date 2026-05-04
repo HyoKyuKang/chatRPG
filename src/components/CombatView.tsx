@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { data, useGame } from '../store'
 import { activeEnemyActions, currentEnemyAction } from '../lib/combat'
 import type { Choice, EnemyPattern } from '../schemas'
+import { audio } from '../lib/audio'
 
 // Pips above this threshold get cluttered on mobile width — fall back to a
 // continuous bar. Bosses (shadow-commander 12, consumed-one 14, mawang 16)
@@ -77,6 +78,11 @@ export function CombatView() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation()
+                void audio.playSfx(
+                  (c.outcome.enemyDamage ?? 0) >= run.combat!.enemyHp
+                    ? 'combat-victory'
+                    : 'choice-tap',
+                )
                 combatChoice(c.id)
               }}
               className="
