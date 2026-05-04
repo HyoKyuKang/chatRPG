@@ -49,11 +49,11 @@ nodes:
 
   - id: fo-fork
     type: encounter
-    beat: 죽은 나무 앞에서 검 vs 양피지 갈림길. 클래스 트랙 분기. 회색의 자 멀리서 한 줄.
+    beat: 죽은 나무 앞에서 검 vs 양피지 갈림길. 클래스 트랙 분기. 샘/상점/유물 샛길도 열어 첫 지역 탐험의 숨통을 만든다. 회색의 자 멀리서 한 줄.
     personas: [narrator, gray-one]
     toneTarget: 침묵의 선택. 두 가지 무게가 너 앞에 놓였다. 갈림 자체가 메인 무게. 회색의 자 목소리는 가깝지 않음.
     previous: [fo-stranger]
-    next: [fo-astrid-meet, fo-bayren-meet]
+    next: [fo-astrid-meet, fo-bayren-meet, fo-rest-spring, fo-discovery-relic]
     choices:
       - id: fork-sword
         label: 녹슨 검 쪽으로 손을 뻗는다
@@ -66,6 +66,93 @@ nodes:
           itemAdd: [old-scroll]
           knowledgeGain: [mist-meaning]
           nextNodeId: fo-bayren-meet
+      - id: fork-spring
+        label: 물소리 나는 쪽으로 가본다
+        outcome:
+          nextNodeId: fo-rest-spring
+      - id: fork-side-path
+        label: 발자국 없는 샛길을 본다
+        outcome:
+          nextNodeId: fo-discovery-relic
+
+  - id: fo-rest-spring
+    type: rest
+    beat: 옛 샘. HP를 조금 회복하거나 행객 단의 천막으로 이어지는 첫 안전 지대. 안개를 살핀 플레이어에게 짧은 echo.
+    personas: [narrator]
+    toneTarget: 숨 돌림. 안전하지만 완전히 따뜻하지는 않음. 물, 이름 자국, 지워지는 반영.
+    previous: [fo-fork]
+    next: [fo-fork, fo-shop-traveler]
+    choices:
+      - id: rest-drink
+        label: 두 손으로 물을 마신다
+        outcome:
+          statDelta:
+            hp: 1
+          nextNodeId: fo-fork
+      - id: rest-tent
+        label: 천막 쪽으로 다가간다
+        outcome:
+          nextNodeId: fo-shop-traveler
+      - id: rest-leave
+        label: 길로 돌아간다
+        outcome:
+          nextNodeId: fo-fork
+
+  - id: fo-shop-traveler
+    type: shop
+    beat: 행객 단 첫 등장. HP를 마나로 바꾸거나, 마나를 써서 보스 중 회복 가능한 마른 약초를 얻는다.
+    personas: [narrator, wanderer-dan]
+    toneTarget: 짧고 단정한 거래. 친절보다 정확함. 천막은 너무 준비된 듯한 느낌.
+    previous: [fo-rest-spring]
+    next: [fo-fork]
+    choices:
+      - id: shop-trade-mp
+        label: 한 모금 마신다
+        condition:
+          statGte:
+            name: hp
+            value: 2
+        outcome:
+          statDelta:
+            hp: -1
+            mana: 2
+          heroEncounter: wanderer-dan
+          nextNodeId: fo-fork
+      - id: shop-buy-herb
+        label: 약초가 있나
+        condition:
+          statGte:
+            name: mana
+            value: 1
+        outcome:
+          statDelta:
+            mana: -1
+          itemAdd: [dried-herb]
+          heroEncounter: wanderer-dan
+          nextNodeId: fo-fork
+      - id: shop-leave
+        label: 천막을 나온다
+        outcome:
+          heroEncounter: wanderer-dan
+          nextNodeId: fo-fork
+
+  - id: fo-discovery-relic
+    type: event
+    beat: 샛길 끝의 빈 돌상자. 즉시 전투력을 주지는 않지만 결말/합류에서 숲이 이전 이방인을 기다린 흔적처럼 echo된다.
+    personas: [narrator]
+    toneTarget: 작고 조용한 발견. 보상보다 빈자리의 감각. 손끝 기억.
+    previous: [fo-fork]
+    next: [fo-fork]
+    choices:
+      - id: relic-open
+        label: 돌상자의 뚜껑을 민다
+        outcome:
+          knowledgeGain: [forgotten-relic]
+          nextNodeId: fo-fork
+      - id: relic-bury
+        label: 흙을 다시 덮는다
+        outcome:
+          nextNodeId: fo-fork
 
   - id: fo-astrid-meet
     type: encounter
@@ -89,9 +176,9 @@ nodes:
   - id: fo-astrid-fight
     type: combat
     enemyId: rotting-wolf
-    beat: 부패한 늑대와 첫 전투. 아스트리드 옆에서 외운 신앙 문구 들림. W9 combat 인프라에 enemyId 매핑 (rotting-wolf hp 5) — 1턴 결판.
+    beat: 부패한 늑대와 첫 전투. 아스트리드 옆에서 외운 신앙 문구 들림. rotting-wolf hp 5 — 정면 공격은 2턴, 물러서기는 3턴 정도로 전투 예고/턴 UI를 학습시킨다.
     personas: [narrator, astrid]
-    toneTarget: 첫 전투. 즉물적. 신체 감각 강함. 부패의 색/냄새 비침. 엔진은 enemy bar/예고만 표시, 결판은 단일 클릭.
+    toneTarget: 첫 전투. 즉물적. 신체 감각 강함. 부패의 색/냄새 비침. enemy bar/예고/턴이 최소 한 번은 체감되어야 함.
     previous: [fo-astrid-meet]
     next: [fo-warrior-awaken]
     choices:
@@ -102,13 +189,13 @@ nodes:
         outcome:
           statDelta:
             hp: -1
-          enemyDamage: 5
+          enemyDamage: 3
           knowledgeGain: [templar-creed, astrid-respect]
           nextNodeId: fo-warrior-awaken
       - id: fight-cover
         label: 아스트리드 뒤로 물러선다
         outcome:
-          enemyDamage: 5
+          enemyDamage: 2
           knowledgeGain: [astrid-doubt]
           nextNodeId: fo-warrior-awaken
 
@@ -204,9 +291,9 @@ nodes:
   - id: fo-boss-tree
     type: combat
     enemyId: corrupted-tree
-    beat: 부패한 거대 나무 — 의인화된 식물. 이방인 혼자 (동반자 없음). 너의 이름이 아닌 무언가를 부른다 (외신 결). W9 — 첫 보스, 페이즈 없음 (corrupted-tree hp 8) — 단일 클릭 결판으로 narrative pacing 유지.
+    beat: 부패한 거대 나무 — 의인화된 식물. 이방인 혼자 (동반자 없음). 너의 이름이 아닌 무언가를 부른다 (외신 결). corrupted-tree hp 8 — 클래스 행동 2회 결판으로 첫 보스의 무게를 만든다.
     personas: [narrator]
-    toneTarget: 보스 도착. 위협 정점. 외신 결 핵심. 클래스별 출력 차별화. 도망은 잔향이 길다. 엔진의 enemy bar/뿌리 예고가 무게를 더함.
+    toneTarget: 보스 도착. 위협 정점. 외신 결 핵심. 클래스별 출력 차별화. 도망은 잔향이 길다. enemy bar/뿌리 예고/자원 소모가 무게를 더함.
     previous: [fo-converge]
     next: [fo-resolution]
     choices:
@@ -217,20 +304,29 @@ nodes:
           item: rusted-sword
         outcome:
           statDelta:
-            hp: -2
-          enemyDamage: 8
+            hp: -1
+          enemyDamage: 4
           nextNodeId: fo-resolution
       - id: boss-rune
         label: 룬을 뿌리에 박아 넣는다
         condition:
           class: mage
-          item: old-scroll
         outcome:
           statDelta:
-            mana: -2
-          enemyDamage: 8
+            mana: -1
+          enemyDamage: 4
           itemRemove: [old-scroll]
           nextNodeId: fo-resolution
+      - id: boss-herb
+        label: 마른 약초를 씹는다
+        condition:
+          item: dried-herb
+        outcome:
+          statDelta:
+            hp: 1
+          itemRemove: [dried-herb]
+          enemyDamage: 0
+          nextNodeId: null
       - id: boss-flee
         label: 뒤돌아 달린다
         outcome:

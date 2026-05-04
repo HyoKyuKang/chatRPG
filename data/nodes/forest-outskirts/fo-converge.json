@@ -2,7 +2,25 @@
   "id": "fo-converge",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "발끝의 풀이 검게 시든다. 한 걸음씩, 초록이 재로 바뀌어 간다.\n\n새소리가 끊긴다. 바람도 멈춘다. 숲은 숨을 참는 짐승처럼 고요하다.\n\n공기에서 단 냄새가 난다 — 썩은 단 냄새. 너의 몸이 이 냄새를 안다. 어디서, 언제부터인지는 모른다.",
+  "description": "발밑의 풀이 검게 마른다. 걸을수록 초록이 재처럼 부서진다.\n\n새소리가 끊긴다. 바람도 멈춘다. 숲 전체가 숨을 참는다.\n\n공기에서 썩은 단내가 난다. 오래 끓인 과일처럼 달고 역하다. 몸이 먼저 움츠러든다.",
+  "echoes": [
+    {
+      "condition": { "knowledge": "glimpse-of-mist" },
+      "text": "처음 안개 너머에서 본 흔들림이 다시 떠오른다. 이제는 길을 가리는 안개가 아니라, 한곳으로 몰려가는 안개처럼 보인다."
+    },
+    {
+      "condition": { "knowledge": "astrid-respect" },
+      "text": "아스트리드가 외운 신조 한 줄이 단내 사이에서 되살아난다."
+    },
+    {
+      "condition": { "knowledge": "rune-fundamentals" },
+      "text": "흙바닥에 그어진 세 줄 룬이 발밑의 뿌리 모양과 잠깐 겹쳐 보인다."
+    },
+    {
+      "condition": { "knowledge": "forgotten-relic" },
+      "text": "샛길의 빈 돌상자가 떠오른다. 숲은 잃어버린 물건보다 빈자리를 더 오래 남긴다."
+    }
+  ],
   "choices": [
     {
       "id": "conv-march",
@@ -16,7 +34,7 @@
       "id": "conv-watch",
       "text": "뿌리 사이를 살피며 간다",
       "outcome": {
-        "text": "뿌리 사이로 검은 액체가 흐른다. 마왕의 그을음 — 그것이 흙 깊숙이까지 닿아 있다. 너는 그것을 본 채로 더 깊이 들어간다.",
+        "text": "뿌리 사이로 검은 액체가 흐른다. 흙 깊은 곳까지 스며든 마왕의 흔적이다. 그걸 보고도 너는 더 안쪽으로 들어간다.",
         "knowledgeGain": ["corruption-witnessed"],
         "nextNodeId": "fo-boss-tree"
       }

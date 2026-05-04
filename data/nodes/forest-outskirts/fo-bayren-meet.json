@@ -2,13 +2,13 @@
   "id": "fo-bayren-meet",
   "region": "forest-outskirts",
   "type": "encounter",
-  "description": "부서진 마차 옆, 작은 모닥불이 탄다. 흰 머리의 노인이 보라색 옷자락을 무릎에 모으고 앉아 있다.\n\n노인이 너를 본다. 한숨.\n\n베일런: \"또 이방인이군.\"\n\n그의 시선이 너의 손으로 떨어진다. 양피지. 그의 눈썹이 한 번, 아주 짧게 움직인다.",
+  "description": "부서진 마차 옆에서 작은 모닥불이 탄다. 흰 머리의 노인이 보라색 옷자락을 무릎에 모으고 앉아 있다.\n\n노인이 너를 보고 한숨을 쉰다.\n\n베일런: \"또 이방인이군.\"\n\n시선이 네 손의 양피지에 멎는다. 눈썹이 아주 짧게 올라간다.",
   "choices": [
     {
       "id": "bayren-ask",
       "text": "이 글자, 읽을 수 있나?",
       "outcome": {
-        "text": "노인이 턱으로 모닥불 옆 자리를 가리킨다. 그 자리의 흙은 아직 따뜻하다.",
+        "text": "노인이 턱으로 모닥불 옆을 가리킨다. 흙이 아직 따뜻하다.",
         "heroEncounter": "bayren-rosa",
         "nextNodeId": "fo-bayren-rune"
       }

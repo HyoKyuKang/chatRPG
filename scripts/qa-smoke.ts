@@ -51,19 +51,19 @@ async function main() {
   console.log('✓ fo-bayren-meet')
 
   await page.getByRole('button', { name: '이 글자, 읽을 수 있나?' }).click()
-  await page.waitForSelector('text=딱 한 번 외워봐')
+  await page.waitForSelector('text=딱 한 번만 외워봐')
   await page.getByRole('button', { name: '숨을 고르고 따라 읽는다' }).click()
-  await page.waitForSelector('text=외운 건 외운 거다')
+  await page.waitForSelector('text=아예 못 외운 건 아니군')
   console.log('✓ fo-mage-awaken')
 
   await page.getByRole('button', { name: '룬을 다시 입에 올린다' }).click()
-  await page.waitForSelector('text=썩은 단 냄새')
+  await page.waitForSelector('text=썩은 단내')
   let body = await bodyText(page)
   console.log('  class displayed as 마법사:', /마법사/.test(body))
   console.log('  MP=2 (rune cost):', /MP\s*2/.test(body))
 
   await page.getByRole('button', { name: '뿌리 사이를 살피며 간다' }).click()
-  await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  await page.waitForSelector('text=거대한 나무가 앞을 막는다')
   const gatewayBtns = await visibleButtons(page)
   // W10 gateway B: combat-typed nodes render NodeView with gateway choices
   // first. Boss = engage-only (no evade); the player must click [물러서지 않는다] before
@@ -86,6 +86,8 @@ async function main() {
     bossBtns.some((b) => b.includes('룬을 뿌리에')),
   )
 
+  await page.getByRole('button', { name: '룬을 뿌리에 박아 넣는다' }).click()
+  await page.waitForSelector('text=턴 2')
   await page.getByRole('button', { name: '룬을 뿌리에 박아 넣는다' }).click()
   await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
@@ -150,17 +152,19 @@ async function main() {
   await page.getByRole('button', { name: '허리의 검을 뽑는다' }).click()
   await page.waitForSelector('button:has-text("늑대의 옆구리를 노린다")')
   await page.getByRole('button', { name: '늑대의 옆구리를 노린다' }).click()
+  await page.waitForSelector('text=턴 2')
+  await page.getByRole('button', { name: '늑대의 옆구리를 노린다' }).click()
   await page.waitForSelector('text=처음 잡는 사람 같지 않아')
   console.log('✓ fo-warrior-awaken')
 
   await page.getByRole('button', { name: '검을 놓지 않는다' }).click()
-  await page.waitForSelector('text=썩은 단 냄새')
+  await page.waitForSelector('text=썩은 단내')
   body = await bodyText(page)
   console.log('  class displayed as 전사:', /전사/.test(body))
-  console.log('  HP=4 (sword swing -1):', /HP\s*4/.test(body))
+  console.log('  HP=3 (two sword swings):', /HP\s*3/.test(body))
 
   await page.getByRole('button', { name: '검게 시든 길을 따라간다' }).click()
-  await page.waitForSelector('text=거대한 나무가 너 앞에 솟아 있다')
+  await page.waitForSelector('text=거대한 나무가 앞을 막는다')
   // Gateway again — engage first, then per-class action becomes available.
   await page.getByRole('button', { name: '물러서지 않는다' }).click()
   await page.waitForSelector('button:has-text("뿌리 깊은 곳을 벤다")')
@@ -171,11 +175,13 @@ async function main() {
   )
 
   await page.getByRole('button', { name: '뿌리 깊은 곳을 벤다' }).click()
+  await page.waitForSelector('text=턴 2')
+  await page.getByRole('button', { name: '뿌리 깊은 곳을 벤다' }).click()
   await page.waitForSelector('text=다음은 산')
   body = await bodyText(page)
   console.log('✓ fo-resolution (warrior ending)')
   console.log('  meta 출정 1 (post-wipe):', /출정\s*1/.test(body))
-  console.log('  HP=2 (5 -1 -2):', /HP\s*2/.test(body))
+  console.log('  HP=1 (wolf -2, boss -2):', /HP\s*1/.test(body))
 
   // ─── Warrior also gets transition button ────────────────────────────
   const warriorEndingBtns = await visibleButtons(page)

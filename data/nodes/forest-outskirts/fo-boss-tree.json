@@ -3,14 +3,14 @@
   "region": "forest-outskirts",
   "type": "combat",
   "enemyId": "corrupted-tree",
-  "description": "거대한 나무가 너 앞에 솟아 있다. 한 그루였을 형체가 여럿으로 갈라져, 한 점에서 사방으로 팔을 뻗는다. 줄기마다 굵기가 다르지만 침묵은 같다.\n\n뿌리 사이로 검은 액체가 흐른다. 흙은 받아내지 못하고, 풀은 닿은 자리에서 숨을 멈춘다. 냄새는 단데, 단맛이 아니다.\n\n나무가 움직인다. 천천히, 가지 끝부터. 공기가 휘어지며 한 음절이 너에게 닿는다.\n\n너의 이름이 아닌 무언가를, 너에게 건넨다.",
+  "description": "거대한 나무가 앞을 막는다. 한 그루였던 몸통은 여러 갈래로 갈라져 사방으로 뻗어 있다. 굵기는 제각각인데 모두 같은 침묵을 하고 있다.\n\n뿌리 사이로 검은 액체가 흐른다. 흙은 받아내지 못하고, 풀은 닿는 곳마다 죽는다. 달큰한 썩은내가 난다.\n\n가지 끝이 먼저 움직인다. 공기가 휘고, 낮은 소리가 목덜미에 닿는다.\n\n나무가 이름을 부른다. 네 이름이 아니다.",
   "choices": [
     {
       "id": "engage",
       "text": "물러서지 않는다",
       "startsCombat": true,
       "outcome": {
-        "text": "너의 손이 무엇을 잡을지 먼저 결정한다. 거대한 나무의 그림자가 발끝까지 내려온다.",
+        "text": "손이 먼저 무기 쪽으로 간다. 나무 그림자가 발목까지 덮인다.",
         "nextNodeId": null
       }
     },
@@ -19,29 +19,41 @@
       "text": "뿌리 깊은 곳을 벤다",
       "condition": { "class": "warrior", "item": "rusted-sword" },
       "outcome": {
-        "text": "검이 무겁다. 팔보다 먼저 어깨가 안다.\n\n날이 뿌리에 박힌다. 베어낸 자리에서 검은 액체가 솟구쳐 너의 얼굴에 닿는다. 거대한 나무가 비명 없이 휘청인다.\n\n너의 어깨가 찢어진다. 옷이 먼저, 살이 나중에.",
-        "statDelta": { "hp": -2 },
-        "enemyDamage": 8,
+        "text": "검이 무겁다. 팔보다 어깨가 먼저 버틴다.\n\n날이 뿌리에 박힌다. 베인 자리에서 검은 액체가 솟구쳐 얼굴에 튄다. 거대한 나무가 비명 없이 휘청인다.\n\n어깨의 상처가 다시 벌어진다. 옷이 먼저 찢기고, 살이 따라 열린다.",
+        "statDelta": { "hp": -1 },
+        "enemyDamage": 4,
         "nextNodeId": "fo-resolution"
       }
     },
     {
       "id": "boss-rune",
       "text": "룬을 뿌리에 박아 넣는다",
-      "condition": { "class": "mage", "item": "old-scroll" },
+      "condition": { "class": "mage" },
       "outcome": {
-        "text": "양피지가 너의 손에서 풀어진다. 글자가 종이를 떠나 공중에 머문다, 잠시.\n\n룬이 뿌리에 박힌다. 검은 액체가 멈춘다 — 흐름이 아니라 소리가. 거대한 나무가 굳어간다, 안쪽부터.\n\n너의 손에 양피지가 없다. 언제 사라졌는지 너는 모른다.",
-        "statDelta": { "mana": -2 },
-        "enemyDamage": 8,
+        "text": "외운 룬이 손안에서 풀린다. 글자가 잠깐 공중에 선다.\n\n룬이 뿌리에 박힌다. 검은 액체가 흐르다 멎는다. 소리까지 끊긴다. 나무 속에서 딱딱하게 굳는 소리가 난다.\n\n양피지는 손에 없다. 입 안에 남은 한 줄만 남아 있다.",
+        "statDelta": { "mana": -1 },
+        "enemyDamage": 4,
         "itemRemove": ["old-scroll"],
         "nextNodeId": "fo-resolution"
+      }
+    },
+    {
+      "id": "boss-herb",
+      "text": "마른 약초를 씹는다",
+      "condition": { "item": "dried-herb" },
+      "outcome": {
+        "text": "마른 잎이 혀 위에서 부서진다. 쓴맛이 목을 타고 내려가자, 떨리던 숨이 조금 돌아온다.",
+        "statDelta": { "hp": 1 },
+        "itemRemove": ["dried-herb"],
+        "enemyDamage": 0,
+        "nextNodeId": null
       }
     },
     {
       "id": "boss-flee",
       "text": "뒤돌아 달린다",
       "outcome": {
-        "text": "발이 먼저 움직인다. 머리는 뒤늦게 따라온다.\n\n등 뒤에서 나무가 너의 이름을 부른다. 너의 이름이 아닌 이름을.",
+        "text": "발이 먼저 돌아선다. 생각은 그 뒤를 따라온다.\n\n등 뒤에서 나무가 이름을 부른다. 네 이름이 아닌데도, 이상하게 너를 향한다.",
         "enemyDamage": 8,
         "knowledgeGain": ["fled-tree"],
         "nextNodeId": "fo-resolution"

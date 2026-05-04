@@ -2,13 +2,13 @@
   "id": "fo-discovery-relic",
   "region": "forest-outskirts",
   "type": "event",
-  "description": "샛길 끝, 흙더미 사이로 무언가의 모서리가 비친다.\n\n손으로 흙을 걷어낸다. 작은 돌상자다. 뚜껑에 옛 글자 하나. 너는 그 글자를 본 적이 없다.\n\n그래도 손끝이 글자의 홈을 따라간다.",
+  "description": "샛길 끝 흙더미에서 돌 모서리가 보인다.\n\n손으로 흙을 걷어낸다. 작은 돌상자다. 뚜껑에는 모르는 글자 하나가 파여 있다.\n\n손끝이 저절로 홈을 따라간다.",
   "choices": [
     {
       "id": "relic-open",
       "text": "돌상자의 뚜껑을 민다",
       "outcome": {
-        "text": "뚜껑이 가볍게 들린다. 안에는 빈자리. 한때 무언가를 품었던 눌린 자국만 남는다.",
+        "text": "뚜껑이 생각보다 가볍게 들린다. 안에는 아무것도 없다. 뭔가 오래 놓여 있던 자국만 눌려 있다.",
         "knowledgeGain": ["forgotten-relic"],
         "nextNodeId": "fo-fork"
       }
